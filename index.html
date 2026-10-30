@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MANIATOPIA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;600&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Montserrat', sans-serif;
+      color: #ffffff;
+      background: url('fondo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      overflow: hidden;
+    }
+
+    .caja-mensaje {
+      background: rgba(0, 0, 0, 0.65);
+      padding: 30px 50px;
+      border-radius: 15px;
+      backdrop-filter: blur(5px);
+      text-align: center;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+
+    h1 {
+      font-size: 3rem;
+      font-weight: 300;
+      letter-spacing: 4px;
+      margin: 0;
+    }
+
+    .puntos::after {
+      content: '';
+      display: inline-block;
+      animation: puntosBucle 2s infinite steps(4);
+    }
+
+    @keyframes puntosBucle {
+      0%   { content: ''; }
+      25%  { content: '.'; }
+      50%  { content: '..'; }
+      75%  { content: '...'; }
+      100% { content: ''; }
+    }
+
+    audio {
