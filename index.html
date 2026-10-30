@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maniatopia</title>
+    <!-- Fuente onírica y potente de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('fondo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            font-family: 'Cinzel', serif;
+            text-align: center;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9);
+        }
+
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 0.2rem;
+            letter-spacing: 4px;
+        }
+
+        .creando-container {
+            font-size: 1.8rem;
+            margin-top: 0;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Animación limpia para los puntos con opacidad */
+        .puntos span {
+            opacity: 0;
+            animation: parpadeo 1.4s infinite;
+        }
+
+        .puntos span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .puntos span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes parpadeo {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        audio {
+            margin-top: 2.5rem;
+            opacity: 0.9;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.5));
+        }
+    </style>
+</head>
+<body>
+
+    <h1>MANIATOPIA</h1>
+    <div class="creando-container">
+        <span>Creando</span>
+        <div class="puntos">
+            <span>.</span><span>.</span><span>.</span>
+        </div>
+    </div>
+
+    <!-- Reproductor con controles visibles para que el usuario le dé al play -->
+    <audio controls loop>
+        <source src="bolero.mp3" type="audio/mpeg">
+        Tu navegador no soporta el elemento de audio.
+    </audio>
+
+</body>
+</html>
