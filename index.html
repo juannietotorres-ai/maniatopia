@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maniatopia</title>
+    <!-- Fuente onírica de Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('fondo.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Cinzel', serif;
+            color: #ffffff;
+            text-align: center;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.9);
+        }
+
+        /* --- TÍTULO Y TEXTO CENTRADO --- */
+        h1 {
+            font-size: 4rem;
+            margin-bottom: 0.2rem;
+            letter-spacing: 4px;
+        }
+
+        .creando-container {
+            font-size: 1.8rem;
+            margin-top: 0;
+            letter-spacing: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .puntos span {
+            opacity: 0;
+            animation: parpadeo 1.4s infinite;
+        }
+
+        .puntos span:nth-child(2) { animation-delay: 0.2s; }
+        .puntos span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes parpadeo {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        /* --- BOTÓN GRAMOLA GIF EN LA ESQUINA INFERIOR DERECHA --- */
+        .gramophone-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 200px; /* Puedes ajustar el tamaño aquí */
+            height: auto;
+            cursor: pointer;
+            z-index: 100;
+            transition: filter 0.5s ease, transform 0.3s ease;
+        }
+
+        .gramophone-widget:hover {
+            transform: scale(1.05);
+        }
+
+        .gramophone-widget img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: grayscale(0%);
+            opacity: 1;
+            transition: filter 0.5s ease, opacity 0.5s ease;
+        }
+
+        /* Estado en Pausa: Escala de grises y opacidad reducida */
+        .gramophone-widget.paused img {
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TÍTULO PRINCIPAL -->
+    <h1>MANIATOPIA</h1>
+    <div class="creando-container">
+        <span>Creando</span>
+        <div class="puntos">
+            <span>.</span><span>.</span><span>.</span>
+        </div>
+    </div>
+
+    <!-- BOTÓN DE GRAMOLA GIF -->
+    <div class="gramophone-widget" id="mainWidget" title="Clic para reproducir / pausar música">
+        <img src="gramofono-maniatopia.gif" alt="Gramófono Maniatopia">
+    </div>
+
+    <!-- AUDIO DE FONDO -->
+    <audio id="bgAudio" loop preload="auto">
+        <source src="bolero.mp3" type="audio/mpeg">
+    </audio>
+
+    <script>
+        const widget = document.getElementById('mainWidget');
+        const audio = document.getElementById('bgAudio');
+
+        // Intentar reproducir automáticamente al cargar la página
+        window.addEventListener('DOMContentLoaded', () => {
+            attemptPlay();
+        });
+
+        // Primer clic en la página como fallback por si el navegador bloquea el autoplay
+        document.body.addEventListener('click', (e) => {
+            if (audio.paused && !e.target.closest('#mainWidget')) {
+                attemptPlay();
+            }
+        }, { once: true });
+
+        function attemptPlay() {
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    widget.classList.remove('paused');
+                }).catch(() => {
+                    widget.classList.add('paused');
+                });
+            }
+        }
+
+        // Clic directo en la gramola para alternar Reproducir / Pausar
+        widget.addEventListener('click', (e) => {
+            e.stopPropagation();
+            if (audio.paused) {
+                audio.play();
+                widget.classList.remove('paused'); // Vuelve a color
+            } else {
+                audio.pause();
+                widget.classList.add('paused'); // Se pone en escala de grises
+            }
+        });
+    </script>
+</body>
+</html>
