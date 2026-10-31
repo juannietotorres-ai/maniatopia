@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maniatopia - Shepherd (TEST)</title>
+    <title>Maniatopia - Shepherd</title>
     <meta name="description" content="Maniatopia: Un refugio digital de música ambiental, fantasía y atmósfera onírica.">
     
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
@@ -30,16 +30,15 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
         }
 
-        /* --- LOGOTIPO AGRANDADO (150%) Y CON CENTRADO ÓPTICO --- */
+        /* --- CONTENEDOR DEL LOGOTIPO CON DIMENSIÓN FORZADA --- */
         .logo-container {
             position: fixed;
             top: 4vh;
             left: 50%;
-            /* Ajuste óptico leve (-50% base de centrado) para alinear con la palabra pura 'CONSTRUYENDO' sin contar los tres puntos dinámicos */
-            transform: translateX(-50%); 
-            width: 75vw; /* Aumentado a 150% respecto al 50vw previo */
-            max-width: 750px;
-            min-width: 320px;
+            transform: translateX(-50%);
+            width: 80vw;
+            max-width: 650px;
+            min-width: 280px;
             text-align: center;
             z-index: 1000;
         }
@@ -48,7 +47,9 @@
             display: block;
             width: 100%;
             height: auto;
+            min-height: 80px; /* Garantiza altura mínima visible aunque la carga tarde */
             object-fit: contain;
+            margin: 0 auto;
             filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.9));
         }
 
@@ -67,7 +68,6 @@
             position: relative;
         }
 
-        /* Los puntos se posicionan de forma absoluta fuera del flujo del texto para no desplazar el centro geométrico de 'CONSTRUYENDO' */
         .dots::after {
             content: '';
             position: absolute;
@@ -87,7 +87,7 @@
             100% { content: ''; }
         }
 
-        /* --- MENÚ DESPLEGABLE CON ICONO DE CASA Y TEXTO LIMPIO --- */
+        /* --- MENÚ DESPLEGABLE --- */
         #menu-container {
             position: fixed;
             bottom: 20px;
@@ -156,7 +156,6 @@
             color: #ffffff;
         }
 
-        /* Icono SVG esquemático de casa en el mismo color dorado */
         .home-icon {
             width: 18px;
             height: 18px;
@@ -171,7 +170,7 @@
             stroke: #ffffff;
         }
 
-        /* --- WIDGET GRAMÓFONO --- */
+        /* --- GRAMÓFONO ESTABILIZADO --- */
         #gramofono-container {
             position: fixed;
             bottom: 20px;
@@ -223,7 +222,7 @@
 </head>
 <body>
 
-    <!-- LOGOTIPO AGRANDADO -->
+    <!-- LOGOTIPO EXCLUSIVO EN IMAGEN PNG -->
     <div class="logo-container">
         <img src="ShepherdLogoMainMenu-Photoroom.png" alt="Shepherd">
     </div>
@@ -233,7 +232,7 @@
         <p class="subtitle">CONSTRUYENDO<span class="dots"></span></p>
     </div>
 
-    <!-- MENÚ DESPLEGABLE RESTRUCTURADO -->
+    <!-- MENÚ DESPLEGABLE -->
     <div id="menu-container">
         <div id="menu-btn" title="Menú de navegación">
             <div class="menu-bar"></div>
