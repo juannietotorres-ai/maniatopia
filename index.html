@@ -30,41 +30,49 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
         }
 
-        /* --- SÓLO LA PALABRA SHEPHERD AMPLIADA --- */
-        .logo-text-container {
+        /* --- LOGOTIPO AGRANDADO (150%) Y CON CENTRADO ÓPTICO --- */
+        .logo-container {
             position: fixed;
-            top: 5vh;
+            top: 4vh;
             left: 50%;
-            transform: translateX(-50%);
+            /* Ajuste óptico leve (-50% base de centrado) para alinear con la palabra pura 'CONSTRUYENDO' sin contar los tres puntos dinámicos */
+            transform: translateX(-50%); 
+            width: 75vw; /* Aumentado a 150% respecto al 50vw previo */
+            max-width: 750px;
+            min-width: 320px;
             text-align: center;
             z-index: 1000;
-            width: 90vw;
         }
 
-        h1.provisional-logo {
-            font-family: 'Cinzel', serif;
-            font-size: clamp(3.5rem, 8vw, 6.5rem); /* Aún más grande y protagonista */
-            font-weight: 800;
-            letter-spacing: 6px;
-            color: #e0c090;
-            text-transform: uppercase;
-            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 0 35px rgba(184, 134, 11, 0.5);
+        .logo-container img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.9));
         }
 
-        /* --- TEXTO CENTRAL --- */
+        /* --- TEXTO CENTRAL CON CENTRO ÓPTICO FIJO --- */
         .content {
             text-align: center;
             z-index: 10;
+            position: relative;
         }
 
         p.subtitle {
             font-size: 1.5rem;
             letter-spacing: 2px;
             opacity: 0.9;
+            display: inline-block;
+            position: relative;
         }
 
+        /* Los puntos se posicionan de forma absoluta fuera del flujo del texto para no desplazar el centro geométrico de 'CONSTRUYENDO' */
         .dots::after {
             content: '';
+            position: absolute;
+            left: 100%;
+            top: 0;
             display: inline-block;
             width: 1.5em;
             text-align: left;
@@ -79,7 +87,7 @@
             100% { content: ''; }
         }
 
-        /* --- MENÚ DESPLEGABLE (ABAJO IZQUIERDA) --- */
+        /* --- MENÚ DESPLEGABLE CON ICONO DE CASA Y TEXTO LIMPIO --- */
         #menu-container {
             position: fixed;
             bottom: 20px;
@@ -88,7 +96,7 @@
         }
 
         #menu-btn {
-            background-image: url('ShepherdLogoMainMenu-Photoroom.jpg');
+            background-image: url('ShepherdLogoMainMenu-Photoroom.png');
             background-size: cover;
             background-position: center;
             border: 2px solid rgba(255, 255, 255, 0.3);
@@ -124,8 +132,8 @@
             background: rgba(20, 15, 10, 0.95);
             border: 1px solid rgba(224, 192, 144, 0.3);
             border-radius: 8px;
-            padding: 10px 0;
-            width: 160px;
+            padding: 8px 0;
+            width: 180px;
             display: none;
             flex-direction: column;
             box-shadow: 0 6px 20px rgba(0,0,0,0.8);
@@ -135,8 +143,11 @@
         #menu-dropdown a {
             color: #e0c090;
             text-decoration: none;
-            padding: 10px 15px;
+            padding: 10px 16px;
             font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
             transition: background 0.2s ease, color 0.2s ease;
         }
 
@@ -145,15 +156,30 @@
             color: #ffffff;
         }
 
-        /* --- WIDGET GRAMÓFONO (ABAJO DERECHA) --- */
+        /* Icono SVG esquemático de casa en el mismo color dorado */
+        .home-icon {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: #e0c090;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        #menu-dropdown a:hover .home-icon {
+            stroke: #ffffff;
+        }
+
+        /* --- WIDGET GRAMÓFONO --- */
         #gramofono-container {
             position: fixed;
             bottom: 20px;
             right: 20px;
             cursor: pointer;
             z-index: 1000;
-            width: 120px;
-            height: 120px;
+            width: 110px;
+            height: 110px;
             user-select: none;
             display: flex;
             justify-content: center;
@@ -175,7 +201,7 @@
 
         @keyframes pulseFast {
             0% { transform: scaleX(-1) scale(0.95); }
-            50% { transform: scaleX(-1) scale(1.12); filter: grayscale(0%) drop-shadow(0 0 14px rgba(255, 215, 0, 0.9)); }
+            50% { transform: scaleX(-1) scale(1.10); filter: grayscale(0%) drop-shadow(0 0 14px rgba(255, 215, 0, 0.9)); }
             100% { transform: scaleX(-1) scale(0.95); }
         }
 
@@ -186,9 +212,9 @@
 
         /* --- MÓVIL --- */
         @media (max-width: 768px) {
-            .logo-text-container { top: 3vh; }
+            .logo-container { width: 90vw; top: 2vh; }
             p.subtitle { font-size: 1.1rem; letter-spacing: 1px; }
-            #gramofono-container { width: 90px; height: 90px; bottom: 15px; right: 15px; }
+            #gramofono-container { width: 85px; height: 85px; bottom: 15px; right: 15px; }
             #menu-container { bottom: 15px; left: 15px; }
             #menu-btn { width: 42px; height: 42px; }
             .menu-bar { width: 20px; height: 2.5px; }
@@ -197,9 +223,9 @@
 </head>
 <body>
 
-    <!-- SÓLO EL TEXTO SHEPHERD EN GRANDE -->
-    <div class="logo-text-container">
-        <h1 class="provisional-logo">Shepherd</h1>
+    <!-- LOGOTIPO AGRANDADO -->
+    <div class="logo-container">
+        <img src="ShepherdLogoMainMenu-Photoroom.png" alt="Shepherd">
     </div>
 
     <!-- TEXTO CENTRAL -->
@@ -207,7 +233,7 @@
         <p class="subtitle">CONSTRUYENDO<span class="dots"></span></p>
     </div>
 
-    <!-- MENÚ DESPLEGABLE -->
+    <!-- MENÚ DESPLEGABLE RESTRUCTURADO -->
     <div id="menu-container">
         <div id="menu-btn" title="Menú de navegación">
             <div class="menu-bar"></div>
@@ -215,8 +241,15 @@
             <div class="menu-bar"></div>
         </div>
         <div id="menu-dropdown">
-            <a href="#donde-estoy">1. ¿Dónde estoy?</a>
-            <a href="#contacto">2. Contacto</a>
+            <a href="index.html">
+                <svg class="home-icon" viewBox="0 0 24 24">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Inicio
+            </a>
+            <a href="#donde-estoy">¿Dónde estoy?</a>
+            <a href="contacto.html">Contacto</a>
         </div>
     </div>
 
@@ -255,8 +288,8 @@
                 audio.pause();
                 isPlaying = false;
 
-                canvas.width = img.clientWidth || 120;
-                canvas.height = img.clientHeight || 120;
+                canvas.width = 110;
+                canvas.height = 110;
                 
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
                 try {
