@@ -30,7 +30,7 @@
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
         }
 
-        /* --- TEXTO SUPERIOR ELEVADO (MÁS ALEJADO DEL BRILLO) --- */
+        /* --- TEXTO SUPERIOR ELEVADO --- */
         .content {
             text-align: center;
             z-index: 10;
@@ -59,7 +59,12 @@
             text-shadow: 0 4px 25px rgba(0, 0, 0, 1), 0 0 35px rgba(255, 215, 0, 0.7);
         }
 
-        /* --- MENÚ DESPLEGABLE (IDÉNTICO A LAS DEMÁS VISTAS) --- */
+        /* Saltos de línea forzados sólo para móvil (ocultos por defecto en PC) */
+        .mobile-break {
+            display: none;
+        }
+
+        /* --- MENÚ DESPLEGABLE --- */
         #menu-container {
             position: fixed;
             bottom: 20px;
@@ -149,19 +154,24 @@
             #menu-btn { width: 42px; height: 42px; }
             .menu-bar { width: 20px; height: 2.5px; }
             .central-text { font-size: clamp(0.85rem, 2.3vw, 1.2rem); }
+
+            /* Activa los saltos de línea forzados sólo en pantalla pequeña */
+            .mobile-break {
+                display: inline;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- TEXTO SUPERIOR (5 LÍNEAS CENTRADAS Y ELEVADAS) -->
+    <!-- TEXTO SUPERIOR (5 LÍNEAS EN PC / 7 LÍNEAS EN MÓVIL) -->
     <div class="content">
         <div class="central-text">
-            Morada de locos, sed todos bienvenidos<br>
+            Morada de locos,<br class="mobile-break"> sed todos bienvenidos<br>
             Foro de ideas<br>
             Cocina de arte<br>
-            Refugio de universos<br>
-            Espacio colaborativo libre y transparente
+            Refugio de universos nómadas o confluentes<br>
+            Espacio colaborativo<br class="mobile-break"> Libre, Abierto y Transparente
         </div>
     </div>
 
