@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maniatopia - Reloj Alquímico Clave de Sol</title>
+    <style>
+        body {
+            background-color: #080605;
+            color: #f4ebd0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            font-family: serif;
+        }
+
+        #panel-control {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        button {
+            background: #1f140c;
+            color: #f4ebd0;
+            border: 1px solid #f4ebd0;
+            padding: 10px 20px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 4px;
+            letter-spacing: 1px;
+            transition: background 0.3s;
+        }
+
+        button:hover {
+            background: #3d2516;
+        }
+
+        #info-estado {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #b89768;
+            letter-spacing: 0.5px;
+        }
+
+        #canvas-container {
+            padding: 25px;
+            background: radial-gradient(circle, rgba(25,16,10,0.8) 0%, rgba(3,2,1,0.98) 100%);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.95);
+            border: 1px solid rgba(244, 235, 208, 0.2);
+        }
+
+        canvas {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="panel-control">
+        <button id="btn-estado">REPRODUCIR / PAUSAR</button>
+        <div id="info-estado">Estado: PLAY (Ritual Cromático)</div>
+    </div>
+
+    <div id="canvas-container">
+        <canvas id="reloj-canvas" width="320" height="400"></canvas>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('reloj-canvas');
+        const ctx = canvas.getContext('2d');
+        const btnEstado = document.getElementById('btn-estado');
+        const infoEstado = document.getElementById('info-estado');
+
+        let estado = 'PLAY'; 
+        let progreso = 0.05; 
+        let tColor = 0;
+        let transicionEntrada = 0;
+        let contadorSilencio = 0;
+        let anguloGiro = 0;
+
+        btnEstado.addEventListener('click', () => {
+            if (estado === 'PLAY' || estado === 'CLIMAX') {
+                estado = 'PAUSA';
+                transicionEntrada = 0;
+                infoEstado.innerText = "Estado: PAUSA (Tinta Marfil Clásica)";
+            } else {
+                estado = 'PLAY';
+                transicionEntrada = 0;
+                infoEstado.innerText = "Estado: PLAY (Ritual Cromático)";
+            }
+        });
+
+        // Contornos precisos de las cúpulas de cristal
+        function pathCristalSuperior(c) {
+            c.beginPath();
+            c.moveTo(105, 80);
+            c.bezierCurveTo(105, 120, 130, 160, 160, 192);
+            c.bezierCurveTo(190, 160, 215, 120, 215, 80);
+            c.bezierCurveTo(215, 68, 190, 65, 160, 65);
+            c.bezierCurveTo(130, 65, 105, 68, 105, 80);
+            c.closePath();
+        }
+
+        function pathCristalInferior(c) {
+            c.beginPath();
+            c.moveTo(105, 304);
+            c.bezierCurveTo(105, 264, 130, 224, 160, 192);
+            c.bezierCurveTo(190, 224, 215, 264, 215, 304);
+            c.bezierCurveTo(215, 316, 190, 319, 160, 319);
+            c.bezierCurveTo(130, 319, 105, 316, 105, 304);
+            c.closePath();
+        }
+
+        // Clave de Sol estructural con anatomía clásica y proporcionada
+        function dibujarClaveDeSolAnatomica(x, invertida = false) {
+            ctx.save();
+            ctx.translate(x, 192);
+            if (invertida) ctx.scale(-1, 1);
+
+            ctx.fillStyle = '#f4ebd0';
+            ctx.strokeStyle = '#f4ebd0';
+            ctx.lineWidth = 3.5;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+
+            // 1. Eje vertical principal que conecta las tapas de arriba a abajo
+            ctx.beginPath();
+            ctx.moveTo(0, -127);
+            ctx.lineTo(0, 110);
+            ctx.stroke();
+
+            // 2. Bucle superior cerrado y estilizado (cabeza de la clave)
+            ctx.beginPath();
+            ctx.moveTo(0, -127);
+            ctx.bezierCurveTo(28, -95, 25, -45, 0, -20);
+            ctx.bezierCurveTo(-22, -45, -25, -95, 0, -127);
+            ctx.fill();
+
+            // 3. Espiral central (la panza que envuelve la nota Sol)
+            ctx.beginPath();
+            ctx.moveTo(0, -20);
+            ctx.bezierCurveTo(-35, 10, -42, 55, -8, 72);
+            ctx.bezierCurveTo(22, 85, 28, 45, 2, 35);
+            ctx.bezierCurveTo(-15, 28, -18, 52, 0, 52);
+            ctx.stroke();
+
+            // 4. Gancho y remate inferior con botón sólido
+            ctx.beginPath();
+            ctx.moveTo(0, 110);
+            ctx.bezierCurveTo(-18, 125, -28, 112, -12, 98);
+            ctx.stroke();
+
+            ctx.beginPath();
+            ctx.arc(-12, 98, 4, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.restore();
+        }
+
+        function obtenerColorArena(y, esSuperior) {
+            if (estado === 'PAUSA') return '#f4ebd0';
+
+            const v = esSuperior ? 0.2 : 0.08;
+            const r = Math.floor(180 + 75 * Math.sin(y * 0.05 + tColor * v));
+            const g = Math.floor(100 + 60 * Math.cos(y * 0.04 - tColor * (v * 0.7)));
+            const b = Math.floor(70 + 80 * Math.sin(tColor * v * 1.2));
+
+            if (estado === 'CLIMAX') {
+                return `hsl(${Math.random() * 360}, 100%, 60%)`;
+            }
+
+            if (transicionEntrada < 1) {
+                return `rgba(${r}, ${g}, ${b}, ${transicionEntrada})`;
+            }
+
+            return `rgb(${r}, ${g}, ${b})`;
+        }
+
+        function dibujarArenaAjustada() {
+            // A. MASA SUPERIOR
+            if (progreso < 0.98) {
+                ctx.save();
+                pathCristalSuperior(ctx);
+                ctx.clip();
+
+                let altoY = 65 + (192 - 65) * progreso;
+
+                ctx.fillStyle = obtenerColorArena(altoY, true);
+                ctx.beginPath();
+                ctx.moveTo(95, altoY);
+                ctx.lineTo(225, altoY);
+                ctx.quadraticCurveTo(160, altoY + 15, 160, 192);
+                ctx.quadraticCurveTo(160, altoY + 15, 95, altoY);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            // B. MASA INFERIOR
+            if (progreso > 0.02) {
+                ctx.save();
+                pathCristalInferior(ctx);
+                ctx.clip();
+
+                let baseDunaY = 319 - (319 - 215) * progreso;
+
+                ctx.fillStyle = obtenerColorArena(baseDunaY, false);
+                ctx.beginPath();
+                ctx.moveTo(95, 324);
+                ctx.lineTo(225, 324);
+                ctx.lineTo(225, baseDunaY + 12);
+                ctx.quadraticCurveTo(160, baseDunaY - 15, 95, baseDunaY + 12);
+                ctx.closePath();
+                ctx.fill();
+
+                ctx.restore();
+            }
+
+            // C. CHORRO CENTRAL
+            if (estado === 'PLAY' && progreso < 0.98) {
+                ctx.strokeStyle = obtenerColorArena(192, true);
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.moveTo(160, 192);
+                ctx.lineTo(160, 319 - (319 - 215) * progreso);
+                ctx.stroke();
+            }
+        }
+
+        function dibujarEstructura() {
+            ctx.fillStyle = '#f4ebd0';
+            ctx.strokeStyle = '#f4ebd0';
+
+            // Molduras Superior e Inferior
+            ctx.beginPath();
+            ctx.roundRect(75, 45, 170, 20, 6);
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.roundRect(75, 319, 170, 20, 6);
+            ctx.fill();
+
+            // Soportes laterales: Claves de Sol simétricas y perfectamente proporcionadas
+            dibujarClaveDeSolAnatomica(78, false);
+            dibujarClaveDeSolAnatomica(242, true);
+
+            // Contorno del Cristal
+            ctx.lineWidth = 3.5;
+            pathCristalSuperior(ctx);
+            ctx.stroke();
+            pathCristalInferior(ctx);
+            ctx.stroke();
+
+            // Reflejos sutiles
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            ctx.arc(125, 110, 25, Math.PI * 0.8, Math.PI * 1.15);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(125, 270, 25, Math.PI * 0.85, Math.PI * 1.2);
+            ctx.stroke();
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.save();
+            ctx.translate(160, 192);
+            ctx.rotate(anguloGiro);
+            ctx.translate(-160, -192);
+
+            dibujarArenaAjustada();
+            dibujarEstructura();
+
+            ctx.restore();
+
+            if (estado === 'PLAY') {
+                tColor += 0.5;
+                progreso += 0.0003;
+                if (transicionEntrada < 1) transicionEntrada += 0.02;
+
+                if (progreso >= 0.97) {
+                    estado = 'CLIMAX';
+                    infoEstado.innerText = "¡Clímax Final! Estruendo de Colores";
+                }
+            } else if (estado === 'CLIMAX') {
+                tColor += 1.5;
+                progreso += 0.001;
+                if (progreso >= 1.0) {
+                    progreso = 1.0;
+                    estado = 'SILENCIO';
+                    contadorSilencio = 0;
+                    infoEstado.innerText = "Pausa de silencio (10s)...";
+                }
+            } else if (estado === 'SILENCIO') {
+                contadorSilencio += 1;
+                if (contadorSilencio === 360) {
+                    estado = 'ROTANDO';
+                    anguloGiro = 0;
+                    infoEstado.innerText = "El Gesto del Pastor: Rotando el Reloj (4s)...";
+                }
+            } else if (estado === 'ROTANDO') {
+                anguloGiro += Math.PI / 120;
+                if (anguloGiro >= Math.PI) {
+                    anguloGiro = 0;
+                    progreso = 0.05;
+                    estado = 'PLAY';
+                    transicionEntrada = 0;
+                    infoEstado.innerText = "Estado: PLAY (Nuevo Ciclo Cromático)";
+                }
+            }
+
+            requestAnimationFrame(render);
+        }
+
+        render();
+    </script>
+</body>
+</html>
