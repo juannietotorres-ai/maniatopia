@@ -7,7 +7,7 @@
     <meta name="description" content="Maniatopia: Un refugio digital de música ambiental, fantasía y atmósfera onírica.">
     
 <!-- FAVICON DE LA GALAXIA -->
-    <link rel="icon" type="image/png" href="favicon-galaxia.png">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Special+Elite&display=swap" rel="stylesheet">
@@ -353,7 +353,7 @@
 
     <!-- TEXTO CENTRAL -->
     <div class="content">
-        <p class="subtitle">CONSTRUYENDO<span class="dots"></span></p>
+        <p class="subtitle"><span id="subtitle-word">CONSTRUYENDO</span><span class="dots"></span></p>
     </div>
 
     <!-- MENÚ DESPLEGABLE -->
@@ -379,6 +379,36 @@
         <img id="gramofono-img" class="fast-heartbeat" src="gramofono-maniatopia.gif" alt="Gramófono Maniatopia">
         <canvas id="gramofono-canvas" style="display: none;"></canvas>
     </div>
+
+    <script>
+        // Primera visita absoluta: "CONSTRUYENDO". Después: palabra aleatoria sin repetir hasta agotar el ciclo.
+        (function () {
+            const words = ['CREANDO', 'COCINANDO', 'FILOSOFANDO', 'IMAGINANDO', 'DESCANSANDO', 'JUGANDO', 'FABRICANDO', 'EXPERIMENTANDO', 'EDIFICANDO', 'TERRAFORMANDO'];
+            const target = document.getElementById('subtitle-word');
+            const pick = (list) => list[Math.floor(Math.random() * list.length)];
+            try {
+                if (localStorage.getItem('maniatopiaVisited') !== '1') {
+                    localStorage.setItem('maniatopiaVisited', '1');
+                    return;
+                }
+                let pending = JSON.parse(localStorage.getItem('maniatopiaPending') || '[]')
+                    .filter((w) => words.includes(w));
+                const last = localStorage.getItem('maniatopiaLast');
+                if (pending.length === 0) pending = words.slice();
+                // Al empezar un ciclo nuevo, evita repetir la última palabra del anterior
+                const options = pending.length === words.length && pending.length > 1
+                    ? pending.filter((w) => w !== last)
+                    : pending;
+                const word = pick(options);
+                pending.splice(pending.indexOf(word), 1);
+                localStorage.setItem('maniatopiaPending', JSON.stringify(pending));
+                localStorage.setItem('maniatopiaLast', word);
+                target.textContent = word;
+            } catch (e) {
+                target.textContent = pick(words);
+            }
+        })();
+    </script>
 
     <script>
         const audio = document.getElementById('bg-audio');
