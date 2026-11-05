@@ -390,7 +390,46 @@
             body { background-size: auto 90%; background-position: 30% center; background-color: #03030a; }
         }
 
+        .maniatopia-counter-container {
+            position: fixed;
+            top: 14px;
+            right: 14px;
+            z-index: 5;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            pointer-events: none;
+        }
+        .stickman-wrapper { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7)); }
+        @keyframes walk-left-leg { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-25deg); } }
+        @keyframes walk-right-leg { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(25deg); } }
+        @keyframes walk-arms { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(18deg); } }
+        .stickman-svg .leg.left { transform-origin: 50px 90px; animation: walk-left-leg 0.8s infinite ease-in-out; }
+        .stickman-svg .leg.right { transform-origin: 50px 90px; animation: walk-right-leg 0.8s infinite ease-in-out; }
+        .stickman-svg .arm.left { transform-origin: 50px 52px; animation: walk-arms 0.8s infinite ease-in-out reverse; }
+        .stickman-svg .arm.right { transform-origin: 50px 52px; animation: walk-arms 0.8s infinite ease-in-out; }
+        .visitor-box {
+            border: 3px solid #fff;
+            border-radius: 18px;
+            padding: 10px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4), inset 0 0 10px rgba(255, 255, 255, 0.1);
+            background: rgba(10, 15, 30, 0.6);
+        }
+        .visitor-title { color: #cbd5e1; font-size: 11px; font-weight: 700; letter-spacing: 1.5px; margin-bottom: 2px; }
+        .visitor-number { color: #fff; font-size: 30px; font-weight: 900; letter-spacing: 2px; font-family: monospace; text-shadow: 0 0 8px rgba(255, 255, 255, 0.6); }
+        .live-status { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+        .live-dot { width: 7px; height: 7px; background: #10b981; border-radius: 50%; box-shadow: 0 0 6px #10b981; animation: pulse-dot 1.5s infinite; }
+        .live-text { color: #10b981; font-size: 10px; font-weight: 700; letter-spacing: 1px; }
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.85); } }
+        @media (max-width: 768px) {
+            .maniatopia-counter-container { top: 8px; right: 8px; gap: 8px; transform: scale(0.75); transform-origin: top right; }
+        }
+
         @media (prefers-reduced-motion: reduce) {
+            .stickman-svg .leg, .stickman-svg .arm, .live-dot { animation: none; }
             #menu-btn, #menu-dropdown, #menu-dropdown a, .home-icon { transition-duration: 0.01ms; }
             #menu-dropdown .nav-location, #menu-dropdown .nav-universes { animation: none; }
         }
@@ -406,6 +445,25 @@
     <!-- TEXTO CENTRAL -->
     <div class="content">
         <p class="subtitle"><span id="subtitle-word">CONSTRUYENDO</span><span class="dots"></span></p>
+    </div>
+
+    <!-- CONTADOR DE VISITANTES (GoatCounter) -->
+    <div class="maniatopia-counter-container">
+        <div class="stickman-wrapper">
+            <svg class="stickman-svg" viewBox="0 0 100 150" width="50" height="75" aria-hidden="true">
+                <circle cx="50" cy="25" r="14" fill="none" stroke="#fff" stroke-width="5.5" />
+                <line x1="50" y1="39" x2="50" y2="90" stroke="#fff" stroke-width="5.5" stroke-linecap="round" />
+                <line class="arm left" x1="50" y1="52" x2="30" y2="75" stroke="#fff" stroke-width="4.5" stroke-linecap="round" />
+                <line class="arm right" x1="50" y1="52" x2="70" y2="75" stroke="#fff" stroke-width="4.5" stroke-linecap="round" />
+                <line class="leg left" x1="50" y1="90" x2="35" y2="135" stroke="#fff" stroke-width="4.5" stroke-linecap="round" />
+                <line class="leg right" x1="50" y1="90" x2="65" y2="135" stroke="#fff" stroke-width="4.5" stroke-linecap="round" />
+            </svg>
+        </div>
+        <div class="visitor-box">
+            <span class="visitor-title">VISITANTES TOTALES</span>
+            <span class="visitor-number" id="visitor-number">---</span>
+            <div class="live-status"><span class="live-dot"></span><span class="live-text">EN VIVO</span></div>
+        </div>
     </div>
 
     <!-- MENÚ DESPLEGABLE -->
@@ -432,6 +490,34 @@
         <img id="gramofono-img" class="fast-heartbeat" src="assets/images/gramofono-maniatopia.gif" alt="Gramófono Maniatopia">
         <canvas id="gramofono-canvas" style="display: none;"></canvas>
     </div>
+
+    <script>
+        // Pon aquí tu código de GoatCounter (https://CODIGO.goatcounter.com). Vacío = muestra "---".
+        (function () {
+            const GC_CODE = 'jantorres';
+            const el = document.getElementById('visitor-number');
+            if (!GC_CODE || !el) return;
+            const base = 'https://' + GC_CODE + '.goatcounter.com';
+            const show = function () {
+                fetch(base + '/counter/TOTAL.json')
+                    .then(function (r) { return r.json(); })
+                    .then(function (d) { el.textContent = String(d.count).replace(/\s/g, ','); })
+                    .catch(function () {});
+            };
+            if (!sessionStorage.getItem('gc-counted')) {
+                sessionStorage.setItem('gc-counted', '1');
+                const s = document.createElement('script');
+                s.async = true;
+                s.src = 'https://gc.zgo.at/count.js';
+                s.dataset.goatcounter = base + '/count';
+                s.dataset.goatcounterSettings = JSON.stringify({ path: 'TOTAL' });
+                s.onload = function () { setTimeout(show, 1200); };
+                document.head.appendChild(s);
+            } else {
+                show();
+            }
+        })();
+    </script>
 
     <script>
         // Primera visita absoluta: "CONSTRUYENDO". Después: palabra aleatoria sin repetir hasta agotar el ciclo.
