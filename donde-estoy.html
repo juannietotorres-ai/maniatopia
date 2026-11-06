@@ -194,7 +194,7 @@
             scrollbar-color: #795032 transparent;
             overflow-wrap: anywhere;
             font-family: 'Sensations and Qualities', cursive;
-            font-size: clamp(2.2rem, 3.2vw, 3rem);
+            font-size: calc(clamp(2.2rem, 3.2vw, 3rem) + 6pt);
             line-height: 1.35;
             --fade-top: 0px;
             --fade-bottom: 0px;
@@ -487,9 +487,15 @@
             body { background-size: auto 90%; background-position: 30% center; background-color: #03030a; }
             .central-text { font-size: calc(min(6vw, 3.8vh, 2rem) + 4pt); line-height: 1.65; }
             .letter-button { right: 8px; bottom: 47.8125px; width: 65.625px; height: 65.625px; }
-            .letter-dialog { width: 98vw; height: 90vh; height: 90dvh; }
-            .letter-close { top: 9%; right: 10%; }
-            .letter-scroll { top: 20%; bottom: 25%; left: 30%; right: 30%; font-size: 2rem; }
+            .letter-dialog {
+                width: 100vw;
+                height: 100vh;
+                height: 100dvh;
+                background-image: url('assets/images/jan letter movile.png');
+                background-size: 100% 100%;
+            }
+            .letter-close { top: 8%; right: 8%; }
+            .letter-scroll { top: 14%; bottom: 21%; left: 7%; right: 7%; font-size: calc(clamp(1.5rem, 6vw, 2rem) + 10pt); line-height: 1.3; }
 
             /* Activa los saltos de línea forzados sólo en pantalla pequeña */
             .mobile-break {
@@ -506,6 +512,7 @@
             #menu-dropdown .nav-location, #menu-dropdown .nav-universes { animation: none; }
         }
     </style>
+    <link rel="stylesheet" href="assets/agora-menu.css">
 </head>
 <body>
 
@@ -572,7 +579,7 @@
             </a>
             <a class="nav-location" href="donde-estoy.html">¿Dónde estoy?</a>
             <a class="nav-universes" href="universos.html">Refugio de Universos</a>
-            <a class="nav-symposion" href="https://discord.gg/RnQvtGRNmj" target="_blank" rel="noopener noreferrer">Symposion <span class="greek">συμπόσιον</span></a>
+            <a class="nav-symposion" href="https://discord.gg/RnQvtGRNmj" target="_blank" rel="noopener noreferrer"><span class="agora-steel">Ágora Eleúthera</span> <span class="greek" lang="el">ευθέρα ἀγορά</span></a>
             <a class="nav-contact" href="contacto.html">Contacto</a>
         </div>
     </div>
