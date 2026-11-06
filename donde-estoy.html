@@ -39,7 +39,7 @@
             src: url('assets/Fonts-ttf/Sensations and Qualities.ttf') format('truetype');
             font-style: normal;
             font-weight: 400;
-            font-display: swap;
+            font-display: block;
         }
 
         @font-face {
@@ -47,7 +47,7 @@
             src: url('assets/Fonts-ttf/Inkfree.ttf') format('truetype');
             font-style: normal;
             font-weight: 400;
-            font-display: swap;
+            font-display: block;
         }
 
         * {
@@ -111,7 +111,7 @@
             width: 100%;
             height: 100%;
             overflow: visible;
-            opacity: 0.45;
+            opacity: 0.3;
             pointer-events: none;
         }
 
@@ -513,11 +513,14 @@
     <div class="content">
         <svg class="veil-cloud" aria-hidden="true">
             <defs>
-                <filter id="veil-smooth" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
-                    <feGaussianBlur stdDeviation="1.5" />
-                    <feComponentTransfer>
-                        <feFuncA type="linear" slope="20" intercept="-9" />
+                <filter id="veil-smooth" x="-30%" y="-30%" width="160%" height="160%" color-interpolation-filters="sRGB">
+                    <feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="7" result="noise" />
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="9" result="blur" />
+                    <feDisplacementMap in="blur" in2="noise" scale="26" xChannelSelector="R" yChannelSelector="G" result="warped" />
+                    <feComponentTransfer in="warped">
+                        <feFuncA type="linear" slope="6" intercept="-1.6" />
                     </feComponentTransfer>
+                    <feGaussianBlur stdDeviation="2" />
                 </filter>
             </defs>
             <g filter="url(#veil-smooth)"></g>
