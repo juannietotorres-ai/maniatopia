@@ -13,6 +13,13 @@
             font-weight: 400;
             font-display: swap;
         }
+        @font-face {
+            font-family: 'Merienda';
+            src: url('assets/Fonts-ttf/Merienda-VariableFont_wght.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 300 900;
+            font-display: swap;
+        }
         * { box-sizing: border-box; }
         html, body { height: 100%; margin: 0; }
         body {
@@ -20,30 +27,56 @@
             flex-direction: column;
             background: #000;
             color: #fff;
-            font: 20px/1.55 'Liberation Serif', Georgia, serif;
+            font: 18pt/1.35 'Liberation Serif', Georgia, serif;
         }
         .reader {
             flex: 1;
             min-height: 0;
+            height: 0;
+            display: flex;
+            flex-direction: column;
             width: min(100% - 48px, 860px);
             margin: 0 auto;
             padding-top: max(24px, env(safe-area-inset-top));
             overflow: hidden;
         }
+        #blocks {
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+        }
         .pages {
-            height: 100%;
+            flex: 1;
+            min-height: 0;
+            height: auto;
             column-gap: 0;
             column-fill: auto;
+            tab-size: 1.251cm;
             overflow-wrap: anywhere;
         }
-        .pages p {
-            margin: 0 0 1em;
+        .pages p,
+        .pages h1 {
+            margin: 0;
             padding-right: 1px;
+            break-inside: avoid-column;
+            page-break-inside: avoid;
         }
         .pages h1 {
-            margin: 0 0 0.8em;
-            font-size: 1.5em;
-            font-weight: normal;
+            break-after: avoid-column;
+        }
+        .pages[hidden] {
+            display: none;
+        }
+        .pages p:empty::before {
+            content: "\00a0";
+        }
+        .pages p {
+            white-space: pre-wrap;
+        }
+        .pages p.continue-on-next-page {
+            break-inside: auto;
+            page-break-inside: auto;
         }
         .controls {
             flex: none;
@@ -71,18 +104,27 @@
         .page-buttons[hidden] { display: none; }
         .page-button { font: 36px/1 'Liberation Serif', Georgia, serif; }
         .page-button:disabled { visibility: hidden; }
+        .block-next {
+            appearance: none;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            color: inherit;
+            font: inherit;
+            text-align: inherit;
+            cursor: pointer;
+        }
         .page-status {
             grid-column: 3;
             justify-self: end;
             white-space: nowrap;
             font-size: 1rem;
         }
-        .back:focus-visible, .page-button:focus-visible {
+        .back:focus-visible, .page-button:focus-visible, .block-next:focus-visible {
             outline: 2px solid #fff;
             outline-offset: 2px;
         }
         @media (max-width: 600px) {
-            body { font-size: 19px; line-height: 1.5; }
             .reader { width: calc(100% - 36px); padding-top: max(18px, env(safe-area-inset-top)); }
             .controls { min-height: 70px; padding-left: 18px; padding-right: 18px; }
         }
@@ -90,45 +132,100 @@
 </head>
 <body>
     <main class="reader" id="reader" aria-label="Texto sobre Maniatopia">
-        <article class="pages" id="pages">
-            <h1>¿Que es Maniatopia?</h1>
-            <p>Maniatopia es un espacio creativo abierto con el fin de compartir y crecer mediante la colaboración humana.</p>
-            <p>Podríamos decir que es el fruto de una idea que tuve, que resonó en mi interior pidiendo ser trabajada, y que ha ido creciendo y tomando forma. Mi idea viene dada de una idea general que no es mía: La idea del libre compartir, la gratuidad de intercambio de valores, con el objetivo de quitarles el precio, para quedarnos únicamente con lo que importa: su valor.</p>
-            <p>Así, maniatopia, si bien es mi espacio personal, "Jan Torres; a su servicio", donde  desarrollar mis proyectos e inquietudes, fruto de mi ardor creativo necesitado de comunicación e intercambio. Es un espacio abierto que quiere nutrirse de esa idea de libre compartir y promoverla, y que por ende busca amigos con los que por el mero hecho de caminar juntos un tiempo ya estemos creando o forjando algo de valor.</p>
-            <p>Maniatopia pretende ser un espacio colaborativo de intercambio de ideas y conocimiento donde todo esto sume, compartir conocimiento nos hace crecer. (1+1=3)</p>
-            <p>No pretende no obstante ser sede de estas; cuando hablo de refugio de universos, no pretendo hacer de maniatopia el lugar o sede de esos universos hermanos, más bien ser puerta y lugar de encuentro dentro de mis propios dominios, a los otros universos.</p>
-            <p>COMPARTIR, SUMAR. SUBIR. BAJAR. REÑIR. COLABORAR. CRECER.</p>
-            <p>Maniatopia además de todo esto, también es el nombre con que he bautizado al pequeño universo de mi creación, como pudieran hacer Ende, Tolkien o Pratchett. Este universo emergente se compondrá de seres natales del lugar, y seres extranjeros de otros universos amigos, pero como lugar de la locura, las pertenencias de estos a uno u otro lugar serán difíciles de precisar.</p>
-            <p>¿Dónde nace maniatopia y porqué ? (desde la idea primigenia)</p>
-            <p>***Narrar todo el proceso hasta llegar al nacimiento de maniatopia puede ser largo y tedioso de leer,  hago un resumen lo más esquemático posible para explicar de donde viene la idea***</p>
-            <p>1- Hace apenas dos años creo el Shepherd (juego de dados de apuestas) con la intención de introducirlo en nuestras partidas de D&amp;D ente amigos (yo hacía de Master entonces).</p>
-            <p>2- Escribo un documento de libreoffice de 30 páginas muy bonito y currado, que me gusta. Son unas reglas narradas por Molothamp Jeddarm de los reinos del Olvido. ;) ;)</p>
-            <p>3- Dado que me gusta el resultado me informo sobre como darle difusión, y encuentro webs y redes en que los usuarios independientes muestran o venden sus juegos de mesa (boardgamegeek, tabletopfinder). Aunque seguro hay muchos medios de difusión de tus juegos de mesa de elaboración propia)</p>
-            <p>4.- (Filosofía de empresa resumida) Pienso que la mejor manera de hacer llegar mi producto al público es: distribuir de manera totalmente gratuita el juego, las reglas, los modelos.stl para impresora 3D, y el videojuego que quiero crear como modo de marketing para atraer al público a mi producto, e introducir de manera interactiva y atractiva las reglas del juego.</p>
-            <p>***Pero... ¿esto lo hago por amor al arte? tanta gratuidad... Sí y No.</p>
-            <p>Sí, porque entiendo que los grandes productos destinados al ocio deben estar basados en el arte, tocar el alma, en la pasión. Libros, cine, videojuegos, música: hace no mucho, algunos de estos, eran medios nacientes que permitían explotar nuestra faceta creativa y eso nos emocionaba, con el resultante amor, esfuerzo y mimo (que podrían ser sinónimos), que poníamos en lo que hacíamos. En los inicios de estos medios de expresión artística; el arte, la magia, el camino y el resultado importaban por encima del beneficio. Hoy, es al revés.</p>
-            <p>No, porque tengo cierta fe en el proyecto. Y aunque ciertamente creo que es arduo y de difícil consecución mi mero objetivo de llegar a la gente y abrirme un mercado de interesados, no voy con la ingenua esperanza de rentabilizar mi proyecto de manera directa; poniéndole precio y vendiéndolo. ¿Mi idea de rentabilidad? Un pequeño copyright de mi producto, en este caso podemos llamarlo maniatopia. Palabra de origen griego antiguo que más tarde os explicaré como llegué a descubrir, pues no es mi invención, solo uno mero juego de palabras de origen griego antiguo que se me ocurrió.</p>
-            <p>Básicamente mi ambición económica se respalda en que mi producto guste y tenga mercado, libre en este caso, defendiendo así una postura vital que quiere hacer ruido, ya sea para ser escuchada, o para molestar. Y en el hipotético caso de hacer el ruido suficiente, creo que los beneficios de valor llegarían, con el efecto consecuente de generar una rentabilidad económica. Vivo entre la ingenuidad y la proyección en grande.</p>
-            <p>"Si no crees en ello nunca lo lograras" - Voltaire.***</p>
-            <p>5- Intento crear el videojuego mediante ia.. arduo y costoso. Aparco el tema por inviabilidad.</p>
-            <p>6- Recientemente, hace apenas  mes y medio, descubro mediante amigos, Copilot, y uno de estos amigos, especialmente metido en el tema, me da directrices de trabajo que me permiten sostenibilidad y capacidad de desarrollo. Me ilusiono con poder hacer ese videojuego de Shepherd. Ya tenemos una versión.01 que se puede jugar.</p>
-            <p>7- Viendo las posibilidades que me ofrece trabajar en godot mediante vscode y copilot, me ilusiono y decido llevar el tema más lejos; se me ocurre una idea: crear una especie de aventura gráfica, textual e intercativa, al viejo estilo de las aventuras gráficas retro, e introducirla en el propio videojuego del Shepherd.</p>
-            <p>8- Ahora sí: ¿Dónde nace maniatopia y porqué?</p>
-            <p>Maniatopia es un lugar que lleva tiempo gestándose en mi mente. Nace de la semilla del proyecto aventura gráfica estilo viejos tiempos. La idea fue tomando forma; si bien el Shepherd surge como complemento de partidas de rol, sus reglas se componen como homenaje al escenario de Reinos Olvidados™. Bien, pues al desarrollar la idea de esta aventura gráfica pensé en jugar con los universe beyond tan de moda con la idea de rendir homenaje obras míticas dentro del ámbito de los videojuegos, literatura, cine, cómic y medios de expresión artística general. Si bien hay que tener mucho cuidado con los derechos de autor, mi intención no es plagiar ni sacar rédito de obras ajenas, si no homenajear la creatividad y la creación de universos que nutren universos. Es un proyecto de fan sin ánimo de lucro, así que cualquier referencia a otras obras o universos, intentará ser tan sutil y simpática que no pase del mero juego evocador del concepto que tantas obras trabajan y repiten.</p>
-            <p>Bien, pues si bien llevo un mes y medio aprox desarrollando el Shepherd (desde septiembre de 2026) mediante Godot y vcstudio, en ese tiempo aun no había llegado a mí el nombre maniatopaia. Este llegó mediante mi habitual curiosidad y consecuente indagación para resolverla.</p>
-            <p>Andaba yo leyendo 1984 de Orwell, y se me ocurrió preguntarle a Google por los significados de las palabras distopía y utopía; dis-topos = mal lugar y u-topos = no lugar. Tras  lo que pregunté: si esos son lugares o percepciones alteradas de nuestra realidad ¿como llamamos a nuestro mundo actual? Google me muestra los conceptos; eutopia, protopia y heterotopia. Ese tirar del hilo me hizo descubrir el interesante juego fonético de palabras de Tomás Moro con "eutopia" (lugar de lo bueno) y "utopia" (lugar que no existe). Pero vayamos al grano, me sobrevino por confluencia y colapso de conceptos el "lugar de la locura". Pregunté pues a nuestro amigo google como se diría locura en griego antiguo, y este me respondió: mania.</p>
-            <p>Maniatopia.</p>
-            <p>Llevaba un mes trabajando en mi idea, volcando muchísima información e ideas en copilot para trabajar mi juego y universo personal que iba a ser el alma de la aventura gráfica incluida el en Shepherd - el videojuego. Este universo personal aún no tenía nombre y aludía a él como "los reinos" para trabajar con copilot el lore, historia, evolución y desarrollo de la idea.</p>
-            <p>Tras haber acuñado el termino maniatopia (aproximadamente el 27 o 28 de octubre) barajándolo como posible nombre para los reinos, poco después comenté la idea con un amigo vía discord y mientras, se me ocurrió googlear el termino, para ver que menciones había. ¿Cual fue mi sorpresa?</p>
-            <p>Solo había dos menciones al termino; 1.-Un videojuego que están haciendo unos desarrolladores. 2.-Una referencia ligera de una red social a lo que parece ser un negocio turbio con perros potencialmente peligrosos.</p>
-            <p>El dato curioso: El videojuego que estaban desarrollando compartía ciertas similitudes con el proyecto que yo estoy desarrollando. Mundo inspirado en D&amp;D, y la promesa de un mundo infinito cambiante que modela la ia cada vez que se juega. Si bien esta última idea no entra dentro de mis planes, yo pensaba hacer una aventura gráfica al estilo de los viejos libros de "escoge tu propia aventura", donde tus elecciones te llevaban a un curso histórico diferente, y encontré ciertas similitudes en la idea.</p>
-            <p>Consecuencia: paranoia; ya había oído que no era bueno volcar ideas en la ia pues se aprovechaban de ellas y legalmente se las estás regalando. ¿Donde me llevó esta paranoia? El 30 de octubre de 2026 creo el domino maniatopia.com, llevado por delirios de plagio y con la intención de defender mi idea.</p>
-            <p>Ya más calmado y con el consejo de buenos amigos entendidos en el tema entendí que podía tratarse de una mera y casual convergencia de ideas. Así, ya más tranquilo, descarto el plagio.</p>
-            <p>Añado también que con este texto no pretendo difamar a mis colegas homólogos y su proyecto maniatopia. Espero no se sientan molestos por mi mención a su proyecto, y en cualquier caso solo puedo deciros que la idea parece fabulosa, esa ia que genera mundos infinitos me parece genial. Mucha suerte con el proyecto y que os depare todo lo mejor! Ah, consejo de colega de profesión: introducid algún modo multijugador, poder compartir un juego con amigos le da valor añadido.</p>
-            <p>Así, el 30 de octubre el dominio maniatopia.com se cuela en la red. Y si bien su causa es la paranoia, decido utilizarlo para mostrar de manera transparente todos mis proyecto y defender así mis ideas. Por superstición o por haber oído lo de no volcar ideas en la ia, ahora trabajo las ideas, lore y historia en word y relego a la ia únicamente los aspectos técnicos de programación.</p>
-            <p>Diferenciamos así pues el domino: maniatopia.com. Puerta de acercamiento y refugio de espíritus creativos desde mi dominio en la red.</p>
-            <p>De la idea Maniatopia como universo fruto de mi creación, que pretende crecer compartiendo, que es vivir.</p>
-        </article>
+        <div id="blocks">
+<section class="pages" id="block-1" aria-label="Bloque 1 de 3" tabindex="-1">
+<h1 style="font-weight:bold;font-size:22.5pt">&#191;Que es Maniatopia?</h1>
+<p>&nbsp;</p>
+<p>&#9;Maniatopia es un espacio creativo abierto con el fin de compartir y crecer mediante la colaboraci&#243;n humana.</p>
+<p>&nbsp;</p>
+<p>&#9;Es un espacio libre donde desarrollar y darle visualizaci&#243;n a cualquier proyecto af&#237;n que requiera de soporte web.</p>
+<p>&nbsp;</p>
+<p>&#9;Si bien Maniatopia nace del desarrollo, evoluci&#243;n y transformaci&#243;n de una peque&#241;a idea: un juego de dados que invent&#233; para implementar en mis partidas de rol con amigos (el Shepherd). Acaba transform&#225;ndose en algo mayor que engloba muchos conceptos: Creaci&#243;n, Colaboraci&#243;n, Arte, Expresi&#243;n, Comunicaci&#243;n, Foro, Concilio, Discordia ... y por mi parte la necesidad de hacer resonar una Filosof&#237;a de Libertad Intelectual (ideas e informaci&#243;n libres para la gente, si hablamos de un valor que aporta, su acceso ha de ser libre y gratuito) una idea con la que me quiero sumar a todos aquellos en la red que apuestan por el valor por encima del dinero.</p>
+<p>&nbsp;</p>
+<p>&#9;Entonces... &#191;que es maniatopia? </p>
+<p style="font-size:9pt">&nbsp;</p>
+<p>&#9;<span style="font-weight:bold">1</span>.- Maniatopia es tanto mi <span style="font-weight:bold">espacio personal</span>, &quot;<span style="font-weight:bold;font-style:italic">Jan Torres</span><span style="font-style:italic">; a su servicio&quot;,</span><span style="font-style:normal"> donde </span><span style="font-style:italic"> </span>desarrollar mis proyectos e inquietudes, fruto de mi ardor creativo. Es tambi&#233;n un espacio colaborativo de intercambio de ideas y conocimiento donde todo esto sume, compartir conocimiento nos hace crecer. (1+1=3) que por ende busca amigos con los que por el mero hecho de caminar juntos un tiempo ya estemos intercambiando, creando o forjando algo de valor.</p>
+<p>&#9;Cuando hablo de refugio de universos, no pretendo hacer de maniatopia el lugar o sede de esos universos hermanos, m&#225;s bien ser morada, puerta y lugar de encuentro con los universos hermanos, dentro del lugar de mis propios dominios. As&#237; como me gustar&#237;a que esos hermanos albergaran par mi <span style="font-style:italic">&quot;lugar de la locura&quot;</span>  un hueco en sus propios dominios.</p>
+<p>&#9;COMPARTIR, SUMAR. SUBIR. BAJAR. RE&#209;IR. COLABORAR. CRECER.</p>
+<p style="font-size:9pt">&nbsp;</p>
+<p>&#9;2.- <span style="font-weight:bold">Maniatopia</span>, adem&#225;s de todo lo anterior citado, <span style="font-weight:bold">tambi&#233;n es el nombre con que he bautizado al peque&#241;o universo de mi creaci&#243;n</span>, como pudieran hacer Ende, Tolkien o Pratchett con sus respectivos. Este universo emergente se compondr&#225; de seres natales del lugar, y seres extranjeros de otros universos amigos, pero como lugar de la locura, las pertenencias de estos a uno u otro lugar ser&#225;n dif&#237;ciles de precisar.</p>
+<p>&nbsp;</p>
+<p style="text-align:right"><button class="block-next" type="button" data-next-block="1" aria-label="Continuar al bloque 2" title="Ir al bloque 2">&#9;<span style="color:#0070c0">Quiero saber mas...</span></button></p>
+</section>
+<section class="pages" id="block-2" aria-label="Bloque 2 de 3" tabindex="-1" hidden>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p>&nbsp;</p>
+<p style="font-weight:bold;font-size:21pt">&nbsp;</p>
+<p><span style="font-weight:bold;font-size:22.5pt">&#191;Porqu&#233; Maniatopia? (desde la idea primigenia)</span></p>
+<p>&nbsp;</p>
+<p><span style="font-weight:bold;font-size:21pt">&#9;</span>Narrar todo el proceso hasta llegar al nacimiento de maniatopia puede ser largo de explicar, y requiere de matizar el camino, pero tratar&#233; de hacerlo en cuatro pinceladas:</p>
+<p style="font-size:9pt">&nbsp;</p>
+<p>&#9;-Hace apenas dos a&#241;os (principios de 2025), creo el Shepherd (juego de dados de apuestas), con la intenci&#243;n de introducirlo en nuestras partidas de D&amp;D ente amigos (yo hac&#237;a de Master entonces). Escribo un documento de libreoffice de 30 p&#225;ginas muy bonito y currado, que me gusta.</p>
+<p>Ese documento son las reglas del Shepherd narradas por Molothamp Jeddarm de los reinos del Olvido. <span style="font-size:15.75pt">***Esto es un claro gui&#241;o/homenaje que hago a los creadores de una de las mejores ambientaciones de Dungeons &amp; Dragons que existen. Espero no les resulte molesto a sus creadores, en cuyo caso les ruego me lo comuniquen, y de ser necesario, deshar&#237;amos cualquier tipo de menci&#243;n a dicha ambientaci&#243;n y/o similitud. Aunque como GeoSoberano de Maniatopia y padre del Shepherd, tengo que decir que muchos habitantes del </span><span style="font-size:15.75pt;font-style:italic">&quot;lugar de la locura&quot; </span><span style="font-size:15.75pt;font-style:normal">se entristecer&#237;an sobremanera ante tama&#241;a noticia; y como responsable del bienestar de estos, rogar&#237;a parlament&#225;ramos ante nuestro conflicto de intereses antes de tomar decisiones dr&#225;sticas que pudiera afectar al bienestar de mi pueblo.***</span><span style="font-style:normal">  </span></p>
+<p style="font-size:9pt">&nbsp;</p>
+<p>&#9;<span style="font-weight:bold"> -</span>Dado que me gusta el resultado del Shepherd me informo sobre como darle difusi&#243;n, y encuentro webs y redes en que los usuarios independientes muestran o venden sus juegos de mesa (boardgamegeek, tabletopfinder, entre otras). Hoy aspiro a dar a conocer el Shepherd y Maniatopia por otros muchos medios.</p>
+<p style="font-size:9pt">&nbsp;</p>
+<p>&#9;<span style="font-weight:bold">-&quot;Filosof&#237;a de empresa resumida&quot;</span> Pienso que la mejor manera de hacer llegar mi producto al p&#250;blico es: distribuir de manera totalmente gratuita el juego, las reglas, los modelos.stl para impresora 3D, y el videojuego que quiero crear como modo de marketing para atraer al p&#250;blico a mi producto, e introducir de manera interactiva y atractiva las reglas del juego.</p>
+<p style="font-size:9pt">&nbsp;</p>
+<p>&#9;&#191;Todo gratis? &#191;Todo por amor al arte? <span style="font-weight:bold">S&#237;</span> y <span style="font-weight:bold">No</span>. </p>
+<p style="font-size:9pt">&nbsp;</p>
+<p><span style="font-weight:bold">&#9;S&#237;, porque</span> entiendo que los grandes productos destinados al ocio deben estar basados en el arte, en la pasi&#243;n, en tocar el alma. Libros, cine, videojuegos, m&#250;sica: hace no mucho, algunos de estos, eran medios nacientes que permit&#237;an explotar nuestra faceta creativa y eso nos emocionaba, con el resultante amor, esfuerzo y mimo (que podr&#237;an ser sin&#243;nimos), que pon&#237;amos en lo que hac&#237;amos. En los inicios de estos nuevos medios de expresi&#243;n art&#237;stica, la emoci&#243;n por las posibilidades que ofrec&#237;an los nuevos medios hac&#237;an aflorar la imaginaci&#243;n y el ingenio, con el resultante de una obra m&#225;gica. </p>
+<p>&#9;Hoy, fuera del mercado <span style="font-style:italic">indie</span>, manda el dinero. En todos sitios. Amamos las cosas y utilizamos a las personas.</p>
+<p style="font-size:9pt">&nbsp;</p>
+<p>&#9;<span style="font-weight:bold">No, porque </span><span style="font-weight:normal">tengo cierta fe en el proyecto. Y aunque ciertamente creo que es arduo y de dif&#237;cil consecuci&#243;n mi mero objetivo: que obras propias; como el Shepherd; se hagan un hueco entre la gente (mercado). Si mis productos llegaran a convencer y ser utilizados. Ya estar&#237;a rentabilizando mi esfuerzo creando un valor.</span></p>
+<p style="font-weight:normal">&#9;Y dir&#233;is: <span style="font-style:italic">&quot;Bueno s&#237;: todo muy po&#233;tico, id&#237;lico y muy mo&#241;as. Pero. &#191;Donde est&#225; el parn&#233;? &#191;El flush? &#191;El Cash? &#161;Give me the money!&quot; </span></p>
+<p><span style="font-weight:normal;font-style:normal">&#9;Y no pens&#233;is que no est&#225; contemplado. La idea es hacer un copyright para la marca &quot;maniatopia&quot; y su filial &quot;Shepherd&quot;. Y, si bien todo este material ser&#225; gratuito y de libre utilizaci&#243;n para el gran p&#250;blico. Se contemplan estos copyright para quien quiera lucrarse con la marca. Y de haber aut&#233;ntico r&#233;dito monetario destinarlo a un </span><span style="font-weight:normal;font-style:italic">&quot;agor&#225; </span><span style="font-style:italic">aichmal&#243;sia kosmik&#243;s&quot;, </span><span style="font-style:normal">que no s&#233; muy bien que leches es, pero me suena bien como fondo de gesti&#243;n de vil metal.</span></p>
+<p style="font-size:9pt;font-style:normal">&nbsp;</p>
+<p style="font-weight:normal">&#9;B&#225;sicamente mi ambici&#243;n econ&#243;mica se respalda en que mi producto guste y tenga mercado. Libre en este caso, defendiendo as&#237; una postura vital que quiere hacer ruido, ya sea para ser escuchada, o para molestar. </p>
+<p style="font-weight:normal;font-size:9pt">&nbsp;</p>
+<p><span style="font-weight:normal;font-style:italic">&#9;&quot;Si no crees en ello nunca lo lograras&quot; - </span><span style="font-weight:normal;font-style:normal">Voltaire.</span></p>
+<p>&#9;</p>
+<p><span style="font-weight:bold">&#9;-</span>Aunque ya ten&#237;a alguna noci&#243;n sobre godot,<span style="font-weight:normal"> r</span>ecientemente, hace apenas mes y medio, descubro mediante amigos, una metodolog&#237;a de trabajo mediante Godot, Copilot y VSCode. Uno de estos amigos, especialmente metido en el tema (a nivel profesional), me da directrices de trabajo que me permiten sostenibilidad y capacidad de desarrollo (yo en el pasado hab&#237;a intentado hacer el videojuego mediante ias que daban resultados correctos con poco esfuerzo, pero sin capacidad de control ni sostenibilidad). Con esa nueva informaci&#243;n que me pas&#243; ese buen amigo me puse a desarrollar una primera versi&#243;n de &quot;Shepherd - the Game&quot;.<a href="https://drive.google.com/file/d/1hbrawmsiShAZwS0gnp4eSW0u2J4fbagE/view?usp=sharing" target="_blank" rel="noopener noreferrer" style="color:inherit">link al la build descargable &quot;Shepherd-Videogame.01</a></p>
+<p style="font-size:9pt">&nbsp;</p>
+<p style="text-align:left">&#9;&#191;Has le&#237;do hasta aqu&#237;? &#161;Por todos los dioses! Te pido mis m&#225;s sinceras disculpas por el tost&#243;n. Pero ya que has llegado hasta aqu&#237;, ya no te ir&#225; de desperdiciar unos minutos m&#225;s de esa realidad que nos somete que se rige por relojes...</p>
+<p style="text-align:left">&nbsp;</p>
+<p style="text-align:left">&nbsp;</p>
+<p style="text-align:right"><button class="block-next" type="button" data-next-block="2" aria-label="Continuar al bloque 3" title="Ir al bloque 3"> <span style="color:#0070c0">&#191;porque maniatopia?</span></button></p>
+</section>
+<section class="pages" id="block-3" aria-label="Bloque 3 de 3" tabindex="-1" hidden>
+<p style="font-weight:bold">&nbsp;</p>
+<p>&#9;</p>
+<p>&#9;Viendo las posibilidades que me ofrece trabajar en godot mediante vscode y copilot, me ilusiono y decido llevar el tema m&#225;s lejos; se me ocurre una idea: crear una especie de aventura gr&#225;fica, textual e interactiva, al viejo estilo de las aventuras gr&#225;ficas retro, e introducirla en el propio videojuego del Shepherd. En vez del juego que contiene el minujuego, al rev&#233;s; el minijuego que contiene el juego.</p>
+<p>&#9;As&#237; se fue gestando en mi mente una idea de como ser&#237;a ese juego, con im&#225;genes sencillas y efectistas y buenos textos y din&#225;micas argumentales al m&#225;s puro estilo de los antiguos libros de elije tu propia aventura.</p>
+<p>&#9;<span style="font-weight:normal">La idea fue tomando forma. Quer&#237;a crear un universo para esa aventura gr&#225;fica a medio camino entre lo on&#237;rico y la s&#225;tira, que albergase cualquier universo conocido originario de cualquier medio de expresi&#243;n art&#237;stica, ya sea literario, videojueguil, cinematogr&#225;fico, o cualquier otro medio. </span></p>
+<p style="font-weight:normal">&#9;Para todo esto he de centrarme primero en acabar los modos principales del Shepherd, publicarlo, e ir trabajando a posteriori en el plato fuerte.</p>
+<p style="font-weight:normal;font-size:9pt">&nbsp;</p>
+<p style="color:#000000;text-align:left">&#9;Y ahora s&#237;: &#191;Porque maniatopia?</p>
+<p>&nbsp;</p>
+<p>&#9;Llevo un mes y medio aprox desarrollando el Shepherd (desde septiembre de 2026) mediante Godot y vcstudio, en ese tiempo aun no hab&#237;a llegado a m&#237; el nombre maniatopaia. Este lleg&#243; mediante mi habitual curiosidad y consecuente indagaci&#243;n para resolverla. </p>
+<p style="font-size:9pt">&nbsp;</p>
+<p>&#9;Andaba yo leyendo 1984 de Orwell, y se me ocurri&#243; preguntarle a Google por los significados de las palabras distop&#237;a y utop&#237;a; [<span style="font-style:italic">dis-topos = mal lugar</span><span style="font-style:normal">]</span> y [<span style="font-style:italic">u-topos= no lugar</span><span style="font-style:normal">]</span><span style="font-style:italic">. </span><span style="font-style:normal">Tras </span><span style="font-style:normal">lo que pregunt&#233;: si esos son lugares o percepciones alteradas de nuestra realidad &#191;como llamamos a nuestro mundo actual? Google me muestra los conceptos; eutopia, protopia y heterotopia. Ese tirar del hilo me hizo descubrir el interesante juego fon&#233;tico de palabras de Tom&#225;s Moro con &quot;eutopia&quot; (lugar de lo bueno) y &quot;utopia&quot; (lugar que no existe). Pero vayamos al grano, me sobrevino por confluencia y colapso de conceptos el </span><span style="font-style:italic">&quot;lugar de la locura&quot;.</span><span style="font-style:normal"> Pregunt&#233; pues a nuestro amigo google como se dir&#237;a locura en griego antiguo, y este me respondi&#243;:</span><span style="font-style:italic"> mania. </span></p>
+<p style="font-style:italic">&nbsp;</p>
+<p style="font-style:italic">&#9;<span style="font-weight:normal">Maniatopia</span>.<span style="font-style:normal"> Ya ten&#237;a nombre para mis reinos.</span></p>
+<p style="font-style:italic">&nbsp;</p>
+<p class="continue-on-next-page" style="font-style:italic">&#9;<span style="font-style:normal">Llevaba un mes trabajando en mi idea, volcando much&#237;sima informaci&#243;n e ideas en copilot para trabajar mi juego y universo personal, que iba a ser el alma de la aventura gr&#225;fica incluida en el Shepherd - el videojuego. Este universo personal a&#250;n no ten&#237;a nombre y alud&#237;a a &#233;l ante copilot como </span>&quot;los reinos&quot; <span style="font-style:normal">a falta de nombre mejor o por venir</span>. <span style="font-style:normal">Volqu&#233; todas mis ideas de lore y historia en copilot, que siempre me advert&#237;a de riesgos de infringir derechos de autor, pero ya contemplo esa idea, y como voy a evocar conceptos abstractos y mezclados de los diferentes universos, licencia que me puedo permitir en un universo llamado </span>lugar de la locura.<span style="font-style:normal"> No habr&#225; manera legal de buscarme las cosquillas, por lo dificultoso de relacionar el gui&#241;o/homenaje a la obra que hace referencia, excepto en el caso de referencias directas como el caso de Molothamp, en cuyos casos tratar&#233; de forma diplom&#225;tica el asunto intentando acercar distancias desde el punto de vista de que soy pobre cual rata de alcantarilla.  </span></p>
+<p style="font-size:9pt;font-style:normal">&nbsp;</p>
+<p style="font-style:italic"><span style="font-style:normal"> &#9;Tras haber acu&#241;ado el termino maniatopia (aproximadamente el 27 o 28 de octubre) baraj&#225;ndolo como posible nombre para </span>los reinos<span style="font-style:normal">, poco despu&#233;s coment&#233; la idea con un amigo v&#237;a discord y mientras, se me ocurri&#243; googlear el termino, para ver que menciones hab&#237;a. &#191;Cual fue mi sorpresa?</span></p>
+<p style="font-style:normal">&nbsp;</p>
+<p style="font-style:normal">&#9;Solo hab&#237;a dos menciones al termino; 1.-Un videojuego que est&#225;n haciendo unos desarrolladores. 2.-Una referencia ligera de una red social a lo que parece ser un negocio turbio con perros potencialmente peligrosos.</p>
+<p style="font-style:normal">&nbsp;</p>
+<p style="font-style:normal">&#9;El dato curioso: El videojuego que estaban desarrollando compart&#237;a ciertas similitudes con el proyecto que yo estoy desarrollando. Mundo inspirado en D&amp;D, y la promesa de un mundo infinito cambiante que modela la ia cada vez que se juega. Si bien esta &#250;ltima idea no entra dentro de mis planes, yo pensaba hacer una aventura gr&#225;fica al estilo de los viejos libros de &quot;escoge tu propia aventura&quot;, donde tus elecciones te llevaban a un curso hist&#243;rico diferente, y encontr&#233; ciertas similitudes en la idea.</p>
+<p style="font-style:normal">&#9;Consecuencia: paranoia; hab&#237;a o&#237;do que no era bueno volcar ideas en la ia pues se aprovechaban de ellas y legalmente se las est&#225;s regalando. &#191;Donde me llev&#243; esta paranoia? El 30 de octubre de 2026 creo el domino maniatopia.com, llevado por delirios de plagio y con la intenci&#243;n de defender mi idea. </p>
+<p style="font-size:9pt;font-style:normal">&nbsp;</p>
+<p style="font-style:normal">&#9;Ya m&#225;s calmado y con el consejo de buenos amigos entendidos en el tema entend&#237; que pod&#237;a tratarse de una mera y casual convergencia de ideas. As&#237;, ya m&#225;s tranquilo, descarto el plagio.</p>
+<p style="font-size:9pt;font-style:normal">&nbsp;</p>
+<p style="font-style:normal">&#9;A&#241;ado tambi&#233;n que con este texto no pretendo difamar a mis colegas hom&#243;logos y su proyecto maniatopia. Espero no se sientan molestos por mi menci&#243;n a su proyecto, y en cualquier caso solo puedo deciros que la idea parece fabulosa, esa ia que genera mundos infinitos me parece genial. Mucha suerte con el proyecto y que os depare todo lo mejor! Ah, consejo de colega de profesi&#243;n: introducid alg&#250;n modo multijugador, poder compartir un juego con amigos le da valor a&#241;adido. </p>
+<p style="font-style:normal">&#9;As&#237;, el 30 de octubre el dominio maniatopia.com se cuela en la red. Y si bien su causa es la paranoia, decido utilizarlo para mostrar de manera transparente todos mis proyectos y defender as&#237; mis ideas. Por superstici&#243;n o por haber o&#237;do lo de no volcar ideas en la ia, ahora trabajo las ideas, lore y historia en word y relego a la ia &#250;nicamente los aspectos t&#233;cnicos de programaci&#243;n.</p>
+<p style="font-style:normal">&nbsp;</p>
+<p style="font-style:normal">&#9;</p>
+<p style="font-weight:bold;font-style:normal">&#9;<span style="font-weight:normal">Si has le&#237;do todo esto te agradecer&#237;a me contactaras, ya sea para insultarme y proferir maleficios a mis vidas venideras, o para compartir tu opini&#243;n sobre el proyecto. Esto &#250;ltimo ser&#237;a un puntazo.</span></p>
+<p style="font-weight:normal;font-style:normal">&nbsp;</p>
+<p style="font-weight:normal;font-style:normal">&#9;Gracias y perd&#243;n, atentamente, su servidor,</p>
+<p style="font-weight:normal;text-align:right;font-family:&#39;Merienda&#39;;font-style:normal">Jan Torres</p>
+</section>
+</div>
     </main>
     <nav class="controls" aria-label="Navegación">
         <a class="back" href="donde-estoy.html" aria-label="Volver a Dónde estoy" title="Volver a Dónde estoy">
@@ -136,7 +233,7 @@
                 <path d="M37 9v12c0 5-3 8-8 8H10m8-8-8 8 8 8"></path>
             </svg>
         </a>
-        <div class="page-buttons" id="page-buttons" hidden>
+        <div class="page-buttons" id="page-buttons">
             <button class="page-button" id="previous" type="button" aria-label="Página anterior" title="Página anterior">‹</button>
             <button class="page-button" id="next" type="button" aria-label="Página siguiente" title="Página siguiente">›</button>
         </div>
@@ -145,23 +242,24 @@
     <script>
         (function () {
             const reader = document.getElementById('reader');
-            const pages = document.getElementById('pages');
+            const blocks = Array.from(document.querySelectorAll('.pages'));
             const previous = document.getElementById('previous');
             const next = document.getElementById('next');
-            const controls = document.getElementById('page-buttons');
             const status = document.getElementById('page-status');
+            let activeBlock = 0;
             let current = 0;
             let total = 1;
 
             function render() {
                 reader.scrollLeft = current * reader.clientWidth;
-                previous.disabled = current === 0;
+                previous.disabled = current === 0 && activeBlock === 0;
                 next.disabled = current >= total - 1;
-                controls.hidden = total <= 1;
-                status.textContent = (current + 1) + ' de ' + total;
+                status.textContent = 'Bloque ' + (activeBlock + 1) + ' de ' + blocks.length +
+                    ' · página ' + (current + 1) + ' de ' + total;
             }
 
             function paginate() {
+                const pages = blocks[activeBlock];
                 const width = reader.clientWidth;
                 if (!width || !reader.clientHeight) return;
                 pages.style.columnWidth = width + 'px';
@@ -171,12 +269,36 @@
             }
 
             previous.addEventListener('click', function () {
-                if (current > 0) { current--; render(); }
+                if (current > 0) {
+                    current--;
+                    render();
+                } else if (activeBlock > 0) {
+                    blocks[activeBlock].hidden = true;
+                    activeBlock--;
+                    blocks[activeBlock].hidden = false;
+                    current = 0;
+                    paginate();
+                    current = total - 1;
+                    render();
+                }
             });
             next.addEventListener('click', function () {
                 if (current < total - 1) { current++; render(); }
             });
+            document.addEventListener('click', function (event) {
+                if (!(event.target instanceof Element)) return;
+                const button = event.target.closest('.block-next');
+                if (!button) return;
+                activeBlock = Number(button.dataset.nextBlock);
+                blocks.forEach(function (block, index) {
+                    block.hidden = index !== activeBlock;
+                });
+                current = 0;
+                paginate();
+                blocks[activeBlock].focus();
+            });
             window.addEventListener('resize', paginate);
+            document.fonts.addEventListener('loadingdone', paginate);
             document.fonts.ready.then(paginate);
             paginate();
         })();

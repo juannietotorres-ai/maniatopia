@@ -120,19 +120,18 @@
             top: calc(12px + env(safe-area-inset-top, 0px));
             right: calc(20px + env(safe-area-inset-right, 0px));
             z-index: 20;
-            color: #d96a3d;
             display: block;
-            width: clamp(56px, 7vw, 78px);
-            height: clamp(70px, 9vw, 96px);
+            width: clamp(88px, 10vw, 110px);
+            aspect-ratio: 1;
             text-decoration: none;
             filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.8));
         }
 
-        .about-link svg {
+        .about-link img {
             display: block;
             width: 100%;
             height: 100%;
-            overflow: visible;
+            object-fit: contain;
             transform: rotate(9deg);
         }
 
@@ -484,10 +483,7 @@
 <body>
 
     <a class="about-link" href="que-es-maniatopia.html" aria-label="Qué es Maniatopia" data-help="Qué es Maniatopia">
-        <svg viewBox="0 0 72 100" aria-hidden="true">
-            <path fill="currentColor" d="M12 28C9 12 22 3 39 5c16 2 25 12 24 24-1 12-9 17-17 23-5 4-6 7-5 13l-15 2c-2-9 0-17 7-22 8-7 14-9 14-16 0-6-4-10-10-11-7-1-12 3-12 10z"></path>
-            <path fill="currentColor" d="M25 81c-1-6 3-10 9-11 6-1 11 2 11 8 1 5-3 10-9 11-5 1-10-2-11-8z"></path>
-        </svg>
+        <img src="assets/images/Signo%20interrogaci%C3%B3n%20fant%C3%A1stico.png" alt="">
     </a>
 
     <!-- TEXTO SUPERIOR (5 LÍNEAS EN PC / 7 LÍNEAS EN MÓVIL) -->
