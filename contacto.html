@@ -11,12 +11,21 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="assets/Fonts-ttf/EastDjakartaFont.ttf" as="font" type="font/ttf" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Special+Elite&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=GFS+Didot&display=swap" rel="stylesheet">
     
     <style>
+        @font-face {
+            font-family: 'East Djakarta';
+            src: url('assets/Fonts-ttf/EastDjakartaFont.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -71,6 +80,21 @@
         }
 
         .contact-email-break {
+            display: none;
+        }
+
+        .contact-message {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            max-width: calc(100% - 270px);
+            color: #e0c090;
+            font: 400 min(clamp(1rem, 2.2vw, 2rem), calc(3.1vw - 8.4px))/1.25 'East Djakarta', cursive;
+            text-align: right;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 0 25px rgba(184, 134, 11, 0.4);
+        }
+
+        .contact-message-mobile-break {
             display: none;
         }
 
@@ -277,8 +301,10 @@
             #menu-dropdown .nav-contact { left: 32px; font-size: clamp(1.2rem, 5vw, 1.65rem); }
             .home-icon { width: 58px; height: 58px; }
             .content { left: 50%; max-width: 92vw; }
-            .contact-email { font-size: clamp(0.85rem, 4vw, 1.2rem); letter-spacing: 1px; word-break: normal; }
+            .contact-email { font-size: clamp(1rem, 5vw, 1.5rem); letter-spacing: 1px; word-break: normal; }
             .contact-email-break { display: block; }
+            .contact-message { right: 16px; bottom: 160px; max-width: calc(100% - 32px); font-size: clamp(0.9rem, 4.7vw, 1.5rem); }
+            .contact-message-mobile-break { display: block; }
             body { background-size: auto 90%; background-position: 30% center; background-color: #03030a; }
         }
 
@@ -288,6 +314,8 @@
         }
     </style>
     <link rel="stylesheet" href="assets/agora-menu.css?v=20261106-3">
+    <link rel="stylesheet" href="assets/tooltip.css">
+    <script defer src="assets/tooltip.js"></script>
 </head>
 <body>
 
@@ -298,11 +326,13 @@
         </a>
     </div>
 
+    <p class="contact-message">Si quieres más información<br class="contact-message-mobile-break"> o quieres colaborar con el proyecto,<br>no dudes en contactarnos.</p>
+
     <!-- MENÚ DESPLEGABLE CORREGIDO -->
     <div id="menu-container">
-        <button id="menu-btn" type="button" title="Menú de navegación" aria-label="Abrir menú de navegación" aria-controls="menu-dropdown" aria-expanded="false"></button>
+        <button id="menu-btn" type="button" data-help="Menú de navegación" aria-label="Abrir menú de navegación" aria-controls="menu-dropdown" aria-expanded="false"></button>
         <div id="menu-dropdown">
-            <a class="nav-home" href="index.html" aria-label="Inicio" title="Inicio">
+            <a class="nav-home" href="index.html" aria-label="Inicio" data-help="Inicio">
                 <svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M3 10.5 12 3l9 7.5M5.5 9.5V21h13V9.5M9 21v-7h6v7"></path>
                 </svg>
@@ -323,14 +353,14 @@
             const isOpen = menuContainer.classList.toggle('is-open');
             menuBtn.setAttribute('aria-expanded', String(isOpen));
             menuBtn.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
-            menuBtn.title = isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación';
+            menuBtn.dataset.help = isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación';
         });
 
         window.addEventListener('click', () => {
             menuContainer.classList.remove('is-open');
             menuBtn.setAttribute('aria-expanded', 'false');
             menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-            menuBtn.title = 'Abrir menú de navegación';
+            menuBtn.dataset.help = 'Abrir menú de navegación';
         });
 
         window.addEventListener('keydown', (e) => {
@@ -338,7 +368,7 @@
                 menuContainer.classList.remove('is-open');
                 menuBtn.setAttribute('aria-expanded', 'false');
                 menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-                menuBtn.title = 'Abrir menú de navegación';
+                menuBtn.dataset.help = 'Abrir menú de navegación';
                 menuBtn.focus();
             }
         });

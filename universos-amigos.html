@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maniatopia - Universos Amigos</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/tooltip.css">
+    <script defer src="assets/tooltip.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        html { min-height: 100%; background: #02030b; }
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            color: #fff;
+            background-color: #02030b;
+            background-image:
+                radial-gradient(1px 1px at 19px 37px, rgba(255, 255, 255, 0.9) 90%, transparent),
+                radial-gradient(1px 1px at 83px 102px, rgba(190, 215, 255, 0.65) 90%, transparent),
+                radial-gradient(1.5px 1.5px at 133px 48px, rgba(255, 255, 255, 0.8) 90%, transparent),
+                radial-gradient(1px 1px at 42px 156px, rgba(225, 228, 255, 0.7) 90%, transparent),
+                radial-gradient(1px 1px at 67px 29px, rgba(197, 207, 240, 0.65) 90%, transparent),
+                radial-gradient(1px 1px at 142px 119px, rgba(255, 255, 255, 0.6) 90%, transparent),
+                radial-gradient(1px 1px at 25px 91px, rgba(220, 229, 255, 0.7) 90%, transparent),
+                radial-gradient(1px 1px at 107px 189px, rgba(255, 245, 220, 0.65) 90%, transparent),
+                radial-gradient(ellipse at 70% 22%, rgba(35, 44, 90, 0.24), transparent 55%),
+                radial-gradient(ellipse at 22% 76%, rgba(45, 28, 73, 0.2), transparent 50%);
+            background-size: 179px 197px, 233px 211px, 307px 281px, 157px 271px, 191px 163px, 211px 227px, 163px 251px, 277px 241px, 100% 100%, 100% 100%;
+            background-attachment: fixed;
+        }
+        .back {
+            position: fixed;
+            left: calc(20px + env(safe-area-inset-left, 0px));
+            bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .back svg { width: 42px; height: 42px; }
+        .back:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+    </style>
+</head>
+<body>
+    <main aria-label="Universos Amigos"></main>
+    <a class="back" href="universos.html" aria-label="Volver a Refugio de Universos" data-help="Volver a Refugio de Universos">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M37 9v12c0 5-3 8-8 8H10m8-8-8 8 8 8"></path>
+        </svg>
+    </a>
+    <script src="musica.js"></script>
+</body>
+</html>

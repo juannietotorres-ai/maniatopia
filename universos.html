@@ -8,10 +8,28 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="assets/Fonts-ttf/Inkfree.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/Fonts-ttf/Sensations%20and%20Qualities.ttf" as="font" type="font/ttf" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Special+Elite&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=GFS+Didot&display=swap" rel="stylesheet">
     <style>
+        @font-face {
+            font-family: 'Ink Free';
+            src: url('assets/Fonts-ttf/Inkfree.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Sensations and Qualities';
+            src: url('assets/Fonts-ttf/Sensations and Qualities.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -25,11 +43,18 @@
             overflow: hidden;
         }
 
+        .page-title {
+            padding: clamp(18px, 3vw, 36px) 16px 0;
+            color: #fff;
+            font: 400 clamp(3.75rem, 8vw, 7rem)/1.15 'Sensations and Qualities', cursive;
+            text-align: center;
+            text-shadow: 0 2px 6px #000, 0 0 12px rgba(0, 0, 0, 0.8);
+        }
+
         .shepherd-logo {
-            position: absolute;
-            top: clamp(56px, 8vw, 110px);
-            left: clamp(56px, 8vw, 110px);
             display: block;
+            width: fit-content;
+            margin: clamp(16px, 2vw, 28px) 0 0 clamp(56px, 8vw, 110px);
             transition: transform 0.25s ease, filter 0.25s ease;
         }
 
@@ -44,6 +69,34 @@
         .shepherd-logo:focus-visible {
             transform: scale(1.05);
             filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+        }
+
+        .friends-link {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            width: 210px;
+            height: 210px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font: 400 clamp(1.8rem, 3vw, 2.5rem)/1.05 'Ink Free', cursive;
+            text-align: center;
+            text-decoration: none;
+            text-shadow: 0 2px 6px #000, 0 0 12px rgba(255, 255, 255, 0.55);
+            transition: transform 250ms ease, text-shadow 250ms ease;
+        }
+
+        .friends-link:hover,
+        .friends-link:focus-visible {
+            transform: scale(1.05);
+            text-shadow: 0 2px 6px #000, 0 0 18px rgba(255, 255, 255, 0.9);
+        }
+
+        .friends-link:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: -8px;
         }
 
         /* --- MENÚ DESPLEGABLE --- */
@@ -241,6 +294,7 @@
             #menu-container { bottom: 15px; left: 8px; width: 175px; height: 175px; }
             #menu-btn { width: 175px; height: 175px; }
             #menu-container:not(.is-open) #menu-btn { width: 131.25px; height: 131.25px; }
+            .friends-link { right: 8px; bottom: 15px; width: 131.25px; height: 131.25px; font-size: 1.65rem; }
             #menu-dropdown { width: min(88vw, 480px); height: min(76vh, 620px); min-height: 260px; }
             #menu-container.is-open #menu-btn { transform: translate(115px, -105px) scale(2.5) rotate(7deg) rotateY(-35deg); }
             #menu-dropdown .nav-home { left: 28px; }
@@ -252,22 +306,26 @@
         }
 
         @media (prefers-reduced-motion: reduce) {
-            #menu-btn, #menu-dropdown, #menu-dropdown a, .home-icon { transition-duration: 0.01ms; }
+            #menu-btn, #menu-dropdown, #menu-dropdown a, .home-icon, .friends-link { transition-duration: 0.01ms; }
             #menu-dropdown .nav-location, #menu-dropdown .nav-universes { animation: none; }
         }
     </style>
     <link rel="stylesheet" href="assets/agora-menu.css?v=20261106-3">
+    <link rel="stylesheet" href="assets/tooltip.css">
+    <script defer src="assets/tooltip.js"></script>
 </head>
 <body>
-    <a class="shepherd-logo" href="janspace.html" aria-label="Ir a Jan Space" title="Ir a Jan Space">
+    <h1 class="page-title">Universos Geosoberanos</h1>
+    <a class="shepherd-logo" href="janspace.html" aria-label="Ir a Jan Space" data-help="Ir a Jan Space">
         <span role="img" aria-label="Jan"></span>
     </a>
+    <a class="friends-link" href="universos-amigos.html" aria-label="Ir a Universos Amigos" data-help="Ir a Universos Amigos">Universos<br>Amigos</a>
 
     <!-- MENÚ DESPLEGABLE -->
     <div id="menu-container">
-        <button id="menu-btn" type="button" title="Menú de navegación" aria-label="Abrir menú de navegación" aria-controls="menu-dropdown" aria-expanded="false"></button>
+        <button id="menu-btn" type="button" data-help="Menú de navegación" aria-label="Abrir menú de navegación" aria-controls="menu-dropdown" aria-expanded="false"></button>
         <div id="menu-dropdown">
-            <a class="nav-home" href="index.html" aria-label="Inicio" title="Inicio">
+            <a class="nav-home" href="index.html" aria-label="Inicio" data-help="Inicio">
                 <svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M3 10.5 12 3l9 7.5M5.5 9.5V21h13V9.5M9 21v-7h6v7"></path>
                 </svg>
@@ -288,14 +346,14 @@
             const isOpen = menuContainer.classList.toggle('is-open');
             menuBtn.setAttribute('aria-expanded', String(isOpen));
             menuBtn.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
-            menuBtn.title = isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación';
+            menuBtn.dataset.help = isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación';
         });
 
         window.addEventListener('click', () => {
             menuContainer.classList.remove('is-open');
             menuBtn.setAttribute('aria-expanded', 'false');
             menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-            menuBtn.title = 'Abrir menú de navegación';
+            menuBtn.dataset.help = 'Abrir menú de navegación';
         });
 
         window.addEventListener('keydown', (e) => {
@@ -303,7 +361,7 @@
                 menuContainer.classList.remove('is-open');
                 menuBtn.setAttribute('aria-expanded', 'false');
                 menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-                menuBtn.title = 'Abrir menú de navegación';
+                menuBtn.dataset.help = 'Abrir menú de navegación';
                 menuBtn.focus();
             }
         });

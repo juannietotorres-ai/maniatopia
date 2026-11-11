@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maniatopia - "𝑙𝑢𝑔𝑎𝑟 𝑑𝑒 𝑙𝑎 𝑙𝑜𝑐𝑢𝑟𝑎"</title>
-    <meta name="description" content="Maniatopia: Taller creativo artesano">
+    <meta name="description" content="Maniatopia. Taller Creativo Artesano Binario. Refugio de Universos nómadas o confluentes.">
     
 <!-- FAVICON DE LA GALAXIA -->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -358,6 +358,10 @@
             font: inherit;
             cursor: pointer;
         }
+        .maniatopia-counter-container:focus { outline: none; }
+        .maniatopia-counter-container:focus-visible .stickman-wrapper {
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7)) drop-shadow(0 0 7px #e0c090);
+        }
         .stickman-wrapper { filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.7)); }
         @keyframes walk-swing { 0%, 100% { transform: rotate(-23deg); } 50% { transform: rotate(23deg); } }
         @keyframes walk-knee {
@@ -372,8 +376,8 @@
         .visitor-number { color: #fff; font-size: 30px; font-weight: 400; letter-spacing: 2px; font-family: 'Special Elite', monospace; text-shadow: 0 0 8px rgba(255, 255, 255, 0.7); }
         .visitor-counter-hint {
             position: fixed;
-            top: calc(12px + env(safe-area-inset-top, 0px));
-            right: calc(12px + env(safe-area-inset-right, 0px));
+            top: 0;
+            left: 0;
             z-index: 6;
             padding: 8px 12px;
             border: 1px solid rgba(255, 255, 255, 0.55);
@@ -386,12 +390,12 @@
             pointer-events: none;
             transition: opacity 150ms ease;
         }
-        @media (max-width: 768px) {
-            .maniatopia-counter-container { top: 8px; left: 8px; gap: 8px; transform: scale(0.75); transform-origin: top left; }
-        }
-        .maniatopia-counter-container.is-hint-visible + .visitor-counter-hint {
+        .visitor-counter-hint.is-visible {
             opacity: 1;
             visibility: visible;
+        }
+        @media (max-width: 768px) {
+            .maniatopia-counter-container { top: 8px; left: 8px; gap: 8px; transform: scale(0.75); transform-origin: top left; }
         }
 
         @media (prefers-reduced-motion: reduce) {
@@ -401,6 +405,8 @@
         }
     </style>
     <link rel="stylesheet" href="assets/agora-menu.css?v=20261106-3">
+    <link rel="stylesheet" href="assets/tooltip.css">
+    <script defer src="assets/tooltip.js"></script>
 </head>
 <body>
 
@@ -415,7 +421,7 @@
     </div>
 
     <!-- CONTADOR DE VISITANTES (GoatCounter) -->
-    <button class="maniatopia-counter-container" type="button" title="Visitantes de Maniatopia" aria-label="Visitantes de Maniatopia" aria-expanded="false" aria-controls="visitor-counter-hint">
+    <button class="maniatopia-counter-container" type="button" data-tooltip="Visitantes de Maniatopia" aria-label="Visitantes de Maniatopia" aria-expanded="false" aria-controls="visitor-counter-hint">
         <div class="stickman-wrapper">
             <svg class="stickman-svg" viewBox="0 0 100 150" width="50" height="75" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <circle cx="50" cy="25" r="14" />
@@ -434,13 +440,13 @@
         </div>
         <span class="visitor-number" id="visitor-number">---</span>
     </button>
-    <span class="visitor-counter-hint" id="visitor-counter-hint" aria-hidden="true">Visitantes de Maniatopia</span>
+    <span class="visitor-counter-hint" id="visitor-counter-hint" role="tooltip" aria-hidden="true">Visitantes de Maniatopia</span>
 
     <!-- MENÚ DESPLEGABLE -->
     <div id="menu-container">
-        <button id="menu-btn" type="button" title="Menú de navegación" aria-label="Abrir menú de navegación" aria-controls="menu-dropdown" aria-expanded="false"></button>
+        <button id="menu-btn" type="button" data-tooltip="Menú de navegación" aria-label="Abrir menú de navegación" aria-controls="menu-dropdown" aria-expanded="false"></button>
         <div id="menu-dropdown">
-            <a class="nav-home" href="index.html" aria-label="Inicio" title="Inicio">
+            <a class="nav-home" href="index.html" aria-label="Inicio" data-tooltip="Inicio">
                 <svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M3 10.5 12 3l9 7.5M5.5 9.5V21h13V9.5M9 21v-7h6v7"></path>
                 </svg>
@@ -456,33 +462,104 @@
     <script src="musica.js"></script>
 
     <!-- WIDGET GRAMÓFONO -->
-    <div id="gramofono-container" title="Haz clic para escuchar la música">
+    <div id="gramofono-container" data-tooltip="Haz clic para escuchar la música">
         <img id="gramofono-img" class="fast-heartbeat" src="assets/images/gramofono-maniatopia.gif" alt="Gramófono Maniatopia">
         <canvas id="gramofono-canvas" style="display: none;"></canvas>
     </div>
 
     <script>
         (function () {
-            const counter = document.querySelector('.maniatopia-counter-container');
-            let pointerType = '';
-            const setHint = function (visible) {
-                counter.classList.toggle('is-hint-visible', visible);
-                counter.setAttribute('aria-expanded', String(visible));
+            const tooltip = document.getElementById('visitor-counter-hint');
+            let activeTarget = null;
+            let lastTouchTarget = null;
+            const positionTooltip = function (target) {
+                const bounds = target.getBoundingClientRect();
+                const gap = 12;
+                const margin = 8;
+                const tooltipWidth = tooltip.offsetWidth;
+                const tooltipHeight = tooltip.offsetHeight;
+                let left = bounds.left + (bounds.width - tooltipWidth) / 2;
+                let top = bounds.top - tooltipHeight - gap;
+                if (top < margin) top = bounds.bottom + gap;
+                left = Math.max(margin, Math.min(left, window.innerWidth - tooltipWidth - margin));
+                top = Math.max(margin, Math.min(top, window.innerHeight - tooltipHeight - margin));
+                tooltip.style.left = left + 'px';
+                tooltip.style.top = top + 'px';
             };
-            counter.addEventListener('pointerdown', function (event) {
-                pointerType = event.pointerType;
-            });
-            counter.addEventListener('click', function (event) {
-                if (event.detail === 0 || pointerType === 'touch') {
-                    setHint(!counter.classList.contains('is-hint-visible'));
+            const setTooltip = function (target) {
+                if (activeTarget) {
+                    activeTarget.removeAttribute('aria-describedby');
+                    if (activeTarget.classList.contains('maniatopia-counter-container')) {
+                        activeTarget.setAttribute('aria-expanded', 'false');
+                    }
                 }
-                pointerType = '';
-            });
+                activeTarget = target;
+                if (target) {
+                    tooltip.textContent = target.dataset.tooltip;
+                    tooltip.classList.add('is-visible');
+                    tooltip.setAttribute('aria-hidden', 'false');
+                    positionTooltip(target);
+                    target.setAttribute('aria-describedby', tooltip.id);
+                    if (target.classList.contains('maniatopia-counter-container')) {
+                        target.setAttribute('aria-expanded', 'true');
+                    }
+                } else {
+                    tooltip.classList.remove('is-visible');
+                    tooltip.setAttribute('aria-hidden', 'true');
+                }
+            };
+            const getTarget = function (node) {
+                return node instanceof Element ? node.closest('[data-tooltip]') : null;
+            };
             document.addEventListener('pointerdown', function (event) {
-                if (!counter.contains(event.target)) setHint(false);
+                const target = getTarget(event.target);
+                if (event.pointerType === 'touch' && target) {
+                    const shouldHide = target === lastTouchTarget;
+                    setTooltip(shouldHide ? null : target);
+                    lastTouchTarget = shouldHide ? null : target;
+                } else if (!target) {
+                    setTooltip(null);
+                    lastTouchTarget = null;
+                }
+            });
+            document.addEventListener('pointerover', function (event) {
+                if (event.pointerType !== 'mouse') return;
+                const target = getTarget(event.target);
+                if (target) setTooltip(target);
+            });
+            document.addEventListener('pointerout', function (event) {
+                if (event.pointerType !== 'mouse') return;
+                const target = getTarget(event.target);
+                if (target && target === activeTarget && !target.contains(event.relatedTarget)) {
+                    setTooltip(null);
+                    lastTouchTarget = null;
+                }
+            });
+            document.addEventListener('focusin', function (event) {
+                const target = getTarget(event.target);
+                if (target) setTooltip(target);
+            });
+            document.addEventListener('focusout', function (event) {
+                const target = getTarget(event.target);
+                if (target && target === activeTarget && !target.contains(event.relatedTarget)) {
+                    setTooltip(null);
+                    lastTouchTarget = null;
+                }
             });
             document.addEventListener('keydown', function (event) {
-                if (event.key === 'Escape') setHint(false);
+                if (event.key === 'Escape') {
+                    setTooltip(null);
+                    lastTouchTarget = null;
+                }
+            });
+            window.addEventListener('resize', function () {
+                if (activeTarget) positionTooltip(activeTarget);
+            });
+            window.addEventListener('scroll', function () {
+                if (activeTarget) positionTooltip(activeTarget);
+            }, true);
+            document.addEventListener('transitionend', function (event) {
+                if (event.target === activeTarget) positionTooltip(activeTarget);
             });
         })();
     </script>
@@ -518,7 +595,9 @@
     <script>
         // Primera visita absoluta: "CONSTRUYENDO". Después: palabra aleatoria sin repetir hasta agotar el ciclo.
         (function () {
-            const words = ['CREANDO', 'COCINANDO', 'FILOSOFANDO', 'IMAGINANDO', 'DESCANSANDO', 'JUGANDO', 'FABRICANDO', 'EXPERIMENTANDO', 'EDIFICANDO', 'TERRAFORMANDO'];
+            const words = ['CONSTRUYENDO', 'CREANDO', 'COCINANDO', 'FILOSOFANDO', 'IMAGINANDO', 'DESCANSANDO', 'JUGANDO', 'FABRICANDO', 'EXPERIMENTANDO', 'EDIFICANDO', 'TERRAFORMANDO', 'ELABORANDO', 'PINTANDO', 'ESCULPIENDO', 'ESCRIBIENDO', 'TRABAJANDO', 'REFLEXIONANDO', 'LEYENDO'];
+            const newlyAddedWords = ['CONSTRUYENDO', 'ELABORANDO', 'PINTANDO', 'ESCULPIENDO', 'ESCRIBIENDO', 'TRABAJANDO', 'REFLEXIONANDO', 'LEYENDO'];
+            const additionsKey = 'maniatopiaWordsOfficialV1';
             const target = document.getElementById('subtitle-word');
             const pick = (list) => list[Math.floor(Math.random() * list.length)];
             try {
@@ -528,6 +607,17 @@
                 }
                 let pending = JSON.parse(localStorage.getItem('maniatopiaPending') || '[]')
                     .filter((w) => words.includes(w));
+                if (localStorage.getItem(additionsKey) !== '1') {
+                    if (pending.length === 0) {
+                        pending = words.slice();
+                    } else {
+                        newlyAddedWords.forEach((word) => {
+                            if (!pending.includes(word)) pending.push(word);
+                        });
+                    }
+                    localStorage.setItem('maniatopiaPending', JSON.stringify(pending));
+                    localStorage.setItem(additionsKey, '1');
+                }
                 const last = localStorage.getItem('maniatopiaLast');
                 if (pending.length === 0) pending = words.slice();
                 // Al empezar un ciclo nuevo, evita repetir la última palabra del anterior
@@ -554,20 +644,26 @@
 
         const menuBtn = document.getElementById('menu-btn');
         const menuContainer = document.getElementById('menu-container');
+        const updateTooltip = (element, text) => {
+            element.dataset.tooltip = text;
+            if (element.getAttribute('aria-describedby') === 'visitor-counter-hint') {
+                document.getElementById('visitor-counter-hint').textContent = text;
+            }
+        };
 
         menuBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             const isOpen = menuContainer.classList.toggle('is-open');
             menuBtn.setAttribute('aria-expanded', String(isOpen));
             menuBtn.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
-            menuBtn.title = isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación';
+            updateTooltip(menuBtn, isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
         });
 
         window.addEventListener('click', () => {
             menuContainer.classList.remove('is-open');
             menuBtn.setAttribute('aria-expanded', 'false');
             menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-            menuBtn.title = 'Abrir menú de navegación';
+            updateTooltip(menuBtn, 'Abrir menú de navegación');
         });
 
         window.addEventListener('keydown', (e) => {
@@ -575,7 +671,7 @@
                 menuContainer.classList.remove('is-open');
                 menuBtn.setAttribute('aria-expanded', 'false');
                 menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-                menuBtn.title = 'Abrir menú de navegación';
+                updateTooltip(menuBtn, 'Abrir menú de navegación');
                 menuBtn.focus();
             }
         });
@@ -585,7 +681,7 @@
             canvas.style.display = 'none';
             img.style.display = 'block';
             canvas.classList.remove('paused-style');
-            container.setAttribute('title', 'Pausar Música');
+            updateTooltip(container, 'Pausar Música');
         }
 
         function showPaused() {
@@ -603,7 +699,7 @@
             img.classList.remove('fast-heartbeat');
             canvas.style.display = 'block';
             canvas.classList.add('paused-style');
-            container.setAttribute('title', 'Reanudar Música');
+            updateTooltip(container, 'Reanudar Música');
         }
 
         // La interfaz sigue al estado real del audio, también cuando se retoma al llegar de otra página

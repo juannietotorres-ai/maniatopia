@@ -493,20 +493,22 @@
         }
     </style>
     <link rel="stylesheet" href="assets/agora-menu.css?v=20261106-3">
+    <link rel="stylesheet" href="assets/tooltip.css">
+    <script defer src="assets/tooltip.js"></script>
 </head>
 <body>
-    <a class="shepherd-logo" href="Shepherd.html" aria-label="Shepherd" title="Shepherd">
+    <a class="shepherd-logo" href="Shepherd.html" aria-label="Shepherd" data-help="Shepherd">
         <span role="img" aria-label="Shepherd"></span>
     </a>
 
-    <button class="jan-box-button" id="jan-box-button" type="button" aria-label="Abrir el cajón de sastre de Jan" aria-haspopup="dialog" title="Abrir el cajón de sastre de Jan"></button>
+    <button class="jan-box-button" id="jan-box-button" type="button" aria-label="Abrir el cajón de sastre de Jan" aria-haspopup="dialog" data-help="Abrir el cajón de sastre de Jan"></button>
 
     <dialog class="jan-terminal" id="jan-terminal" aria-labelledby="jan-terminal-title">
         <div class="jan-monitor">
           <div class="jan-terminal-screen">
             <div class="jan-terminal-header">
                 <h2 id="jan-terminal-title">Cajón de sastre de Jan</h2>
-                <button class="jan-terminal-close" id="jan-terminal-close" type="button" aria-label="Cerrar el cajón de sastre" title="Cerrar el cajón de sastre">×</button>
+                <button class="jan-terminal-close" id="jan-terminal-close" type="button" aria-label="Cerrar el cajón de sastre" data-help="Cerrar el cajón de sastre">×</button>
             </div>
             <div class="jan-terminal-content">
                 <p>Contenido en preparación.</p>
@@ -525,15 +527,15 @@
                 <span class="jan-floppy-slot" aria-hidden="true"></span>
                 <span class="jan-floppy-label" aria-hidden="true">5¼&quot; DOUBLE DENSITY</span>
             </div>
-            <button class="jan-terminal-power" id="jan-terminal-power" type="button" aria-label="Apagar el monitor y cerrar el cajón" title="Apagar el monitor">ON / OFF</button>
+            <button class="jan-terminal-power" id="jan-terminal-power" type="button" aria-label="Apagar el monitor y cerrar el cajón" data-help="Apagar el monitor">ON / OFF</button>
         </div>
     </dialog>
 
     <!-- MENÚ DESPLEGABLE -->
     <div id="menu-container">
-        <button id="menu-btn" type="button" title="Menú de navegación" aria-label="Abrir menú de navegación" aria-controls="menu-dropdown" aria-expanded="false"></button>
+        <button id="menu-btn" type="button" data-help="Menú de navegación" aria-label="Abrir menú de navegación" aria-controls="menu-dropdown" aria-expanded="false"></button>
         <div id="menu-dropdown">
-            <a class="nav-home" href="index.html" aria-label="Inicio" title="Inicio">
+            <a class="nav-home" href="index.html" aria-label="Inicio" data-help="Inicio">
                 <svg class="home-icon" viewBox="0 0 24 24" aria-hidden="true">
                     <path d="M3 10.5 12 3l9 7.5M5.5 9.5V21h13V9.5M9 21v-7h6v7"></path>
                 </svg>
@@ -567,14 +569,14 @@
             const isOpen = menuContainer.classList.toggle('is-open');
             menuBtn.setAttribute('aria-expanded', String(isOpen));
             menuBtn.setAttribute('aria-label', isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
-            menuBtn.title = isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación';
+            menuBtn.dataset.help = isOpen ? 'Cerrar menú de navegación' : 'Abrir menú de navegación';
         });
 
         window.addEventListener('click', () => {
             menuContainer.classList.remove('is-open');
             menuBtn.setAttribute('aria-expanded', 'false');
             menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-            menuBtn.title = 'Abrir menú de navegación';
+            menuBtn.dataset.help = 'Abrir menú de navegación';
         });
 
         window.addEventListener('keydown', (e) => {
@@ -582,7 +584,7 @@
                 menuContainer.classList.remove('is-open');
                 menuBtn.setAttribute('aria-expanded', 'false');
                 menuBtn.setAttribute('aria-label', 'Abrir menú de navegación');
-                menuBtn.title = 'Abrir menú de navegación';
+                menuBtn.dataset.help = 'Abrir menú de navegación';
                 menuBtn.focus();
             }
         });

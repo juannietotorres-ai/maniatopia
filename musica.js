@@ -3,8 +3,8 @@
 
     const TRACKS = [
         'assets/audio-mp3/Bach - Badinerie+-+BWV+1067.mp3',
-        'assets/audio-mp3/el-vuelo-del-moscardon-nikolai-rimsky-korsakov.mp3',
-        'assets/audio-mp3/Antonio Vivaldi - Storm.mp3'
+        'assets/audio-mp3/Rimsky-Korsakov - flight_of_the_bumblebee.mp3',
+        'assets/audio-mp3/CLASSICAL-Antonio-Vivaldi-Storm-_Royalty-Free-Music_-HQ-_128kbit_AAC_.mp3'
     ];
     const GAP_MS = 3000;
     const TURN_SRC = 'assets/audio-mp3/flipping-book-page.mp3';
