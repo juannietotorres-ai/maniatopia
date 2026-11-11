@@ -78,6 +78,9 @@
             break-inside: auto;
             page-break-inside: auto;
         }
+        .pages p.final-note {
+            break-before: column;
+        }
         .controls {
             flex: none;
             min-height: 80px;
@@ -223,7 +226,9 @@
 <p style="font-weight:bold;font-style:normal">&#9;<span style="font-weight:normal">Si has le&#237;do todo esto te agradecer&#237;a me contactaras, ya sea para insultarme y proferir maleficios a mis vidas venideras, o para compartir tu opini&#243;n sobre el proyecto. Esto &#250;ltimo ser&#237;a un puntazo.</span></p>
 <p style="font-weight:normal;font-style:normal">&nbsp;</p>
 <p style="font-weight:normal;font-style:normal">&#9;Gracias y perd&#243;n, atentamente, su servidor,</p>
+<p aria-hidden="true">&nbsp;</p>
 <p style="font-weight:normal;text-align:right;font-family:&#39;Merienda&#39;;font-style:normal">Jan Torres</p>
+<p class="final-note">Espero nadie se sienta ofendido por el contenido de esta página, y de ser así, agradecería comunicación amistosa para resolver el asunto.</p>
 </section>
 </div>
     </main>
@@ -283,7 +288,11 @@
                 }
             });
             next.addEventListener('click', function () {
-                if (current < total - 1) { current++; render(); }
+                if (current < total - 1) {
+                    current++;
+                    render();
+                    paginate();
+                }
             });
             document.addEventListener('click', function (event) {
                 if (!(event.target instanceof Element)) return;
