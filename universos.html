@@ -8,25 +8,29 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="assets/Fonts-ttf/Inkfree.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="assets/Fonts-ttf/Sensations%20and%20Qualities.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/Fonts-ttf/Merienda-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Special+Elite&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=GFS+Didot&display=swap" rel="stylesheet">
+    <script>
+        if (document.fonts && document.fonts.load) {
+            document.documentElement.classList.add('title-font-loading');
+        }
+    </script>
     <style>
         @font-face {
-            font-family: 'Ink Free';
-            src: url('assets/Fonts-ttf/Inkfree.ttf') format('truetype');
+            font-family: 'Fredericka the Great';
+            src: url('assets/Fonts-ttf/FrederickatheGreat-Regular.ttf') format('truetype');
             font-style: normal;
             font-weight: 400;
             font-display: swap;
         }
 
         @font-face {
-            font-family: 'Sensations and Qualities';
-            src: url('assets/Fonts-ttf/Sensations and Qualities.ttf') format('truetype');
+            font-family: 'Merienda';
+            src: url('assets/Fonts-ttf/Merienda-VariableFont_wght.ttf') format('truetype');
             font-style: normal;
-            font-weight: 400;
+            font-weight: 300 900;
             font-display: swap;
         }
 
@@ -46,9 +50,13 @@
         .page-title {
             padding: clamp(18px, 3vw, 36px) 16px 0;
             color: #fff;
-            font: 400 clamp(3.75rem, 8vw, 7rem)/1.15 'Sensations and Qualities', cursive;
+            font: 400 clamp(1.75rem, 7vw, 5.5rem)/1.15 'Merienda', cursive;
             text-align: center;
             text-shadow: 0 2px 6px #000, 0 0 12px rgba(0, 0, 0, 0.8);
+        }
+
+        .title-font-loading .page-title {
+            visibility: hidden;
         }
 
         .shepherd-logo {
@@ -81,7 +89,7 @@
             align-items: center;
             justify-content: center;
             color: #fff;
-            font: 400 clamp(1.8rem, 3vw, 2.5rem)/1.05 'Ink Free', cursive;
+            font: 400 clamp(1.8rem, 3vw, 2.5rem)/1.05 'Merienda', cursive;
             text-align: center;
             text-decoration: none;
             text-shadow: 0 2px 6px #000, 0 0 12px rgba(255, 255, 255, 0.55);
@@ -216,7 +224,7 @@
         #menu-dropdown .nav-location {
             left: 34px;
             top: 28%;
-            font-family: 'Homemade Apple', cursive;
+            font-family: 'Fredericka the Great', cursive;
             font-size: clamp(1.6rem, 3.6vw, 2.35rem);
             letter-spacing: 0;
             white-space: nowrap;
@@ -315,7 +323,7 @@
     <script defer src="assets/tooltip.js"></script>
 </head>
 <body>
-    <h1 class="page-title">Universos Geosoberanos</h1>
+    <h1 class="page-title">Universos GeoSoberanos</h1>
     <a class="shepherd-logo" href="janspace.html" aria-label="Ir a Jan Space" data-help="Ir a Jan Space">
         <span role="img" aria-label="Jan"></span>
     </a>
@@ -338,6 +346,16 @@
     </div>
 
     <script>
+        if (document.fonts && document.fonts.load) {
+            document.documentElement.classList.add('title-font-loading');
+            document.fonts.load('400 1em "Merienda"').then(() => {
+                document.documentElement.classList.remove('title-font-loading');
+            }, (error) => {
+                console.error('No se pudo cargar la fuente del título:', error);
+                document.documentElement.classList.remove('title-font-loading');
+            });
+        }
+
         const menuBtn = document.getElementById('menu-btn');
         const menuContainer = document.getElementById('menu-container');
 

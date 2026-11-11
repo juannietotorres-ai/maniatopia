@@ -19,6 +19,14 @@
     
     <style>
         @font-face {
+            font-family: 'Fredericka the Great';
+            src: url('assets/Fonts-ttf/FrederickatheGreat-Regular.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
             font-family: 'Homemade Apple';
             src: url('assets/Fonts-ttf/HomemadeApple.ttf') format('truetype');
             font-style: normal;
@@ -35,18 +43,10 @@
         }
 
         @font-face {
-            font-family: 'Sensations and Qualities';
-            src: url('assets/Fonts-ttf/Sensations and Qualities.ttf') format('truetype');
+            font-family: 'Merienda';
+            src: url('assets/Fonts-ttf/Merienda-VariableFont_wght.ttf') format('truetype');
             font-style: normal;
-            font-weight: 400;
-            font-display: block;
-        }
-
-        @font-face {
-            font-family: 'Ink Free';
-            src: url('assets/Fonts-ttf/Inkfree.ttf') format('truetype');
-            font-style: normal;
-            font-weight: 400;
+            font-weight: 300 900;
             font-display: block;
         }
 
@@ -206,8 +206,8 @@
             overscroll-behavior: contain;
             scrollbar-color: #795032 transparent;
             overflow-wrap: anywhere;
-            font-family: 'Sensations and Qualities', cursive;
-            font-size: calc(clamp(2.2rem, 3.2vw, 3rem) + 6pt);
+            font-family: 'Merienda', cursive;
+            font-size: clamp(1.3rem, 1.8vw, 1.8rem);
             line-height: 1.35;
             --fade-top: 0px;
             --fade-bottom: 0px;
@@ -226,12 +226,12 @@
 
         .letter-question {
             font-size: 0.7em;
-            font-family: 'Ink Free', cursive;
+            font-family: 'Merienda', cursive;
             font-weight: 400;
         }
 
         .letter-signature {
-            font-family: 'Ink Free', cursive;
+            font-family: 'Merienda', cursive;
             text-align: right;
             font-size: 1.2em;
         }
@@ -363,7 +363,7 @@
         #menu-dropdown .nav-location {
             left: 34px;
             top: 28%;
-            font-family: 'Homemade Apple', cursive;
+            font-family: 'Fredericka the Great', cursive;
             font-size: clamp(1.6rem, 3.6vw, 2.35rem);
             letter-spacing: 0;
             white-space: nowrap;
@@ -460,7 +460,7 @@
                 background-size: 100% 100%;
             }
             .letter-close { top: 8%; right: 8%; }
-            .letter-scroll { top: 14%; bottom: 21%; left: 9%; right: 5%; font-size: calc(clamp(1.5rem, 6vw, 2rem) + 10pt); line-height: 1.3; }
+            .letter-scroll { top: 14%; bottom: 21%; left: 9%; right: 5%; font-size: clamp(1.2rem, 5vw, 1.6rem); line-height: 1.3; }
 
             /* Activa los saltos de línea forzados sólo en pantalla pequeña */
             .mobile-break {

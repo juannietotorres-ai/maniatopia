@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maniatopia - Créditos y recursos</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preload" href="assets/Fonts-ttf/LiberationSerif-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/tooltip.css">
+    <script defer src="assets/tooltip.js"></script>
+    <style>
+        @font-face {
+            font-family: 'Liberation Serif';
+            src: url('assets/Fonts-ttf/LiberationSerif-Regular.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 32px 24px 96px;
+            background: #000;
+            color: #fff;
+            font: 20px/1.55 'Liberation Serif', Georgia, serif;
+        }
+        main { width: min(100%, 860px); margin: 0 auto; }
+        h1 { margin: 0 0 1em; font-size: 1.5em; font-weight: 400; }
+        h2 { margin: 1.5em 0 0.6em; font-size: 1.25em; font-weight: 400; }
+        h3 { margin: 1.25em 0 0.4em; font-size: 1.1em; font-weight: 400; }
+        p { margin: 0 0 0.6em; }
+        main a { color: inherit; overflow-wrap: anywhere; }
+        main a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+        .back {
+            position: fixed;
+            left: calc(20px + env(safe-area-inset-left, 0px));
+            bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            color: #fff;
+            background: #000;
+            text-decoration: none;
+        }
+        .back svg { width: 42px; height: 42px; }
+        .back:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+    </style>
+</head>
+<body>
+    <main>
+        <h1>Créditos y recursos</h1>
+        <h2>Fuentes (material externo): Gramola</h2>
+
+        <section>
+            <h3>1. Badinerie</h3>
+            <p>Composición original: Badinerie de la Suite para orquesta n.º 2 en menor, BWV 1067 de Johann Sebastian Bach (Dominio Público).</p>
+            <p>Arreglo e interpretación: Sergey Sadovoy y Andrii Sokolovak (arreglo para dos acordeones).</p>
+            <p>Fuente: <a href="https://www.classicals.de/bach-badinerie">https://www.classicals.de/bach-badinerie</a></p>
+        </section>
+
+        <section>
+            <h3>2. El vuelo del moscardón (Полет шмеля)</h3>
+            <p>«El vuelo del abejorro» es un famoso interludio orquestal compuesto por el ruso Nikolái Rimski-Kórsakov entre 1899 y 1900.</p>
+            <p>Fuente: <a href="https://musopen.org/music/1318-tale-of-tsar-saltan/">https://musopen.org/music/1318-tale-of-tsar-saltan/</a></p>
+        </section>
+
+        <section>
+            <h3>3. Storm</h3>
+            <p>Composer: Antonio Vivaldi / Composition: Storm</p>
+            <p><a href="https://www.youtube.com/channel/UCgs3yyIMfjZ8ginvdbJU6Dg">COPYRIGHT FREE RECORDS (@copyrightfreerecords8667)</a></p>
+            <p>Fuente: <a href="https://www.youtube.com/watch?v=LVVT2euTBUc">https://www.youtube.com/watch?v=LVVT2euTBUc</a></p>
+        </section>
+    </main>
+    <a class="back" href="contacto.html" aria-label="Volver a Contacto" data-help="Volver a Contacto">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M37 9v12c0 5-3 8-8 8H10m8-8-8 8 8 8"></path>
+        </svg>
+    </a>
+    <script src="musica.js"></script>
+</body>
+</html>

@@ -11,7 +11,8 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="assets/Fonts-ttf/EastDjakartaFont.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/Fonts-ttf/OldNewspaperTypes.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/Fonts-ttf/LiberationSerif-Regular.ttf" as="font" type="font/ttf" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Homemade+Apple&family=Special+Elite&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
@@ -19,8 +20,24 @@
     
     <style>
         @font-face {
-            font-family: 'East Djakarta';
-            src: url('assets/Fonts-ttf/EastDjakartaFont.ttf') format('truetype');
+            font-family: 'Fredericka the Great';
+            src: url('assets/Fonts-ttf/FrederickatheGreat-Regular.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Old Newspaper Types';
+            src: url('assets/Fonts-ttf/OldNewspaperTypes.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Liberation Serif';
+            src: url('assets/Fonts-ttf/LiberationSerif-Regular.ttf') format('truetype');
             font-style: normal;
             font-weight: 400;
             font-display: swap;
@@ -83,13 +100,32 @@
             display: none;
         }
 
+        .credits-link {
+            position: fixed;
+            top: calc(20px + env(safe-area-inset-top, 0px));
+            right: calc(20px + env(safe-area-inset-right, 0px));
+            color: #e0c090;
+            font: 400 clamp(1.1rem, 2vw, 1.5rem)/1.2 'Liberation Serif', Georgia, serif;
+            text-align: right;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95);
+        }
+
+        .credits-link:hover {
+            color: #fff;
+        }
+
+        .credits-link:focus-visible {
+            outline: 2px solid #e0c090;
+            outline-offset: 4px;
+        }
+
         .contact-message {
             position: fixed;
             right: 20px;
-            bottom: 20px;
+            bottom: 34px;
             max-width: calc(100% - 270px);
             color: #e0c090;
-            font: 400 min(clamp(1rem, 2.2vw, 2rem), calc(3.1vw - 8.4px))/1.25 'East Djakarta', cursive;
+            font: 400 min(clamp(1rem, 2.2vw, 2rem), calc(2.7vw - 7.4px))/1.25 'Old Newspaper Types', serif;
             text-align: right;
             text-shadow: 0 4px 20px rgba(0, 0, 0, 0.95), 0 0 25px rgba(184, 134, 11, 0.4);
         }
@@ -215,7 +251,7 @@
         #menu-dropdown .nav-location {
             left: 34px;
             top: 28%;
-            font-family: 'Homemade Apple', cursive;
+            font-family: 'Fredericka the Great', cursive;
             font-size: clamp(1.6rem, 3.6vw, 2.35rem);
             letter-spacing: 0;
             white-space: nowrap;
@@ -303,7 +339,7 @@
             .content { left: 50%; max-width: 92vw; }
             .contact-email { font-size: clamp(1rem, 5vw, 1.5rem); letter-spacing: 1px; word-break: normal; }
             .contact-email-break { display: block; }
-            .contact-message { right: 16px; bottom: 160px; max-width: calc(100% - 32px); font-size: clamp(0.9rem, 4.7vw, 1.5rem); }
+            .contact-message { right: 16px; bottom: 160px; max-width: calc(100% - 32px); font-size: min(1.5rem, calc(4.7vw - 1.6px)); }
             .contact-message-mobile-break { display: block; }
             body { background-size: auto 90%; background-position: 30% center; background-color: #03030a; }
         }
@@ -318,6 +354,8 @@
     <script defer src="assets/tooltip.js"></script>
 </head>
 <body>
+
+    <a class="credits-link" href="creditosyrecursos.html">Créditos y recursos</a>
 
     <!-- DIRECCIÓN DE CORREO CENTRAL -->
     <div class="content">
