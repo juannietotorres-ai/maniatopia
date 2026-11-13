@@ -9,9 +9,9 @@
 <!-- FAVICON DE LA GALAXIA -->
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     
+    <link rel="preload" href="assets/Fonts-ttf/FrederickatheGreat-Regular.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="assets/Fonts-ttf/Merienda-VariableFont_wght.ttf" as="font" type="font/ttf" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
@@ -32,6 +32,22 @@
             font-style: normal;
             font-weight: 300 900;
             font-display: block;
+        }
+
+        @font-face {
+            font-family: 'Alegreya';
+            src: url('assets/Fonts-ttf/Alegreya/Alegreya-Italic-VariableFont_wght.ttf') format('truetype');
+            font-style: italic;
+            font-weight: 400 900;
+            font-display: swap;
+        }
+
+        @font-face {
+            font-family: 'Old Newspaper Types';
+            src: url('assets/Fonts-ttf/OldNewspaperTypes.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
         }
 
         * {
@@ -61,15 +77,15 @@
             padding: 20px;
             position: absolute;
             top: 50%;
-            left: calc(37.5% - 1cm);
+            left: 50%;
             transform: translate(-50%, -50%);
-            width: 42vw;
-            max-width: 42vw;
+            width: calc(100% - 40px);
         }
 
         .central-text {
-            font-family: 'Merienda', cursive;
-            font-size: calc(min(2.4vw, 4vh, 2.4rem) + 4pt);
+            font-family: 'Fredericka the Great', cursive;
+            font-weight: 400;
+            font-size: min(calc(1.7vw + 16px), calc(4vh + 4pt), calc(2.4rem + 4pt));
             letter-spacing: 0;
             color: #d96a3d;
             display: inline-block;
@@ -83,6 +99,92 @@
             border-radius: 0.3em;
             -webkit-box-decoration-break: clone;
             box-decoration-break: clone;
+        }
+
+        .text-line { white-space: nowrap; }
+        .mobile-refuge { display: none; }
+
+        .text-block-hidden { visibility: hidden; }
+        .text-block-button {
+            position: absolute;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            cursor: pointer;
+        }
+        .text-block-button:disabled { cursor: default; }
+        .text-block-button:focus-visible { outline: 2px solid #e0c090; outline-offset: 3px; }
+        .block-detail {
+            position: absolute;
+            left: 50%;
+            width: min(90vw, 1000px);
+            transform: translateX(-50%);
+            text-align: center;
+        }
+        .block-detail[hidden] { display: none; }
+        .forum-phrase {
+            font-family: 'Alegreya', serif;
+            font-style: italic;
+            font-size: 2em;
+            line-height: 1.2;
+        }
+        .forum-phrase-long { font-size: min(2em, 10.2vw); }
+        .forum-translation {
+            font-family: 'Old Newspaper Types', serif;
+            font-size: min(1em, 5vw, 4vh);
+            line-height: 1.25;
+        }
+        .forum-translation-description { font-size: 0.714285714em; }
+        .forum-frame {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 20;
+            width: fit-content;
+            height: min(330px, 43.5vh);
+            border: 6px solid #151515;
+            background: #111;
+        }
+        .forum-frame img {
+            display: block;
+            width: auto;
+            height: 100%;
+        }
+        body.block-active .about-link,
+        body.block-active .letter-button,
+        body.block-active .blocks-help { visibility: hidden; }
+        .blocks-help {
+            position: fixed;
+            bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+            left: 50%;
+            z-index: 20;
+            transform: translateX(-50%);
+            display: none;
+            border: 1px solid #e0c090;
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            background: #17120f;
+            color: #fff;
+            font: 1rem serif;
+            cursor: pointer;
+        }
+        .blocks-help-text {
+            position: fixed;
+            bottom: calc(52px + env(safe-area-inset-bottom, 0px));
+            left: 50%;
+            z-index: 20;
+            transform: translateX(-50%);
+            width: min(90vw, 360px);
+            padding: 0.6em;
+            border-radius: 0.4em;
+            background: #17120f;
+            color: #fff;
+            font: 1rem/1.35 sans-serif;
+            text-align: center;
+        }
+        @media (hover: none), (pointer: coarse) {
+            .blocks-help { display: block; }
         }
 
         .content.has-veil .text-veil {
@@ -222,11 +324,6 @@
         @keyframes fireFlow {
             from { background-position: 0% 50%; }
             to { background-position: 100% 50%; }
-        }
-
-        /* Saltos de línea forzados sólo para móvil (ocultos por defecto en PC) */
-        .mobile-break {
-            display: none;
         }
 
         /* --- MENÚ DESPLEGABLE --- */
@@ -421,7 +518,7 @@
 
         /* --- MÓVIL --- */
         @media (max-width: 768px) {
-            .content { top: 0; bottom: 156px; left: 50%; width: calc(100% - 24px); max-width: 1200px; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; justify-content: center; }
+            .content { top: 50%; bottom: auto; left: 50%; width: calc(100% - 24px); max-width: 1200px; transform: translate(-50%, -50%); display: flex; flex-direction: column; align-items: center; justify-content: center; }
             #menu-container { bottom: 15px; left: 8px; width: 175px; height: 175px; }
             #menu-btn { width: 175px; height: 175px; }
             #menu-container:not(.is-open) #menu-btn { width: 131.25px; height: 131.25px; }
@@ -433,7 +530,11 @@
             #menu-dropdown .nav-contact { left: 32px; font-size: clamp(1.2rem, 5vw, 1.65rem); }
             .home-icon { width: 58px; height: 58px; }
             body { background-size: auto 90%; background-position: 30% center; background-color: #03030a; }
-            .central-text { font-size: calc(min(6vw, 3.8vh, 2rem) + 4pt); line-height: 1.65; }
+            .central-text { line-height: 1.65; }
+            .desktop-refuge { display: none; }
+            .mobile-refuge { display: inline; }
+            .forum-translation-description.is-larger { font-size: calc(0.714285714em + 2pt); }
+            .forum-frame { right: 8px; bottom: 15px; height: min(330px, 43.5vh, calc((100vw - 155px) * 11 / 15)); }
             .letter-button { right: 8px; bottom: 47.8125px; width: 65.625px; height: 65.625px; }
             .letter-dialog {
                 width: 100vw;
@@ -444,11 +545,6 @@
             }
             .letter-close { top: 8%; right: 8%; }
             .letter-scroll { top: 14%; bottom: 21%; left: 9%; right: 5%; font-size: clamp(1.2rem, 5vw, 1.6rem); line-height: 1.3; }
-
-            /* Activa los saltos de línea forzados sólo en pantalla pequeña */
-            .mobile-break {
-                display: inline;
-            }
 
             @media (prefers-reduced-motion: reduce) {
                 .central-text { animation: none; }
@@ -470,7 +566,7 @@
         <img src="assets/images/Signo%20interrogaci%C3%B3n%20fant%C3%A1stico.png" alt="">
     </a>
 
-    <!-- TEXTO SUPERIOR (5 LÍNEAS EN PC / 7 LÍNEAS EN MÓVIL) -->
+    <!-- TEXTO CENTRAL -->
     <div class="content">
         <svg class="veil-cloud" aria-hidden="true">
             <defs>
@@ -487,14 +583,40 @@
             <g filter="url(#veil-smooth)"></g>
         </svg>
         <div class="central-text">
-            <span class="text-veil">Morada de locos,<br class="mobile-break"> sed todos bienvenidos</span><br>
-            <span class="text-veil">Foro de ideas</span><br>
-            <span class="text-veil">Cocina de arte</span><br>
-            <span class="text-veil">Refugio de universos nómadas o confluentes</span><br>
-            <span class="text-veil">Espacio Colaborativo,</span><br>
-            <span class="text-veil">Libre abierto y transparente</span>
+            <span class="text-veil text-line" data-text-block="home">Morada de locos,</span><br>
+            <span class="text-veil text-line" data-text-block="home">sed todos bienvenidos</span><br>
+            <span class="text-veil text-line" data-text-block="forum">Foro de ideas</span><br>
+            <span class="text-veil text-line" data-text-block="art">Cocina de arte</span><br>
+            <span class="desktop-refuge text-veil" data-text-block="refuge"><span class="text-line">Refugio de universos nómadas</span> <span class="text-line">o confluentes</span></span>
+            <span class="mobile-refuge" data-text-block="refuge"><span class="text-veil text-line">Refugio de universos</span><br><span class="text-veil text-line">nómadas o confluentes</span></span><br>
+            <span class="text-veil text-line" data-text-block="space">Espacio colaborativo,</span><br>
+            <span class="text-veil text-line" data-text-block="space">libre, abierto y transparente</span>
+
+            <button class="text-block-button" type="button" data-block="home" aria-label="Morada de locos, sed todos bienvenidos" aria-expanded="false" aria-controls="home-detail" title="Descubrir Morada de locos"></button>
+            <button class="text-block-button" type="button" data-block="forum" aria-label="Foro de ideas" aria-expanded="false" aria-controls="forum-detail forum-translation forum-frame" title="Descubrir Foro de ideas"></button>
+            <button class="text-block-button" type="button" data-block="art" aria-label="Cocina de arte" disabled></button>
+            <button class="text-block-button" type="button" data-block="refuge" aria-label="Refugio de universos nómadas o confluentes" disabled></button>
+            <button class="text-block-button" type="button" data-block="space" aria-label="Espacio colaborativo, libre, abierto y transparente" disabled></button>
+
+            <div class="block-detail" id="home-detail" hidden>
+                <span class="text-veil text-line">Mi hogar cibernético,</span><br>
+                <span class="text-veil text-line">Jan Torres, su servidor</span><br>
+                <span class="text-veil text-line">Tú hogar cibernético,</span><br>
+                <span class="text-veil text-line">si así lo deseas</span>
+            </div>
+            <div class="block-detail" id="forum-detail" hidden>
+                <div class="forum-phrase" lang="la"></div>
+            </div>
+            <div class="block-detail forum-translation" id="forum-translation" lang="es" hidden>
+                <div class="forum-translation-title"></div>
+                <div class="forum-translation-description"></div>
+            </div>
         </div>
     </div>
+
+    <div class="forum-frame" id="forum-frame" hidden><img alt=""></div>
+    <button class="blocks-help" type="button" aria-label="Ayuda sobre los bloques de texto" aria-expanded="false" aria-controls="blocks-help-text" title="Ayuda sobre los bloques de texto">i</button>
+    <div class="blocks-help-text" id="blocks-help-text" hidden>Toca «Morada de locos» o «Foro de ideas» para explorar. Después, toca en cualquier lugar para volver.</div>
 
     <button class="letter-button" id="letter-button" type="button" aria-label="Abrir la carta de Jan" aria-haspopup="dialog" data-help="Abrir la carta de Jan"></button>
 
@@ -574,6 +696,7 @@
             const fragment = document.createDocumentFragment();
 
             content.querySelectorAll('.text-veil').forEach((veil) => {
+                if (getComputedStyle(veil).visibility !== 'visible') return;
                 Array.from(veil.getClientRects()).forEach((rect) => {
                     if (!rect.width || !rect.height) return;
 
@@ -592,9 +715,280 @@
             content.classList.add('has-veil');
         }
 
-        updateVeilCloud();
-        window.addEventListener('resize', updateVeilCloud);
-        document.fonts.ready.then(updateVeilCloud);
+        const blockTexts = Array.from(centralText.querySelectorAll('[data-text-block]'));
+        const blockButtons = Array.from(centralText.querySelectorAll('[data-block]'));
+        const homeDetail = document.getElementById('home-detail');
+        const forumDetail = document.getElementById('forum-detail');
+        const forumPhrase = forumDetail.querySelector('.forum-phrase');
+        const forumTranslation = document.getElementById('forum-translation');
+        const translationTitle = forumTranslation.querySelector('.forum-translation-title');
+        const translationDescription = forumTranslation.querySelector('.forum-translation-description');
+        const forumFrame = document.getElementById('forum-frame');
+        const forumImage = forumFrame.querySelector('img');
+        const blocksHelp = document.querySelector('.blocks-help');
+        const blocksHelpText = document.getElementById('blocks-help-text');
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+        const phrases = [
+            'Universitas litterarum',
+            'In varietate concordia',
+            'Scientia et Ingenium',
+            ['Omnes artes quae ad', 'humanitatem pertinent'],
+            '1 + 1 = 3'
+        ];
+        const translations = [
+            {
+                title: 'Conjunto de las letras y las ciencias',
+                lines: ['fórmula clásica que define a la universidad', 'como el lugar donde convergen todas', 'las ramas del saber humano']
+            },
+            {
+                title: 'Unidos en la diversidad',
+                lines: ['armonía entre distintas disciplinas y talentos']
+            },
+            {
+                title: 'Conocimiento e ingenio',
+                lines: ['unir el saber teórico con la capacidad creativa y práctica']
+            },
+            {
+                title: 'Todas las artes que pertenecen a la humanidad',
+                lines: ['Inspirado en Cicerón, resume la idea de que todos los conocimientos están conectados entre sí']
+            },
+            {
+                title: 'La unión hace la fuerza',
+                lines: ['Nos dividen en dos y lo aceptamos sin reflexionar', 'Ni los unos son tan buenos, ni los otros tan malos', 'Debate, parlamento, foro.', 'Encontremos puntos en común', 'Trabajemos luego diferencias']
+            }
+        ];
+        const pictures = [
+            { src: 'assets/images/Bombilla-1-original.jpg', alt: 'Dibujo original de una bombilla', color: '#151515' },
+            { src: 'assets/images/Bombilla-2-replica.jpg', alt: 'Réplica del dibujo de la bombilla', color: '#899fa0' },
+            { src: 'assets/images/Bombilla-3-Idea.jpg', alt: 'La idea de la bombilla', color: '#d99a43' }
+        ];
+        let activeBlock = null;
+        let cycleTimer = null;
+        let cycleStart = 0;
+        let phraseIndex = -1;
+        let pictureIndex = -1;
+
+        blockTexts.forEach((text) => text.setAttribute('aria-hidden', 'true'));
+
+        function layoutBlocks() {
+            const root = centralText.getBoundingClientRect();
+            const lineHeight = parseFloat(getComputedStyle(centralText).lineHeight);
+            blockButtons.forEach((button) => {
+                const rects = blockTexts
+                    .filter((text) => text.dataset.textBlock === button.dataset.block && text.getClientRects().length)
+                    .map((text) => text.getBoundingClientRect());
+                if (!rects.length) return;
+                const left = Math.min(...rects.map((rect) => rect.left));
+                const right = Math.max(...rects.map((rect) => rect.right));
+                const top = Math.min(...rects.map((rect) => rect.top));
+                const bottom = Math.max(...rects.map((rect) => rect.bottom));
+                button.style.left = (left - root.left) + 'px';
+                button.style.top = (top - root.top) + 'px';
+                button.style.width = (right - left) + 'px';
+                button.style.height = (bottom - top) + 'px';
+            });
+
+            const forumLine = blockTexts.find((text) => text.dataset.textBlock === 'forum').getBoundingClientRect();
+            const forumTop = forumLine.top - root.top - (lineHeight - forumLine.height) / 2;
+            homeDetail.style.top = forumTop + 'px';
+            if (!forumTranslation.hidden && forumPhrase.textContent && translationTitle.textContent) {
+                const gap = 30;
+                forumPhrase.style.fontSize = '';
+                forumTranslation.style.fontSize = '';
+                translationDescription.classList.remove('is-larger');
+                const phraseRange = document.createRange();
+                phraseRange.selectNodeContents(forumPhrase);
+                const positionPhrase = () => {
+                    forumDetail.style.bottom = '0px';
+                    const rects = Array.from(phraseRange.getClientRects()).filter((rect) => rect.width && rect.height);
+                    forumDetail.style.bottom = (Math.max(...rects.map((rect) => rect.bottom)) - forumLine.top + gap) + 'px';
+                    return Array.from(phraseRange.getClientRects()).filter((rect) => rect.width && rect.height);
+                };
+                const phraseRects = positionPhrase();
+                const phraseTop = Math.min(...phraseRects.map((rect) => rect.top));
+                if (phraseTop < 8) {
+                    const phraseBottom = Math.max(...phraseRects.map((rect) => rect.bottom));
+                    const available = Math.max(0, forumLine.top - gap - 8);
+                    const scale = Math.min(1, available / (phraseBottom - phraseTop));
+                    forumPhrase.style.fontSize = Math.max(10, parseFloat(getComputedStyle(forumPhrase).fontSize) * scale) + 'px';
+                    positionPhrase();
+                }
+                const positionTranslation = () => {
+                    forumTranslation.style.top = '0px';
+                    const titleRange = document.createRange();
+                    titleRange.selectNodeContents(translationTitle);
+                    forumTranslation.style.top = (forumLine.bottom + gap - titleRange.getBoundingClientRect().top) + 'px';
+                };
+                positionTranslation();
+
+                if (forumImage.complete && forumImage.naturalWidth) {
+                    const frame = forumFrame.getBoundingClientRect();
+                    const walker = document.createTreeWalker(forumTranslation, NodeFilter.SHOW_TEXT);
+                    let node;
+                    let overlapsFrame = false;
+                    while ((node = walker.nextNode())) {
+                        const range = document.createRange();
+                        range.selectNodeContents(node);
+                        overlapsFrame = overlapsFrame || Array.from(range.getClientRects()).some((rect) =>
+                            rect.width && rect.height && rect.left < frame.right && rect.right > frame.left &&
+                            rect.top < frame.bottom && rect.bottom > frame.top
+                        );
+                    }
+                    if (overlapsFrame) {
+                        const canvas = document.createElement('canvas');
+                        const context = canvas.getContext('2d');
+                        context.font = getComputedStyle(translationTitle).font;
+                        let widest = context.measureText(translationTitle.textContent).width;
+                        context.font = getComputedStyle(translationDescription).font;
+                        Array.from(translationDescription.children).forEach((line) => {
+                            widest = Math.max(widest, context.measureText(line.textContent).width);
+                        });
+                        const available = Math.max(0, (frame.left - window.innerWidth / 2 - 8) * 2);
+                        const scale = Math.min(1, available / widest);
+                        forumTranslation.style.fontSize = (parseFloat(getComputedStyle(forumTranslation).fontSize) * scale) + 'px';
+                        positionTranslation();
+                    }
+                }
+                if (window.matchMedia('(max-width: 768px)').matches) {
+                    const lines = Array.from(translationDescription.children);
+                    const lineCount = (line) => {
+                        const range = document.createRange();
+                        range.selectNodeContents(line);
+                        return range.getClientRects().length;
+                    };
+                    const originalLineCounts = lines.map(lineCount);
+                    translationDescription.classList.add('is-larger');
+                    const frame = forumFrame.getBoundingClientRect();
+                    const walker = document.createTreeWalker(forumTranslation, NodeFilter.SHOW_TEXT);
+                    let node;
+                    let doesNotFit = phraseIndex === 0 && lines.some((line, index) => lineCount(line) > originalLineCounts[index]);
+                    while ((node = walker.nextNode())) {
+                        const range = document.createRange();
+                        range.selectNodeContents(node);
+                        doesNotFit = doesNotFit || Array.from(range.getClientRects()).some((rect) =>
+                            rect.width && rect.height && (
+                                rect.left < 0 || rect.right > window.innerWidth || rect.top < 0 || rect.bottom > window.innerHeight ||
+                                (forumImage.complete && forumImage.naturalWidth && rect.left < frame.right &&
+                                    rect.right > frame.left && rect.top < frame.bottom && rect.bottom > frame.top)
+                            )
+                        );
+                    }
+                    if (doesNotFit) translationDescription.classList.remove('is-larger');
+                }
+            }
+            updateVeilCloud();
+        }
+
+        function updateForumCycle() {
+            const elapsed = performance.now() - cycleStart;
+            const nextPhrase = reducedMotion.matches ? 0 : Math.floor(elapsed / 3000) % phrases.length;
+            const nextPicture = reducedMotion.matches ? 0 : Math.floor(elapsed / 2500) % pictures.length;
+            if (nextPhrase !== phraseIndex) {
+                const phrase = phrases[nextPhrase];
+                forumPhrase.classList.toggle('forum-phrase-long', Array.isArray(phrase));
+                if (Array.isArray(phrase)) {
+                    forumPhrase.replaceChildren(document.createTextNode(phrase[0]), document.createElement('br'), document.createTextNode(phrase[1]));
+                } else {
+                    forumPhrase.textContent = phrase;
+                }
+                const translation = translations[nextPhrase];
+                translationTitle.textContent = translation.title;
+                const lines = translation.lines.map((text) => {
+                    const line = document.createElement('div');
+                    line.textContent = text;
+                    return line;
+                });
+                translationDescription.replaceChildren(...lines);
+                phraseIndex = nextPhrase;
+                layoutBlocks();
+            }
+            if (nextPicture !== pictureIndex) {
+                forumImage.src = pictures[nextPicture].src;
+                forumImage.alt = pictures[nextPicture].alt;
+                forumFrame.style.borderColor = pictures[nextPicture].color;
+                pictureIndex = nextPicture;
+            }
+            if (!reducedMotion.matches) {
+                cycleTimer = window.setTimeout(updateForumCycle, Math.max(1, Math.min(3000 - elapsed % 3000, 2500 - elapsed % 2500)));
+            }
+        }
+
+        function closeBlock() {
+            window.clearTimeout(cycleTimer);
+            cycleTimer = null;
+            blockTexts.forEach((text) => text.classList.remove('text-block-hidden'));
+            blockButtons.forEach((button) => {
+                button.classList.remove('text-block-hidden');
+                if (button.hasAttribute('aria-expanded')) button.setAttribute('aria-expanded', 'false');
+            });
+            homeDetail.hidden = true;
+            forumDetail.hidden = true;
+            forumTranslation.hidden = true;
+            forumFrame.hidden = true;
+            document.body.classList.remove('block-active');
+            activeBlock = null;
+            layoutBlocks();
+        }
+
+        blockButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                activeBlock = button;
+                document.body.classList.add('block-active');
+                blockTexts.forEach((text) => text.classList.toggle('text-block-hidden', text.dataset.textBlock !== button.dataset.block));
+                blockButtons.forEach((other) => other.classList.toggle('text-block-hidden', other !== button));
+                button.setAttribute('aria-expanded', 'true');
+                blocksHelpText.hidden = true;
+                blocksHelp.setAttribute('aria-expanded', 'false');
+                if (button.dataset.block === 'home') {
+                    homeDetail.hidden = false;
+                } else if (button.dataset.block === 'forum') {
+                    forumDetail.hidden = false;
+                    forumTranslation.hidden = false;
+                    forumFrame.hidden = false;
+                    cycleStart = performance.now();
+                    phraseIndex = -1;
+                    pictureIndex = -1;
+                    updateForumCycle();
+                    document.fonts.ready.then(layoutBlocks);
+                }
+                layoutBlocks();
+            });
+        });
+
+        document.addEventListener('click', (event) => {
+            if (activeBlock) {
+                event.preventDefault();
+                event.stopPropagation();
+                closeBlock();
+            } else if (!blocksHelp.contains(event.target) && !blocksHelpText.contains(event.target)) {
+                blocksHelpText.hidden = true;
+                blocksHelp.setAttribute('aria-expanded', 'false');
+            }
+        }, true);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && activeBlock) {
+                const button = activeBlock;
+                closeBlock();
+                button.focus();
+            }
+        });
+        blocksHelp.addEventListener('click', () => {
+            blocksHelpText.hidden = !blocksHelpText.hidden;
+            blocksHelp.setAttribute('aria-expanded', String(!blocksHelpText.hidden));
+        });
+        reducedMotion.addEventListener('change', () => {
+            if (!activeBlock || activeBlock.dataset.block !== 'forum') return;
+            window.clearTimeout(cycleTimer);
+            cycleStart = performance.now();
+            updateForumCycle();
+        });
+        forumImage.addEventListener('load', () => {
+            if (activeBlock && activeBlock.dataset.block === 'forum') layoutBlocks();
+        });
+
+        layoutBlocks();
+        window.addEventListener('resize', layoutBlocks);
+        document.fonts.ready.then(layoutBlocks);
 
         const menuBtn = document.getElementById('menu-btn');
         const menuContainer = document.getElementById('menu-container');
