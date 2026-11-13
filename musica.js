@@ -2,9 +2,9 @@
     'use strict';
 
     const TRACKS = [
-        'assets/audio-mp3/Bach - Badinerie+-+BWV+1067.mp3',
+        'assets/audio-mp3/Classicals.de+-+Bach+-+Badinerie+-+BWV+1067+-+Arranged+for+Woodwinds+and+Strings.mp3',
         'assets/audio-mp3/Rimsky-Korsakov - flight_of_the_bumblebee.mp3',
-        'assets/audio-mp3/CLASSICAL-Antonio-Vivaldi-Storm-_Royalty-Free-Music_-HQ-_128kbit_AAC_.mp3'
+        'assets/audio-mp3/John Harrison with the Wichita State University Chamber Players - Summer Mvt 3 Presto.mp3'
     ];
     const GAP_MS = 3000;
     const TURN_SRC = 'assets/audio-mp3/flipping-book-page.mp3';
