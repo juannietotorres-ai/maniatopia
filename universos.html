@@ -50,7 +50,7 @@
         .page-title {
             padding: clamp(18px, 3vw, 36px) 16px 0;
             color: #fff;
-            font: 400 clamp(1.75rem, 7vw, 5.5rem)/1.15 'Merienda', cursive;
+            font: 400 clamp(1.375rem, 4.225vw, 3.25rem)/1.15 'Merienda', cursive;
             text-align: center;
             text-shadow: 0 2px 6px #000, 0 0 12px rgba(0, 0, 0, 0.8);
         }
@@ -70,7 +70,7 @@
             display: block;
             width: clamp(150px, 22vw, 300px);
             aspect-ratio: 1;
-            background: url('assets/images/logo-Jan.png') center / contain no-repeat;
+            background: url('assets/images/jantrazo.png') center / contain no-repeat;
         }
 
         .shepherd-logo:hover,
@@ -83,13 +83,14 @@
             position: fixed;
             right: 20px;
             bottom: 20px;
-            width: 210px;
+            width: auto;
+            min-width: 210px;
             height: 210px;
             display: flex;
             align-items: center;
             justify-content: center;
             color: #fff;
-            font: 400 clamp(1.8rem, 3vw, 2.5rem)/1.05 'Merienda', cursive;
+            font: 400 clamp(1.375rem, 4.225vw, 3.25rem)/1.05 'Merienda', cursive;
             text-align: center;
             text-decoration: none;
             text-shadow: 0 2px 6px #000, 0 0 12px rgba(255, 255, 255, 0.55);
@@ -302,7 +303,8 @@
             #menu-container { bottom: 15px; left: 8px; width: 175px; height: 175px; }
             #menu-btn { width: 175px; height: 175px; }
             #menu-container:not(.is-open) #menu-btn { width: 131.25px; height: 131.25px; }
-            .friends-link { right: 8px; bottom: 15px; width: 131.25px; height: 131.25px; font-size: 1.65rem; }
+            .page-title { font-size: 1.375rem; }
+            .friends-link { right: 8px; bottom: 15px; width: 131.25px; min-width: 0; height: 131.25px; font-size: 1.375rem; }
             #menu-dropdown { width: min(88vw, 480px); height: min(76vh, 620px); min-height: 260px; }
             #menu-container.is-open #menu-btn { transform: translate(115px, -105px) scale(2.5) rotate(7deg) rotateY(-35deg); }
             #menu-dropdown .nav-home { left: 28px; }

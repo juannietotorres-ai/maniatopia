@@ -158,6 +158,29 @@
             width: auto;
             height: 100%;
         }
+        .forum-ouroboros {
+            position: fixed;
+            left: 20px;
+            bottom: 20px;
+            z-index: 20;
+            width: min(330px, 43.5vh);
+            height: min(330px, 43.5vh);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .forum-ouroboros[hidden] { display: none; }
+        /* 250×255 px: ancho y alto escalados para que la diagonal mida exactamente el alto del marco */
+        .forum-ouroboros img {
+            display: block;
+            width: 70.0072%;
+            height: 71.4073%;
+            animation: forum-ouroboros-spin 15s linear infinite;
+        }
+        @keyframes forum-ouroboros-spin {
+            to { transform: rotate(360deg); }
+        }
         .art-stage {
             position: fixed;
             inset: 0;
@@ -691,6 +714,12 @@
             .mobile-refuge { display: inline; }
             .forum-translation-description.is-larger { font-size: calc(0.714285714em + 2pt); }
             .forum-frame { right: 8px; bottom: 15px; height: min(330px, 43.5vh, calc((100vw - 155px) * 11 / 15)); }
+            .forum-ouroboros {
+                left: 8px;
+                bottom: 15px;
+                width: min(330px, 43.5vh, calc((100vw - 155px) * 11 / 15));
+                height: min(330px, 43.5vh, calc((100vw - 155px) * 11 / 15));
+            }
             .art-image { max-height: calc(100dvh - 16px); }
             .letter-button { right: 8px; bottom: 47.8125px; width: 65.625px; height: 65.625px; }
             .letter-dialog {
@@ -711,6 +740,7 @@
         @media (prefers-reduced-motion: reduce) {
             #menu-btn, #menu-dropdown, #menu-dropdown a, .home-icon { transition-duration: 0.01ms; }
             #menu-dropdown .nav-location, #menu-dropdown .nav-universes { animation: none; }
+            .forum-ouroboros img { animation: none; }
         }
     </style>
     <link rel="stylesheet" href="assets/agora-menu.css?v=20261106-3">
@@ -772,6 +802,7 @@
     </div>
 
     <div class="forum-frame" id="forum-frame" hidden><img alt=""></div>
+    <div class="forum-ouroboros" id="forum-ouroboros" aria-hidden="true" hidden><img alt="" data-src="assets/images/Ouroboros1.jpg"></div>
     <div class="art-stage" id="art-stage" hidden>
         <button class="art-image-toggle" id="art-image-toggle" type="button" aria-label="Pase de imágenes" aria-pressed="false" title="Pausar pase de imágenes">
             <img class="art-image" alt="">
@@ -911,6 +942,8 @@
         const translationTitle = forumTranslation.querySelector('.forum-translation-title');
         const translationDescription = forumTranslation.querySelector('.forum-translation-description');
         const forumFrame = document.getElementById('forum-frame');
+        const forumOuroboros = document.getElementById('forum-ouroboros');
+        const forumOuroborosImage = forumOuroboros.querySelector('img');
         const forumImage = forumFrame.querySelector('img');
         const artStage = document.getElementById('art-stage');
         const artImageToggle = document.getElementById('art-image-toggle');
@@ -1095,6 +1128,7 @@
 
                 if (forumImage.complete && forumImage.naturalWidth) {
                     const frame = forumFrame.getBoundingClientRect();
+                    const ouroboros = forumOuroboros.getBoundingClientRect();
                     const walker = document.createTreeWalker(forumTranslation, NodeFilter.SHOW_TEXT);
                     let node;
                     let overlapsFrame = false;
@@ -1102,8 +1136,8 @@
                         const range = document.createRange();
                         range.selectNodeContents(node);
                         overlapsFrame = overlapsFrame || Array.from(range.getClientRects()).some((rect) =>
-                            rect.width && rect.height && rect.left < frame.right && rect.right > frame.left &&
-                            rect.top < frame.bottom && rect.bottom > frame.top
+                            rect.width && rect.height && [frame, ouroboros].some((box) => box.width &&
+                                rect.left < box.right && rect.right > box.left && rect.top < box.bottom && rect.bottom > box.top)
                         );
                     }
                     if (overlapsFrame) {
@@ -1115,7 +1149,7 @@
                         Array.from(translationDescription.children).forEach((line) => {
                             widest = Math.max(widest, context.measureText(line.textContent).width);
                         });
-                        const available = Math.max(0, (frame.left - window.innerWidth / 2 - 8) * 2);
+                        const available = Math.max(0, Math.min(frame.left - window.innerWidth / 2, window.innerWidth / 2 - ouroboros.right) * 2 - 16);
                         const scale = Math.min(1, available / widest);
                         forumTranslation.style.fontSize = (parseFloat(getComputedStyle(forumTranslation).fontSize) * scale) + 'px';
                         positionTranslation();
@@ -1131,6 +1165,7 @@
                     const originalLineCounts = lines.map(lineCount);
                     translationDescription.classList.add('is-larger');
                     const frame = forumFrame.getBoundingClientRect();
+                    const ouroboros = forumOuroboros.getBoundingClientRect();
                     const walker = document.createTreeWalker(forumTranslation, NodeFilter.SHOW_TEXT);
                     let node;
                     let doesNotFit = phraseIndex === 0 && lines.some((line, index) => lineCount(line) > originalLineCounts[index]);
@@ -1141,7 +1176,9 @@
                             rect.width && rect.height && (
                                 rect.left < 0 || rect.right > window.innerWidth || rect.top < 0 || rect.bottom > window.innerHeight ||
                                 (forumImage.complete && forumImage.naturalWidth && rect.left < frame.right &&
-                                    rect.right > frame.left && rect.top < frame.bottom && rect.bottom > frame.top)
+                                    rect.right > frame.left && rect.top < frame.bottom && rect.bottom > frame.top) ||
+                                (ouroboros.width && rect.left < ouroboros.right && rect.right > ouroboros.left &&
+                                    rect.top < ouroboros.bottom && rect.bottom > ouroboros.top)
                             )
                         );
                     }
@@ -1809,6 +1846,7 @@
             forumDetail.hidden = true;
             forumTranslation.hidden = true;
             forumFrame.hidden = true;
+            forumOuroboros.hidden = true;
             artStage.hidden = true;
             spaceStage.hidden = true;
             document.body.classList.remove('block-active', 'art-active', 'home-active');
@@ -1832,6 +1870,8 @@
                     forumDetail.hidden = false;
                     forumTranslation.hidden = false;
                     forumFrame.hidden = false;
+                    if (!forumOuroborosImage.getAttribute('src')) forumOuroborosImage.src = forumOuroborosImage.dataset.src;
+                    forumOuroboros.hidden = false;
                     cycleStart = performance.now();
                     phraseIndex = -1;
                     pictureIndex = -1;

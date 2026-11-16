@@ -46,11 +46,32 @@
             text-decoration: none;
         }
         .back svg { width: 42px; height: 42px; }
+        main { display: flow-root; }
+        .sctactics-logo {
+            display: block;
+            width: fit-content;
+            margin: clamp(16px, 2vw, 28px) 0 0 clamp(56px, 8vw, 110px);
+            transition: transform 0.25s ease, filter 0.25s ease;
+        }
+        .sctactics-logo img {
+            display: block;
+            width: clamp(150px, 22vw, 300px);
+            height: auto;
+        }
+        .sctactics-logo:hover,
+        .sctactics-logo:focus-visible {
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.6));
+        }
         .back:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
     </style>
 </head>
 <body>
-    <main aria-label="Universos Amigos"></main>
+    <main aria-label="Universos Amigos">
+        <a class="sctactics-logo" href="sctactics.html" aria-label="Ir a StarCraft Tactics" data-help="Ir a StarCraft Tactics">
+            <img src="assets/images/starcrafttacticslogo.png" alt="StarCraft Tactics" width="1219" height="356">
+        </a>
+    </main>
     <a class="back" href="universos.html" aria-label="Volver a Refugio de Universos" data-help="Volver a Refugio de Universos">
         <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M37 9v12c0 5-3 8-8 8H10m8-8-8 8 8 8"></path>

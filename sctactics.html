@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maniatopia - StarCraft Tactics</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/tooltip.css">
+    <script defer src="assets/tooltip.js"></script>
+    <style>
+        * { box-sizing: border-box; }
+        html { min-height: 100%; background: #02030b; }
+        body {
+            min-height: 100vh;
+            min-height: 100dvh;
+            margin: 0;
+            color: #fff;
+            background: #02030b url('assets/images/amerigo.jpg') no-repeat center / cover fixed;
+        }
+        .back {
+            position: fixed;
+            left: calc(20px + env(safe-area-inset-left, 0px));
+            bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 52px;
+            height: 52px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .back svg { width: 42px; height: 42px; }
+        .back:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+        .sct-text {
+            width: min(100% - 32px, 980px);
+            margin: 0 auto;
+            padding: clamp(28px, 6vh, 72px) 0 calc(96px + env(safe-area-inset-bottom, 0px));
+            font: 400 clamp(1.15rem, 2.1vw, 1.75rem)/1.45 'Special Elite', 'Courier New', monospace;
+            text-shadow: 0 2px 4px #000, 0 0 14px rgba(0, 0, 0, 0.95);
+        }
+        .sct-text h1 {
+            margin: 0 0 1.1em;
+            font-size: clamp(1.6rem, 3.6vw, 3rem);
+            font-weight: 400;
+            line-height: 1.2;
+            text-align: center;
+        }
+        .sct-text p { margin: 0 0 1.1em; }
+        .sct-text a {
+            color: #9fd3ff;
+            overflow-wrap: anywhere;
+        }
+        .sct-text a:hover,
+        .sct-text a:focus-visible { color: #fff; }
+        .sct-text a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+    </style>
+</head>
+<body>
+    <main class="sct-text" aria-label="StarCraft Tactics">
+        <h1>Les presento el proyecto de mi amigo Prelado: Starcraft Tactics</h1>
+        <p>Starcraft Tactics es un RPG de combate táctico por turnos donde cada movimiento cuenta. La gestión de escuadrones y coberturas de XCOM 2 se une a la precisión estratégica de Into the Breach en el universo StarCraft. Descubre una historia paralela de la Gran Guerra y lleva a tu tripulación de mercenarios a la gloria. Un juego hecho por fans para fans, sin ánimo de lucro.</p>
+        <p>Si desean saber más sobre el proyecto, no duden en visitar:<br>
+            <a href="https://starcraft-tactics.lovable.app/" target="_blank" rel="noopener" data-help="Abrir la web de Starcraft Tactics (nueva pestaña)">https://starcraft-tactics.lovable.app/</a></p>
+        <p>Si quieren integrarse en él o seguirlo más de cerca conecten con el servidor oficial de desarrollo y charla sobre el fangame Starcraft Tactics.<br>
+            <a href="https://discord.gg/5DcmSMQNVa" target="_blank" rel="noopener" data-help="Abrir el servidor de Discord de Starcraft Tactics (nueva pestaña)">https://discord.gg/5DcmSMQNVa</a></p>
+    </main>
+    <a class="back" href="universos-amigos.html" aria-label="Volver a Universos Amigos" data-help="Volver a Universos Amigos">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M37 9v12c0 5-3 8-8 8H10m8-8-8 8 8 8"></path>
+        </svg>
+    </a>
+    <script src="musica.js"></script>
+</body>
+</html>
