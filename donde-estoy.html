@@ -50,6 +50,14 @@
             font-display: swap;
         }
 
+        @font-face {
+            font-family: 'Kaushan Script';
+            src: url('assets/Fonts-ttf/Kaushan_Script/KaushanScript-Regular.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -150,8 +158,156 @@
             width: auto;
             height: 100%;
         }
+        .art-stage {
+            position: fixed;
+            inset: 0;
+            z-index: 2100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
+            background: rgba(0, 0, 0, 0.25);
+        }
+        .art-stage[hidden] { display: none; }
+        .art-image-toggle {
+            display: flex;
+            position: relative;
+            z-index: 1;
+            max-width: 100%;
+            max-height: 100%;
+            align-items: center;
+            justify-content: center;
+            border: 0;
+            padding: 0;
+            background: transparent;
+            cursor: pointer;
+        }
+        .art-image-toggle:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+        .art-image {
+            display: block;
+            max-width: calc(100vw - 16px);
+            max-height: calc(100vh - 16px);
+            width: auto;
+            height: auto;
+            padding: 5px;
+            border: 1px solid #dedbd1;
+            background-color: #faf9f4;
+            background-image: repeating-linear-gradient(0deg, transparent 0 3px, rgba(145, 137, 120, 0.06) 4px),
+                repeating-linear-gradient(90deg, transparent 0 3px, rgba(145, 137, 120, 0.06) 4px);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.45);
+            pointer-events: none;
+        }
+        .art-image.is-expanded {
+            box-sizing: border-box;
+            object-fit: contain;
+        }
+        .art-error {
+            position: fixed;
+            top: calc(50% + 48px);
+            left: 50%;
+            z-index: 1;
+            transform: translateX(-50%);
+            color: #fff;
+            background: #671b1b;
+            font: 0.9rem sans-serif;
+        }
+        body.art-active .content { z-index: 2201; pointer-events: none; }
+        body.art-active .text-block-button[data-block="art"] { pointer-events: auto; }
+        body.art-active .text-veil[data-text-block="art"] {
+            background: rgba(0, 0, 0, 0.45);
+        }
+        .space-stage {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            pointer-events: none;
+        }
+        .space-stage[hidden] { display: none; }
+        .space-poster {
+            position: absolute;
+            display: block;
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.6);
+        }
+        .space-text {
+            position: absolute;
+            overflow: hidden;
+            padding: 0.45em 0.7em;
+            border-radius: 0.6em;
+            background: rgba(0, 0, 0, 0.55);
+            color: #f3dcb8;
+            font-family: 'Kaushan Script', cursive;
+            line-height: 1.3;
+            text-shadow: 0 1px 2px #000;
+            overflow-wrap: anywhere;
+        }
+        .space-text p,
+        .space-text ul { margin: 0 0 0.45em; }
+        .space-text > :last-child { margin-bottom: 0; }
+        .space-text ul { list-style: none; }
+        .space-text ul:empty { display: none; }
+        .space-text li { padding-left: 0.6em; text-indent: -0.6em; }
+        .space-text li::before { content: '· '; }
+        .space-text li + li { margin-top: 0.3em; }
+        .space-text a {
+            color: #ffb36b;
+            text-decoration: underline;
+            pointer-events: auto;
+        }
+        .space-text a:focus-visible { outline: 2px solid #e0c090; outline-offset: 2px; }
+        .space-wrap { display: none; }
+        @media (min-width: 769px) {
+            .space-wrap { display: block; width: 0; height: 0; }
+            .space-text-left .space-wrap { float: right; }
+            .space-text-right .space-wrap { float: left; }
+        }
+        .refuge-stage {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            pointer-events: none;
+        }
+        .refuge-stage[hidden] { display: none; }
+        .refuge-phrase {
+            position: absolute;
+            max-width: min(calc(100vw - 16px), 13em);
+            padding: 0.1em 0.35em;
+            border-radius: 0.3em;
+            background: rgba(0, 0, 0, 0.45);
+            line-height: 1.2;
+            text-align: center;
+            text-shadow: 0 1px 3px #000;
+            overflow-wrap: anywhere;
+        }
+        .refuge-word { display: inline-block; white-space: nowrap; }
+        .refuge-letter { display: inline-block; }
+        .refuge-sr {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+            clip-path: inset(50%);
+            white-space: nowrap;
+        }
+        .space-scroll { display: contents; }
+        .space-contact[hidden] { display: none; }
+        @media (max-width: 768px) {
+            .space-scroll {
+                display: block;
+                position: absolute;
+                overflow-y: auto;
+                overscroll-behavior: contain;
+                pointer-events: auto;
+                border-radius: 0.6em;
+                scrollbar-width: thin;
+                scrollbar-color: rgba(243, 220, 184, 0.5) transparent;
+            }
+            .space-scroll:focus-visible { outline: 2px solid #e0c090; outline-offset: 2px; }
+            .space-scroll .space-text { position: static; }
+            .space-scroll .space-text + .space-text { margin-top: 12px; }
+        }
+        body.block-active #menu-container,
         body.block-active .about-link,
-        body.block-active .letter-button,
+        body:not(.home-active) .letter-button,
         body.block-active .blocks-help { visibility: hidden; }
         .blocks-help {
             position: fixed;
@@ -535,6 +691,7 @@
             .mobile-refuge { display: inline; }
             .forum-translation-description.is-larger { font-size: calc(0.714285714em + 2pt); }
             .forum-frame { right: 8px; bottom: 15px; height: min(330px, 43.5vh, calc((100vw - 155px) * 11 / 15)); }
+            .art-image { max-height: calc(100dvh - 16px); }
             .letter-button { right: 8px; bottom: 47.8125px; width: 65.625px; height: 65.625px; }
             .letter-dialog {
                 width: 100vw;
@@ -594,9 +751,9 @@
 
             <button class="text-block-button" type="button" data-block="home" aria-label="Morada de locos, sed todos bienvenidos" aria-expanded="false" aria-controls="home-detail" title="Descubrir Morada de locos"></button>
             <button class="text-block-button" type="button" data-block="forum" aria-label="Foro de ideas" aria-expanded="false" aria-controls="forum-detail forum-translation forum-frame" title="Descubrir Foro de ideas"></button>
-            <button class="text-block-button" type="button" data-block="art" aria-label="Cocina de arte" disabled></button>
-            <button class="text-block-button" type="button" data-block="refuge" aria-label="Refugio de universos nómadas o confluentes" disabled></button>
-            <button class="text-block-button" type="button" data-block="space" aria-label="Espacio colaborativo, libre, abierto y transparente" disabled></button>
+            <button class="text-block-button" type="button" data-block="art" aria-label="Cocina de arte" aria-expanded="false" aria-controls="art-stage" title="Descubrir Cocina de arte"></button>
+            <button class="text-block-button" type="button" data-block="refuge" aria-label="Refugio de universos nómadas o confluentes" aria-expanded="false" aria-controls="refuge-stage" title="Descubrir Refugio de universos"></button>
+            <button class="text-block-button" type="button" data-block="space" aria-label="Espacio colaborativo, libre, abierto y transparente" aria-expanded="false" aria-controls="space-stage" title="Descubrir Espacio colaborativo"></button>
 
             <div class="block-detail" id="home-detail" hidden>
                 <span class="text-veil text-line">Mi hogar cibernético,</span><br>
@@ -615,8 +772,38 @@
     </div>
 
     <div class="forum-frame" id="forum-frame" hidden><img alt=""></div>
+    <div class="art-stage" id="art-stage" hidden>
+        <button class="art-image-toggle" id="art-image-toggle" type="button" aria-label="Pase de imágenes" aria-pressed="false" title="Pausar pase de imágenes">
+            <img class="art-image" alt="">
+        </button>
+        <div class="art-error" role="status" hidden></div>
+    </div>
+    <div class="space-stage" id="space-stage" hidden>
+        <img class="space-poster" data-src="assets/images/Maniatopia%20Populate.webp" width="1024" height="1536" alt="Cartel de reclutamiento Maniatopia Populate">
+        <div class="space-scroll" role="region" aria-label="Texto de Espacio colaborativo; desplázate para leer">
+        <div class="space-text space-text-left">
+            <div class="space-wrap" aria-hidden="true"></div>
+            <p>Maniatopia.com es mi enclave puerta al ciberespacio.</p>
+            <p>Si bien nace de un pequeño proyecto: un juego de dados; se convierte en una idea más grande.</p>
+            <p>Maniatopia.com es un espacio con el que pretendo crear una puerta de comunicación en la red, donde:</p>
+            <ul>
+                <li>Albergar y exponer mis proyectos y los de quien así lo desee.</li>
+                <li>Compartir información: esta es poder, si la compartimos aunamos fuerzas y crecemos. Ejemplo: este espacio y proyectos que en él se desarrollan; nunca hubiera sido capaz de darle forma a mis ideas sin esos amigos que me mostraron el camino.</li>
+                <li class="space-collab">Colaborar. Con esto abro mi enclave: maniatopia.com a colaboradores que quieran participar en su desarrollo y crecimiento. Así como me ofrezco colaborador de proyectos que lo requieran.</li>
+            </ul>
+        </div>
+        <div class="space-text space-text-right">
+            <div class="space-wrap" aria-hidden="true"></div>
+            <ul class="space-collab-list"></ul>
+            <p>Se buscan creadores, artistas, jugadores, curiosos, amigos, emprendedores, inconformistas, aburridos, soñadores, inquietos, visionarios, guerreros, poetas y todo tipo de gente que quiera aportar al proyecto o sienta curiosidad por él y quiera seguirlo de cerca.</p>
+            <p class="space-contact-text">Contacta vía:<br><a href="mailto:maniatopia@maniatopia.com" title="Escribir a maniatopia@maniatopia.com">maniatopia@maniatopia.com</a><br>o pásate por <a href="https://discord.gg/RnQvtGRNmj" target="_blank" rel="noopener noreferrer" title="Abrir Ágora Eleúthera en Discord">Ágora Eleúthera - Maniatopia - Discord</a></p>
+        </div>
+                    </div>
+                    <div class="space-text space-contact" hidden></div>
+    </div>
+    <div class="refuge-stage" id="refuge-stage" role="region" aria-label="Refugio de universos nómadas o confluentes" hidden></div>
     <button class="blocks-help" type="button" aria-label="Ayuda sobre los bloques de texto" aria-expanded="false" aria-controls="blocks-help-text" title="Ayuda sobre los bloques de texto">i</button>
-    <div class="blocks-help-text" id="blocks-help-text" hidden>Toca «Morada de locos» o «Foro de ideas» para explorar. Después, toca en cualquier lugar para volver.</div>
+    <div class="blocks-help-text" id="blocks-help-text" hidden>Toca «Morada de locos», «Foro de ideas», «Cocina de arte», «Refugio de universos» o «Espacio colaborativo» para explorar. Después, toca fuera de la imagen para volver. En Morada de locos encontrarás la carta de Jan. En Cocina de arte, toca la obra para pausar o reanudar el pase, o toca «Cocina de arte» para volver a los bloques. Cada vez que la abres, las obras se mezclan sin repetirse hasta completar la vuelta. En Espacio colaborativo, desliza el texto para leerlo y toca fuera de él para volver.</div>
 
     <button class="letter-button" id="letter-button" type="button" aria-label="Abrir la carta de Jan" aria-haspopup="dialog" data-help="Abrir la carta de Jan"></button>
 
@@ -725,7 +912,21 @@
         const translationDescription = forumTranslation.querySelector('.forum-translation-description');
         const forumFrame = document.getElementById('forum-frame');
         const forumImage = forumFrame.querySelector('img');
+        const artStage = document.getElementById('art-stage');
+        const artImageToggle = document.getElementById('art-image-toggle');
+        const artImage = artStage.querySelector('.art-image');
+        const artError = artStage.querySelector('.art-error');
         const blocksHelp = document.querySelector('.blocks-help');
+        const spaceStage = document.getElementById('space-stage');
+        const spacePoster = spaceStage.querySelector('.space-poster');
+        const spaceLeft = spaceStage.querySelector('.space-text-left');
+        const spaceRight = spaceStage.querySelector('.space-text-right');
+        const spaceCollab = spaceStage.querySelector('.space-collab');
+        const spaceLeftList = spaceLeft.querySelector('ul');
+        const spaceCollabList = spaceRight.querySelector('.space-collab-list');
+        const spaceScroll = spaceStage.querySelector('.space-scroll');
+        const spaceContact = spaceStage.querySelector('.space-contact');
+        const spaceContactText = spaceStage.querySelector('.space-contact-text');
         const blocksHelpText = document.getElementById('blocks-help-text');
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const phrases = [
@@ -754,7 +955,7 @@
             },
             {
                 title: 'La unión hace la fuerza',
-                lines: ['Nos dividen en dos y lo aceptamos sin reflexionar', 'Ni los unos son tan buenos, ni los otros tan malos', 'Debate, parlamento, foro.', 'Encontremos puntos en común', 'Trabajemos luego diferencias']
+                lines: ['Debate, parlamento, foro, comunicación.']
             }
         ];
         const pictures = [
@@ -762,11 +963,82 @@
             { src: 'assets/images/Bombilla-2-replica.jpg', alt: 'Réplica del dibujo de la bombilla', color: '#899fa0' },
             { src: 'assets/images/Bombilla-3-Idea.jpg', alt: 'La idea de la bombilla', color: '#d99a43' }
         ];
+        const artPictures = [
+            '11093435196_694b5129ca_c.jpg',
+            '12019-istanbul-168774_1920.jpg',
+            '1280px-El_Tres_de_Mayo,_by_Francisco_de_Goya,_from_Prado_thin_black_margin.jpg',
+            '1tamara2-ai-generated-8928207_1920.jpg',
+            '2237646356_d07dc284c3_w.jpg',
+            '4428248705_b82c45c1cf_w.jpg',
+            '55651212433_40e5c08639_w.jpg',
+            '960px-Albert_Robida_-_Journéé_des_Barricades_(1588).jpg',
+            '960px-Arthur_Rackham_(Hudson)_P59.jpg',
+            '960px-Bergaporten_by_John_Bauer_1918.jpg',
+            '960px-Gustave_Doré_-_Dante_Alighieri_-_Inferno_-_Plate_65_(Canto_XXXI_-_The_Titans).jpg',
+            '960px-Honoré_Daumier_017_(Don_Quixote).jpg',
+            '960px-Honoré_Daumier_032.jpg',
+            '960px-IMPOSSIBLE_(Winsor_McCay_cartoon).jpg',
+            '960px-John_Bauer,_1911_(cropped).jpg',
+            '960px-John_Martin_001.jpg',
+            '960px-Mona_Lisa.jpg',
+            '960px-Peter_Pan-Arthur_Rackham-065.jpg',
+            '960px-Peter_Pan-Arthur_Rackham-127.jpg',
+            '960px-Pieter_Bruegel_the_Elder_-_The_Tower_of_Babel_(Vienna)_-_Google_Art_Project_-_edited.jpg',
+            '960px-The_Creation_of_Adam_perspective_fix.jpg',
+            '960px-The_Garden_of_Earthly_Delights_by_Bosch_High_Resolution.jpg',
+            '960px-The_Power_Trust_(Winsor_McCay_editorial_cartoon).jpg',
+            'adrianna-geo-1rBg5YSi00c-unsplash.jpg',
+            'Alenza-Soup.jpg',
+            'amazingartwork-violin-8778026_1920.png',
+            'bhaavchitrak0-classical-dance-10338211_1920.jpg',
+            'brflorindo-rome-4929201_1920.jpg',
+            'charly3d-automobile-2395663_1920.jpg',
+            'chiemseherin-sculpture-9638327_1920.jpg',
+            'chiemseherin-statue-8342978_1920.jpg',
+            'creativecanvasdesign-japan-9862896_1920.png',
+            'creativecanvasdesign-japan-9868243_1920.png',
+            'deeznutz1-ai-generated-8201617_1920.png',
+            'dimitrisvetsikas1969-pinacoteca-di-brera-5054731_1920.jpg',
+            'engin_akyurt-sculpture-5524973_1920.jpg',
+            'gdj-alphabet-4261245_1920.png',
+            'gdj-horse-5602737_1920.png',
+            'gdj-julius-caesar-4877717_1920.png',
+            'gdj-mandala-2031287_1920.png',
+            'gdj-nymph-7148286_1920.png',
+            'gdj-roses-5130420_1920.png',
+            'gdj-vintage-4283035_1920.png',
+            'gdj-vintage-4746779_1920.png',
+            'gdj-woman-4411120_1920.png',
+            'geralt-silhouette-10250532_1920.png',
+            'geralt-violin-67412_1920.jpg',
+            'hansuan_fabregas-ai-generated-8402323_1920.jpg',
+            'Historieta_còmica_de_Tomàs_Padró,_publicada_a_La_Flaca,_núm._44_(8_maig_1870).jpg',
+            'janeb13-athens-art-school-1143741_1920.jpg',
+            'jerome82-statue-of-david-7491994_1920.jpg',
+            'jossy_justino-mosaic-5635689_1920.jpg',
+            'mikewildadventure-statue-8062788_1920.jpg',
+            'mythologyart-greek-poet-8778472_1920.png',
+            'neelam279-sheet-music-10464354_1920.jpg',
+            'nickype-woman-9364990_1920.jpg',
+            'openclipart-vectors-ballerina-2024547_1920.png',
+            'openclipart-vectors-fiat-1296838_1920.png',
+            'patolenin-venus-de-milo-7096270_1920.jpg',
+            'purriso-ai-generated-9735170_1920.jpg',
+            'ralf1403-piano-9961921_1920.jpg',
+            'svetlanakv-pen-drawing-1019137_1920.jpg',
+            'tylijura-audience-10363726_1920.jpg',
+            'wikiimages-picture-1247354_1920.jpg'
+        ];
         let activeBlock = null;
         let cycleTimer = null;
         let cycleStart = 0;
         let phraseIndex = -1;
         let pictureIndex = -1;
+        let artTimer = null;
+        let artOrder = [];
+        let artIndex = 0;
+        let artPlaying = false;
+        let artLoadId = 0;
 
         blockTexts.forEach((text) => text.setAttribute('aria-hidden', 'true'));
 
@@ -876,13 +1148,230 @@
                     if (doesNotFit) translationDescription.classList.remove('is-larger');
                 }
             }
+            layoutSpace();
             updateVeilCloud();
+        }
+
+        function placeBox(element, box) {
+            element.style.left = box.x + 'px';
+            element.style.top = box.y + 'px';
+            element.style.width = box.w + 'px';
+            element.style.height = box.h + 'px';
+        }
+
+        // Mobile: large text scrolls above block 5 while «Contacta vía» stays fixed below it.
+        function layoutMobileTexts(area, gap, viewportWidth) {
+            const size = Math.min(22, Math.max(16, viewportWidth * 0.052));
+            [spaceLeft, spaceRight].forEach((element) => {
+                ['left', 'top', 'width', 'height', 'overflowY', 'pointerEvents', 'clipPath'].forEach((property) => { element.style[property] = ''; });
+                element.style.fontSize = size + 'px';
+            });
+            spaceContact.style.fontSize = size + 'px';
+            spaceContact.style.left = area.x + 'px';
+            spaceContact.style.width = area.w + 'px';
+            spaceContact.style.height = 'auto';
+            const contactHeight = spaceContact.offsetHeight;
+            const scrollHeight = Math.max(0, area.h - contactHeight - gap);
+            spaceScroll.style.left = area.x + 'px';
+            spaceScroll.style.width = area.w + 'px';
+            spaceScroll.style.height = 'auto';
+            spaceScroll.style.height = Math.min(spaceScroll.scrollHeight, scrollHeight) + 'px';
+            const top = area.y + Math.max(0, scrollHeight - spaceScroll.offsetHeight);
+            spaceScroll.style.top = top + 'px';
+            spaceContact.style.top = (top + spaceScroll.offsetHeight + gap) + 'px';
+        }
+
+        function layoutSpace() {
+            if (spaceStage.hidden) return;
+            const margin = 8;
+            const gap = 12;
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const ratio = spacePoster.width / spacePoster.height;
+            const centralStyle = getComputedStyle(centralText);
+            const lineHeight = parseFloat(centralStyle.lineHeight);
+            const fontSize = parseFloat(centralStyle.fontSize);
+            const veils = blockTexts
+                .filter((text) => text.dataset.textBlock === 'space' && text.getClientRects().length)
+                .flatMap((text) => Array.from(text.getClientRects()))
+                .filter((rect) => rect.width && rect.height)
+                .map((rect) => {
+                    const height = Math.max(lineHeight + fontSize * 0.12, rect.height * 1.04);
+                    return { left: rect.left, right: rect.right, top: rect.top + (rect.height - height) / 2, bottom: rect.top + (rect.height + height) / 2 };
+                });
+            if (!veils.length) return;
+            const block = {
+                left: Math.min(...veils.map((rect) => rect.left)),
+                right: Math.max(...veils.map((rect) => rect.right)),
+                top: Math.min(...veils.map((rect) => rect.top)),
+                bottom: Math.max(...veils.map((rect) => rect.bottom))
+            };
+            const mobile = window.matchMedia('(max-width: 768px)').matches;
+            // On PC «Colaborar» moves to the top of the right text to balance both columns.
+            (mobile ? spaceLeftList : spaceCollabList).append(spaceCollab);
+            // On mobile «Contacta vía» leaves the scrolling text and stays fixed.
+            (mobile ? spaceContact : spaceRight).append(spaceContactText);
+            spaceContact.hidden = !mobile;
+            if (mobile) spaceScroll.tabIndex = 0;
+            else spaceScroll.removeAttribute('tabindex');
+            const maxSize = mobile ? 32 : 40;
+
+            if (mobile) {
+                const belowTop = block.bottom + gap;
+                const belowHeight = viewportHeight - margin - belowTop;
+                const posterWidth = Math.min(belowHeight * ratio, viewportWidth - 2 * margin);
+                placeBox(spacePoster, {
+                    x: (viewportWidth - posterWidth) / 2,
+                    y: belowTop + (belowHeight - posterWidth / ratio) / 2,
+                    w: posterWidth,
+                    h: posterWidth / ratio
+                });
+                layoutMobileTexts({ x: margin, y: margin, w: viewportWidth - 2 * margin, h: block.top - gap - margin }, gap, viewportWidth);
+                return;
+            }
+
+            const layoutFor = (scale) => {
+                const areaHeight = block.top - gap - margin;
+                const posterWidth = Math.min(areaHeight * ratio, viewportWidth * 0.36) * scale;
+                const posterHeight = posterWidth / ratio;
+                const posterX = (viewportWidth - posterWidth) / 2;
+                const rightX = posterX + posterWidth + gap;
+                const height = viewportHeight - 2 * margin;
+                return {
+                    poster: { x: posterX, y: margin + (areaHeight - posterHeight) / 2, w: posterWidth, h: posterHeight },
+                    left: { x: margin, y: margin, w: posterX - gap - margin, h: height, side: 'left' },
+                    right: { x: rightX, y: margin, w: viewportWidth - margin - rightX, h: height, side: 'right' }
+                };
+            };
+
+            // Side texts reach the bottom of the screen, stepping around each line of the block 5 title.
+            const shapeColumn = (element, box, top) => {
+                const style = getComputedStyle(element);
+                const padX = parseFloat(style.paddingLeft);
+                const padY = parseFloat(style.paddingTop);
+                const bands = veils.map((rect) => ({
+                    top: rect.top - gap - top,
+                    bottom: rect.bottom + gap - top,
+                    depth: box.side === 'left' ? box.x + box.w - (rect.left - gap) : rect.right + gap - box.x
+                })).filter((band) => band.depth > 0);
+                const height = box.y + box.h - top;
+                const stops = [...new Set([0, height, ...bands.flatMap((band) => [band.top, band.bottom])])]
+                    .filter((y) => y >= 0 && y <= height)
+                    .sort((a, b) => a - b);
+                const steps = stops.slice(1).map((bottom, index) => {
+                    const middle = (stops[index] + bottom) / 2;
+                    const depth = Math.min(box.w, Math.max(0, ...bands.filter((band) => band.top <= middle && band.bottom >= middle).map((band) => band.depth)));
+                    return { top: stops[index], bottom, depth };
+                });
+                const wrap = element.querySelector('.space-wrap');
+                const innerWidth = box.w - 2 * padX;
+                const edge = (step) => (box.side === 'left' ? innerWidth - step.depth : step.depth);
+                const outer = box.side === 'left' ? innerWidth : 0;
+                const points = steps.flatMap((step) => [[edge(step), step.top - padY], [edge(step), step.bottom - padY]]);
+                wrap.style.width = innerWidth + 'px';
+                wrap.style.height = Math.max(0, height - 2 * padY) + 'px';
+                wrap.style.shapeOutside = `polygon(${[[outer, -padY], ...points, [outer, height]].map(([x, y]) => `${x}px ${y}px`).join(', ')})`;
+                return steps;
+            };
+
+            const clipColumn = (element, box, steps) => {
+                const height = element.offsetHeight;
+                if (!steps.some((step) => step.depth && step.top < height)) {
+                    element.style.clipPath = '';
+                    return;
+                }
+                const edge = (step) => (box.side === 'left' ? box.w - step.depth : step.depth);
+                const outer = box.side === 'left' ? 0 : box.w;
+                const points = steps.filter((step) => step.top < height)
+                    .flatMap((step) => [[edge(step), step.top], [edge(step), Math.min(step.bottom, height)]]);
+                const corner = box.side === 'left' ? [[0, 0]] : [[box.w, 0]];
+                const ordered = box.side === 'left' ? [...corner, ...points, [outer, height]] : [...corner, [outer, height], ...points.reverse()];
+                element.style.clipPath = `polygon(${ordered.map(([x, y]) => `${x}px ${y}px`).join(', ')})`;
+            };
+
+            const contentHeight = (element) => {
+                const top = element.getBoundingClientRect().top;
+                const bottom = Math.max(...Array.from(element.children)
+                    .filter((child) => !child.classList.contains('space-wrap') && child.getClientRects().length)
+                    .map((child) => child.getBoundingClientRect().bottom));
+                return bottom - top + parseFloat(getComputedStyle(element).paddingBottom);
+            };
+
+            const fitColumn = (element, box) => {
+                element.style.left = box.x + 'px';
+                element.style.top = box.y + 'px';
+                element.style.width = box.w + 'px';
+                element.style.height = 'auto';
+                element.style.clipPath = '';
+                const fits = (size) => {
+                    element.style.fontSize = size + 'px';
+                    shapeColumn(element, box, box.y);
+                    return contentHeight(element) <= box.h && element.scrollWidth <= element.clientWidth + 1;
+                };
+                if (box.w < 40 || !fits(8)) return 0;
+                let low = 8;
+                let high = maxSize;
+                while (high - low > 0.25) {
+                    const middle = (low + high) / 2;
+                    if (fits(middle)) low = middle;
+                    else high = middle;
+                }
+                return low;
+            };
+
+            const placeColumn = (element, box, size) => {
+                element.style.left = box.x + 'px';
+                element.style.width = box.w + 'px';
+                element.style.overflowY = '';
+                element.style.pointerEvents = '';
+                element.style.fontSize = size + 'px';
+                const settle = (top) => {
+                    element.style.top = top + 'px';
+                    element.style.height = 'auto';
+                    const steps = shapeColumn(element, box, top);
+                    const height = contentHeight(element);
+                    element.querySelector('.space-wrap').style.height = Math.max(0, height - 2 * parseFloat(getComputedStyle(element).paddingTop)) + 'px';
+                    element.style.height = height + 'px';
+                    return { steps, height };
+                };
+                const result = settle(box.y);
+                clipColumn(element, box, result.steps);
+            };
+
+            const readableSize = 16;
+            let best = null;
+            for (const scale of [1, 0.9, 0.8, 0.7, 0.6, 0.5]) {
+                const layout = layoutFor(scale);
+                layout.size = Math.min(fitColumn(spaceLeft, layout.left), fitColumn(spaceRight, layout.right));
+                if (!best || layout.size > best.size) best = layout;
+                if (layout.size >= readableSize) {
+                    best = layout;
+                    break;
+                }
+            }
+
+            placeBox(spacePoster, best.poster);
+            [[spaceLeft, best.left], [spaceRight, best.right]].forEach(([element, box]) => {
+                if (best.size) {
+                    placeColumn(element, box, best.size);
+                    return;
+                }
+                // Last resort on extremely small screens: keep all content reachable.
+                element.style.fontSize = '8px';
+                shapeColumn(element, box, box.y);
+                element.style.clipPath = '';
+                placeBox(element, box);
+                element.style.overflowY = 'auto';
+                element.style.pointerEvents = 'auto';
+            });
         }
 
         function updateForumCycle() {
             const elapsed = performance.now() - cycleStart;
-            const nextPhrase = reducedMotion.matches ? 0 : Math.floor(elapsed / 3000) % phrases.length;
-            const nextPicture = reducedMotion.matches ? 0 : Math.floor(elapsed / 2500) % pictures.length;
+            const phraseInterval = 3000;
+            const pictureInterval = 1250;
+            const nextPhrase = reducedMotion.matches ? 0 : Math.floor(elapsed / phraseInterval) % phrases.length;
+            const nextPicture = reducedMotion.matches ? 0 : Math.floor(elapsed / pictureInterval) % pictures.length;
             if (nextPhrase !== phraseIndex) {
                 const phrase = phrases[nextPhrase];
                 forumPhrase.classList.toggle('forum-phrase-long', Array.isArray(phrase));
@@ -909,23 +1398,420 @@
                 pictureIndex = nextPicture;
             }
             if (!reducedMotion.matches) {
-                cycleTimer = window.setTimeout(updateForumCycle, Math.max(1, Math.min(3000 - elapsed % 3000, 2500 - elapsed % 2500)));
+                cycleTimer = window.setTimeout(updateForumCycle, Math.max(1, Math.min(
+                    phraseInterval - elapsed % phraseInterval,
+                    pictureInterval - elapsed % pictureInterval
+                )));
             }
+        }
+
+        function setArtPlaying(playing) {
+            artPlaying = playing;
+            window.clearTimeout(artTimer);
+            artLoadId++;
+            artImageToggle.setAttribute('aria-pressed', String(playing));
+            artImageToggle.title = playing ? 'Pausar pase de imágenes' : 'Reanudar pase de imágenes';
+            if (playing) artTimer = window.setTimeout(advanceArt, 1000);
+        }
+
+        function showArt(index) {
+            artIndex = index;
+            artImage.classList.remove('is-expanded');
+            artImage.style.removeProperty('width');
+            artImage.style.removeProperty('height');
+            artImage.src = 'assets/images/cocina de arte/' + artOrder[index];
+            artImage.alt = 'Obra ' + (index + 1) + ' de ' + artOrder.length;
+        }
+
+        // Avoids starting a new loop with the photo that ended the previous one.
+        function shuffledArt(previous) {
+            const order = [...artPictures];
+            for (let index = order.length - 1; index > 0; index--) {
+                const other = Math.floor(Math.random() * (index + 1));
+                [order[index], order[other]] = [order[other], order[index]];
+            }
+            if (order.length > 1 && order[0] === previous) {
+                const other = 1 + Math.floor(Math.random() * (order.length - 1));
+                [order[0], order[other]] = [order[other], order[0]];
+            }
+            return order;
+        }
+
+        function shuffleArt() {
+            artOrder = shuffledArt();
+        }
+
+        function fitArtImage() {
+            if (!artImage.naturalWidth || !artImage.naturalHeight) return;
+            if (Math.max(artImage.naturalWidth, artImage.naturalHeight) <= 800) return;
+
+            const scale = Math.min(
+                (window.innerWidth - 16) / artImage.naturalWidth,
+                (window.innerHeight - 16) / artImage.naturalHeight
+            );
+            artImage.style.width = Math.round(artImage.naturalWidth * scale) + 'px';
+            artImage.style.height = Math.round(artImage.naturalHeight * scale) + 'px';
+            artImage.classList.add('is-expanded');
+        }
+
+        function advanceArt() {
+            let order = artOrder;
+            let next = artIndex + 1;
+            if (next >= order.length) {
+                order = shuffledArt(artOrder[artIndex]);
+                next = 0;
+            }
+            const loadId = ++artLoadId;
+            const image = new Image();
+            image.onload = () => {
+                if (!artPlaying || loadId !== artLoadId) return;
+                artOrder = order;
+                showArt(next);
+                artTimer = window.setTimeout(advanceArt, 1000);
+            };
+            image.onerror = () => {
+                if (!artPlaying || loadId !== artLoadId) return;
+                setArtPlaying(false);
+                artError.textContent = 'No se pudo cargar la siguiente imagen: ' + order[next];
+                artError.hidden = false;
+            };
+            image.src = 'assets/images/cocina de arte/' + order[next];
+        }
+
+        const refugeStage = document.getElementById('refuge-stage');
+        const refugePhrases = [
+            { text: 'Soporte digital de proyectos' },
+            { text: 'Refugio para almas cansadas' },
+            { text: 'Recinto del esparcimiento' },
+            { text: 'Alma en tránsito' },
+            { text: 'Huésped del viento, Peregrino de cobijo' },
+            { text: 'Ventana de exposición' },
+            { text: 'Baluarte de ideas. Azote de la propiedad' },
+            { text: 'Si vis pacem, para bellum', italic: true, lang: 'la' },
+            { text: 'Ariete de murallas' },
+            { text: 'Taller alquímico' },
+            { text: 'Tempus Fugit', italic: true, lang: 'la' },
+            { text: 'Conocimiento: el único bien que crece al compartirse', italic: true },
+            { text: 'Taller creativo artesano binario' },
+            { text: 'Ars longa, vita brevis', italic: true, lang: 'la' },
+            { text: 'Puerta estelar' },
+            { text: 'Vitrina de proyectos' },
+            { text: 'Nido de curiosos' },
+            { text: 'Punto de contacto web' }
+        ];
+        const refugeFonts = [
+            { family: "'Fredericka the Great', cursive", weight: 400 },
+            { family: "'Merienda', cursive", weight: 400 },
+            { family: "'Old Newspaper Types', serif", weight: 400 },
+            { family: "'Kaushan Script', cursive", weight: 400 },
+            { family: "'Cinzel', serif", weight: 700 },
+            { family: "'Cinzel Decorative', serif", weight: 700 },
+            { family: "'GFS Didot', serif", weight: 400 },
+            { family: "'Orbitron', sans-serif", weight: 700 },
+            { family: "'Special Elite', monospace", weight: 400 }
+        ];
+        const refugeLifetime = 3;
+        const refugeTrioBonus = 0.8;
+        const refugeGapMin = 1.5;
+        const refugeGapMax = 2.8;
+        let refugeOrder = [];
+        let refugeCursor = 0;
+        let refugeLastGroup = [];
+        let refugeTimer = null;
+        let refugeRun = 0;
+        let refugeResizeTimer = null;
+
+        const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
+
+        function shuffleRefuge() {
+            refugeOrder = [...refugePhrases];
+            for (let index = refugeOrder.length - 1; index > 0; index--) {
+                const other = Math.floor(Math.random() * (index + 1));
+                [refugeOrder[index], refugeOrder[other]] = [refugeOrder[other], refugeOrder[index]];
+            }
+            refugeCursor = 0;
+        }
+
+        // Takes the next phrases of the shuffled loop, never showing the same phrase twice in a row or at once.
+        function takeRefugePhrases(count) {
+            const group = [];
+            while (group.length < count) {
+                if (refugeCursor >= refugeOrder.length) shuffleRefuge();
+                const avoid = [...group, ...refugeLastGroup];
+                if (avoid.includes(refugeOrder[refugeCursor])) {
+                    const swap = refugeOrder.findIndex((phrase, index) => index > refugeCursor && !avoid.includes(phrase));
+                    if (swap !== -1) [refugeOrder[refugeCursor], refugeOrder[swap]] = [refugeOrder[swap], refugeOrder[refugeCursor]];
+                }
+                group.push(refugeOrder[refugeCursor++]);
+            }
+            refugeLastGroup = group;
+            return group;
+        }
+
+        function refugeObstacles() {
+            const pad = 6;
+            const rects = blockTexts
+                .filter((text) => text.dataset.textBlock === 'refuge' && text.getClientRects().length)
+                .flatMap((text) => Array.from(text.getClientRects()));
+            const menu = document.getElementById('menu-container');
+            if (getComputedStyle(menu).visibility === 'visible') rects.push(menu.getBoundingClientRect());
+            return rects.map((rect) => ({ left: rect.left - pad, top: rect.top - pad, right: rect.right + pad, bottom: rect.bottom + pad }));
+        }
+
+        // Wrapped lines are centred, so the union of their boxes is as wide as the longest line.
+        function shrinkWrapRefugePhrase(element) {
+            element.style.width = '';
+            const range = document.createRange();
+            range.selectNodeContents(element.querySelector('.refuge-visual'));
+            const rects = Array.from(range.getClientRects()).filter((rect) => rect.width);
+            const lineWidth = Math.max(...rects.map((rect) => rect.right)) - Math.min(...rects.map((rect) => rect.left));
+            const style = getComputedStyle(element);
+            element.style.width = Math.ceil(lineWidth + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + 1) + 'px';
+        }
+
+        function placeRefugePhrase(element, hard, soft) {
+            const margin = 8;
+            const gap = 10;
+            const overlaps = (box, others) => others.some((other) => box.left < other.right + gap && box.right + gap > other.left && box.top < other.bottom + gap && box.bottom + gap > other.top);
+            for (let shrink = 0; shrink < 5; shrink++) {
+                shrinkWrapRefugePhrase(element);
+                const width = element.offsetWidth;
+                const height = element.offsetHeight;
+                const freeWidth = window.innerWidth - 2 * margin - width;
+                const freeHeight = window.innerHeight - 2 * margin - height;
+                if (freeWidth >= 0 && freeHeight >= 0) {
+                    for (const others of [hard.concat(soft), hard]) {
+                        for (let attempt = 0; attempt < 80; attempt++) {
+                            const x = margin + Math.random() * freeWidth;
+                            const y = margin + Math.random() * freeHeight;
+                            const box = { left: x, top: y, right: x + width, bottom: y + height };
+                            if (overlaps(box, others)) continue;
+                            element.style.left = x + 'px';
+                            element.style.top = y + 'px';
+                            return box;
+                        }
+                    }
+                }
+                element.style.fontSize = (parseFloat(element.style.fontSize) * 0.85) + 'px';
+            }
+            return null;
+        }
+
+        const randomBetween = (min, max) => min + Math.random() * (max - min);
+        const randomSign = () => (Math.random() < 0.5 ? -1 : 1);
+
+        // Splits the visible text into animatable words or letters, keeping words unbreakable.
+        function splitRefugePhrase(element, mode) {
+            const target = element.querySelector('.refuge-visual em') || element.querySelector('.refuge-visual');
+            const words = target.textContent.split(' ');
+            const parts = [];
+            target.textContent = '';
+            words.forEach((word, index) => {
+                if (index) target.append(' ');
+                const wordElement = document.createElement('span');
+                wordElement.className = 'refuge-word';
+                if (mode === 'words') {
+                    wordElement.textContent = word;
+                    parts.push(wordElement);
+                } else {
+                    Array.from(word).forEach((character) => {
+                        const letter = document.createElement('span');
+                        letter.className = 'refuge-letter';
+                        letter.textContent = character;
+                        wordElement.append(letter);
+                        parts.push(letter);
+                    });
+                }
+                target.append(wordElement);
+            });
+            return parts;
+        }
+
+        // Each transition prepares its random details once, so the exit replays the entry in reverse.
+        const wholeTransition = (element, frames, easing = 'ease-out') => (duration, reverse) => {
+            element.animate(frames, { duration, easing, fill: 'both', direction: reverse ? 'reverse' : 'normal' });
+        };
+        const staggeredTransition = (element, parts, framesFor, order) => (duration, reverse) => {
+            const options = { fill: 'both', direction: reverse ? 'reverse' : 'normal' };
+            element.animate([{ backgroundColor: 'rgba(0, 0, 0, 0)' }, { backgroundColor: 'rgba(0, 0, 0, 0.45)' }], { ...options, duration });
+            const count = parts.length;
+            const each = duration * 0.5;
+            const step = count > 1 ? (duration - each) / (count - 1) : 0;
+            parts.forEach((part, index) => {
+                const position = reverse ? count - 1 - order[index] : order[index];
+                part.animate(framesFor(index), { ...options, duration: each, delay: position * step, easing: 'ease-out' });
+            });
+        };
+        const sequenceOrder = (count) => {
+            const kind = randomItem(['start', 'end', 'centre']);
+            return Array.from({ length: count }, (_, index) => {
+                if (kind === 'start') return index;
+                if (kind === 'end') return count - 1 - index;
+                return Math.round(Math.abs(index - (count - 1) / 2) * 2);
+            });
+        };
+        const refugeTransitions = [
+            { range: [0.4, 0.9], prepare: (element) => wholeTransition(element, [{ opacity: 0 }, { opacity: 1 }], 'ease-in-out') },
+            {
+                range: [0.6, 1.1],
+                prepare: (element) => {
+                    const hidden = randomItem(['inset(0 100% 0 0)', 'inset(0 0 0 100%)', 'inset(100% 0 0 0)', 'inset(0 0 100% 0)']);
+                    return wholeTransition(element, [{ clipPath: hidden }, { clipPath: 'inset(0 0 0 0)' }], 'ease-in-out');
+                }
+            },
+            { range: [0.4, 0.9], prepare: (element) => wholeTransition(element, [{ opacity: 0, transform: 'scale(0.15)' }, { opacity: 1, transform: 'scale(1)' }]) },
+            { range: [0.4, 0.9], prepare: (element) => wholeTransition(element, [{ opacity: 0, transform: 'scale(1.8)' }, { opacity: 1, transform: 'scale(1)' }]) },
+            { range: [0.5, 1.0], prepare: (element) => wholeTransition(element, [{ opacity: 0, filter: 'blur(14px)' }, { opacity: 1, filter: 'blur(0)' }]) },
+            {
+                range: [0.4, 0.9],
+                prepare: (element) => {
+                    const offset = Math.random() < 0.5 ? `translate(${randomSign() * 1.2}em, 0)` : `translate(0, ${randomSign() * 1.2}em)`;
+                    return wholeTransition(element, [{ opacity: 0, transform: offset }, { opacity: 1, transform: 'translate(0, 0)' }]);
+                }
+            },
+            {
+                range: [0.5, 1.0],
+                prepare: (element) => {
+                    const axis = randomItem(['X', 'Y']);
+                    return wholeTransition(element, [{ opacity: 0, transform: `perspective(500px) rotate${axis}(${randomSign() * 90}deg)` }, { opacity: 1, transform: `perspective(500px) rotate${axis}(0deg)` }]);
+                }
+            },
+            {
+                range: [0.8, 1.3],
+                prepare: (element) => {
+                    const parts = splitRefugePhrase(element, 'letters');
+                    const lift = randomSign() * 0.6;
+                    return staggeredTransition(element, parts, () => [{ opacity: 0, transform: `translateY(${lift}em)` }, { opacity: 1, transform: 'translateY(0)' }], sequenceOrder(parts.length));
+                }
+            },
+            {
+                range: [0.8, 1.3],
+                prepare: (element) => {
+                    const parts = splitRefugePhrase(element, 'letters');
+                    return staggeredTransition(element, parts, () => [{ opacity: 0, transform: 'scale(0)' }, { opacity: 1, transform: 'scale(1)' }], sequenceOrder(parts.length));
+                }
+            },
+            {
+                range: [0.9, 1.3],
+                prepare: (element) => {
+                    const parts = splitRefugePhrase(element, 'letters');
+                    const scatter = parts.map(() => `translate(${randomBetween(-2, 2)}em, ${randomBetween(-2, 2)}em) rotate(${randomBetween(-180, 180)}deg) scale(0.3)`);
+                    const order = parts.map((_, index) => index).sort(() => Math.random() - 0.5);
+                    return staggeredTransition(element, parts, (index) => [{ opacity: 0, transform: scatter[index] }, { opacity: 1, transform: 'none' }], order);
+                }
+            },
+            {
+                range: [0.7, 1.2],
+                prepare: (element) => {
+                    const parts = splitRefugePhrase(element, 'words');
+                    const offsets = parts.map(() => (Math.random() < 0.5 ? `translate(${randomSign()}em, 0)` : `translate(0, ${randomSign()}em)`));
+                    return staggeredTransition(element, parts, (index) => [{ opacity: 0, transform: offsets[index] }, { opacity: 1, transform: 'translate(0, 0)' }], sequenceOrder(parts.length));
+                }
+            }
+        ];
+
+        function runRefugeLifecycle(element, transition, play, lifetime) {
+            const enter = randomBetween(...transition.range);
+            const exit = randomBetween(...transition.range);
+            const hold = lifetime - enter - exit;
+            play(enter * 1000, false);
+            window.setTimeout(() => {
+                if (!element.isConnected) return;
+                play(exit * 1000, true);
+                window.setTimeout(() => element.remove(), exit * 1000 + 50);
+            }, (enter + hold) * 1000);
+        }
+
+        function scheduleRefuge() {
+            window.clearTimeout(refugeTimer);
+            if (!reducedMotion.matches) refugeTimer = window.setTimeout(showRefugeExposure, randomBetween(refugeGapMin, refugeGapMax) * 1000);
+        }
+
+        async function showRefugeExposure() {
+            const run = ++refugeRun;
+            window.clearTimeout(refugeTimer);
+            const chance = Math.random();
+            const group = takeRefugePhrases(chance < 0.65 ? 1 : chance < 0.9 ? 2 : 3);
+            const baseSize = Math.min(window.innerWidth * 0.075, window.innerHeight * 0.065, 58);
+            const items = group.map((phrase) => ({
+                phrase,
+                font: randomItem(refugeFonts),
+                size: Math.max(16, baseSize * (0.7 + Math.random() * 0.5)),
+                color: `hsl(${Math.floor(Math.random() * 360)} ${70 + Math.floor(Math.random() * 25)}% ${66 + Math.floor(Math.random() * 12)}%)`
+            }));
+            const fontLoads = items.map((item) => document.fonts.load(`${item.phrase.italic ? 'italic ' : ''}${item.font.weight} ${item.size}px ${item.font.family}`, item.phrase.text).catch(() => {}));
+            await Promise.race([Promise.all(fontLoads), new Promise((resolve) => window.setTimeout(resolve, 800))]);
+            if (run !== refugeRun || refugeStage.hidden) return;
+
+            // Texts still on screen are avoided when possible, but may be overlapped as they leave.
+            const soft = Array.from(refugeStage.children).map((element) => element.getBoundingClientRect());
+            const hard = refugeObstacles();
+            items.forEach((item) => {
+                const element = document.createElement('span');
+                element.className = 'refuge-phrase';
+                const visual = document.createElement('span');
+                visual.className = 'refuge-visual';
+                visual.setAttribute('aria-hidden', 'true');
+                if (item.phrase.italic) {
+                    const emphasis = document.createElement('em');
+                    emphasis.textContent = item.phrase.text;
+                    visual.append(emphasis);
+                } else {
+                    visual.textContent = item.phrase.text;
+                }
+                const spoken = document.createElement('span');
+                spoken.className = 'refuge-sr';
+                spoken.textContent = item.phrase.text;
+                element.append(visual, spoken);
+                if (item.phrase.lang) element.lang = item.phrase.lang;
+                element.style.fontFamily = item.font.family;
+                element.style.fontWeight = item.font.weight;
+                element.style.fontSize = item.size + 'px';
+                element.style.color = item.color;
+                const transition = reducedMotion.matches ? null : randomItem(refugeTransitions);
+                const play = transition && transition.prepare(element);
+                refugeStage.append(element);
+                const box = placeRefugePhrase(element, hard, soft);
+                if (!box) {
+                    element.remove();
+                    return;
+                }
+                hard.push(box);
+                if (play) runRefugeLifecycle(element, transition, play, items.length === 3 ? refugeLifetime + refugeTrioBonus : refugeLifetime);
+            });
+            scheduleRefuge();
+        }
+
+        function stopRefuge() {
+            window.clearTimeout(refugeTimer);
+            window.clearTimeout(refugeResizeTimer);
+            refugeTimer = null;
+            refugeRun++;
+            refugeLastGroup = [];
+            refugeStage.replaceChildren();
         }
 
         function closeBlock() {
             window.clearTimeout(cycleTimer);
             cycleTimer = null;
+            setArtPlaying(false);
             blockTexts.forEach((text) => text.classList.remove('text-block-hidden'));
             blockButtons.forEach((button) => {
                 button.classList.remove('text-block-hidden');
                 if (button.hasAttribute('aria-expanded')) button.setAttribute('aria-expanded', 'false');
+                if (button.dataset.block === 'art') button.title = 'Descubrir Cocina de arte';
+                if (button.dataset.block === 'space') button.title = 'Descubrir Espacio colaborativo';
+                if (button.dataset.block === 'refuge') button.title = 'Descubrir Refugio de universos';
             });
+            stopRefuge();
+            refugeStage.hidden = true;
             homeDetail.hidden = true;
             forumDetail.hidden = true;
             forumTranslation.hidden = true;
             forumFrame.hidden = true;
-            document.body.classList.remove('block-active');
+            artStage.hidden = true;
+            spaceStage.hidden = true;
+            document.body.classList.remove('block-active', 'art-active', 'home-active');
             activeBlock = null;
             layoutBlocks();
         }
@@ -941,6 +1827,7 @@
                 blocksHelp.setAttribute('aria-expanded', 'false');
                 if (button.dataset.block === 'home') {
                     homeDetail.hidden = false;
+                    document.body.classList.add('home-active');
                 } else if (button.dataset.block === 'forum') {
                     forumDetail.hidden = false;
                     forumTranslation.hidden = false;
@@ -950,6 +1837,29 @@
                     pictureIndex = -1;
                     updateForumCycle();
                     document.fonts.ready.then(layoutBlocks);
+                } else if (button.dataset.block === 'art') {
+                    button.title = 'Cerrar Cocina de arte';
+                    document.body.classList.add('art-active');
+                    artStage.hidden = false;
+                    artError.hidden = true;
+                    shuffleArt();
+                    showArt(0);
+                    setArtPlaying(!reducedMotion.matches);
+                } else if (button.dataset.block === 'refuge') {
+                    button.title = 'Cerrar Refugio de universos';
+                    refugeStage.hidden = false;
+                    shuffleRefuge();
+                    refugeLastGroup = [];
+                    layoutBlocks();
+                    showRefugeExposure();
+                } else if (button.dataset.block === 'space') {
+                    button.title = 'Cerrar Espacio colaborativo';
+                    if (!spacePoster.getAttribute('src')) spacePoster.src = spacePoster.dataset.src;
+                    spaceStage.hidden = false;
+                    spaceScroll.scrollTop = 0;
+                    document.fonts.load('1em "Kaushan Script"').then(() => {
+                        if (activeBlock === button) layoutBlocks();
+                    });
                 }
                 layoutBlocks();
             });
@@ -957,8 +1867,18 @@
 
         document.addEventListener('click', (event) => {
             if (activeBlock) {
-                event.preventDefault();
+                // Jan's letter lives inside «Morada de locos»: opening or reading it keeps the block open.
+                if (letterButton.contains(event.target) || letterDialog.contains(event.target)) return;
+                if (activeBlock.dataset.block === 'art' && artImageToggle.contains(event.target)) return;
                 event.stopPropagation();
+                if (activeBlock.dataset.block === 'space' && event.target.closest('#space-stage a')) {
+                    // Let the link open, then return to the blocks.
+                    window.setTimeout(closeBlock);
+                    return;
+                }
+                // Tapping the scrolling text keeps it open so it can be read.
+                if (activeBlock.dataset.block === 'space' && spaceScroll.contains(event.target) && spaceScroll.scrollHeight > spaceScroll.clientHeight + 1) return;
+                event.preventDefault();
                 closeBlock();
             } else if (!blocksHelp.contains(event.target) && !blocksHelpText.contains(event.target)) {
                 blocksHelpText.hidden = true;
@@ -966,7 +1886,7 @@
             }
         }, true);
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'Escape' && activeBlock) {
+            if (event.key === 'Escape' && activeBlock && !letterDialog.open) {
                 const button = activeBlock;
                 closeBlock();
                 button.focus();
@@ -976,11 +1896,29 @@
             blocksHelpText.hidden = !blocksHelpText.hidden;
             blocksHelp.setAttribute('aria-expanded', String(!blocksHelpText.hidden));
         });
+        artImageToggle.addEventListener('click', () => {
+            if (!artError.hidden) showArt(artIndex);
+            artError.hidden = true;
+            setArtPlaying(!artPlaying);
+        });
+        artImage.addEventListener('error', () => {
+            if (artStage.hidden) return;
+            setArtPlaying(false);
+            artError.textContent = 'No se pudo cargar la imagen: ' + artOrder[artIndex];
+            artError.hidden = false;
+        });
+        artImage.addEventListener('load', fitArtImage);
+        window.addEventListener('resize', fitArtImage);
         reducedMotion.addEventListener('change', () => {
-            if (!activeBlock || activeBlock.dataset.block !== 'forum') return;
-            window.clearTimeout(cycleTimer);
-            cycleStart = performance.now();
-            updateForumCycle();
+            if (!activeBlock) return;
+            if (activeBlock.dataset.block === 'refuge') scheduleRefuge();
+            if (activeBlock.dataset.block === 'art' && reducedMotion.matches) {
+                setArtPlaying(false);
+            } else if (activeBlock.dataset.block === 'forum') {
+                window.clearTimeout(cycleTimer);
+                cycleStart = performance.now();
+                updateForumCycle();
+            }
         });
         forumImage.addEventListener('load', () => {
             if (activeBlock && activeBlock.dataset.block === 'forum') layoutBlocks();
@@ -988,6 +1926,14 @@
 
         layoutBlocks();
         window.addEventListener('resize', layoutBlocks);
+        window.addEventListener('resize', () => {
+            if (!activeBlock || activeBlock.dataset.block !== 'refuge') return;
+            window.clearTimeout(refugeResizeTimer);
+            refugeResizeTimer = window.setTimeout(() => {
+                refugeStage.replaceChildren();
+                showRefugeExposure();
+            }, 200);
+        });
         document.fonts.ready.then(layoutBlocks);
 
         const menuBtn = document.getElementById('menu-btn');
