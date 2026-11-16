@@ -48,11 +48,41 @@
         }
 
         .page-title {
+            position: relative;
             padding: clamp(18px, 3vw, 36px) 16px 0;
             color: #fff;
             font: 400 clamp(1.375rem, 4.225vw, 3.25rem)/1.15 'Merienda', cursive;
             text-align: center;
             text-shadow: 0 2px 6px #000, 0 0 12px rgba(0, 0, 0, 0.8);
+        }
+
+        .title-description-button {
+            padding: 0;
+            border: 0;
+            background: none;
+            color: inherit;
+            font: inherit;
+            text-shadow: inherit;
+            cursor: help;
+        }
+        .title-description-button:focus-visible {
+            outline: 2px solid #fff;
+            outline-offset: 4px;
+        }
+        .title-description {
+            position: absolute;
+            top: calc(100% + 12px);
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 100000;
+            width: max-content;
+            max-width: calc(100vw - 32px);
+            padding: 8px 12px;
+            border: 1px solid rgba(255, 255, 255, 0.55);
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.9);
+            font: 16px/1.4 'Special Elite', monospace;
+            text-shadow: none;
         }
 
         .title-font-loading .page-title {
@@ -325,11 +355,14 @@
     <script defer src="assets/tooltip.js"></script>
 </head>
 <body>
-    <h1 class="page-title">Universos GeoSoberanos</h1>
+    <h1 class="page-title">
+        <button class="title-description-button" type="button" title="Universos con enclave en maniatopia.com" aria-expanded="false" aria-controls="geosoberanos-description">Universos GeoSoberanos</button>
+        <span class="title-description" id="geosoberanos-description" hidden>Universos con enclave en maniatopia.com</span>
+    </h1>
     <a class="shepherd-logo" href="janspace.html" aria-label="Ir a Jan Space" data-help="Ir a Jan Space">
         <span role="img" aria-label="Jan"></span>
     </a>
-    <a class="friends-link" href="universos-amigos.html" aria-label="Ir a Universos Amigos" data-help="Ir a Universos Amigos">Universos<br>Amigos</a>
+    <a class="friends-link" href="universos-amigos.html" aria-label="Ir a Universos Amigos" title="Universos con enclave externo a maniatopia.com">Universos<br>Amigos</a>
 
     <!-- MENÚ DESPLEGABLE -->
     <div id="menu-container">
@@ -348,6 +381,42 @@
     </div>
 
     <script>
+        const titleDescriptionButton = document.querySelector('.title-description-button');
+        const titleDescription = document.getElementById('geosoberanos-description');
+        const friendsLink = document.querySelector('.friends-link');
+        const touchDescriptions = window.matchMedia('(hover: none), (pointer: coarse)');
+        const titleDescriptionText = titleDescription.textContent;
+        const friendsDescriptionText = friendsLink.title;
+
+        function closeTitleDescription() {
+            titleDescription.hidden = true;
+            titleDescriptionButton.setAttribute('aria-expanded', 'false');
+        }
+
+        function updateDescriptionInput() {
+            closeTitleDescription();
+            if (touchDescriptions.matches) {
+                titleDescriptionButton.removeAttribute('title');
+                friendsLink.removeAttribute('title');
+            } else {
+                titleDescriptionButton.title = titleDescriptionText;
+                friendsLink.title = friendsDescriptionText;
+            }
+        }
+
+        titleDescriptionButton.addEventListener('click', () => {
+            titleDescription.hidden = !titleDescription.hidden;
+            titleDescriptionButton.setAttribute('aria-expanded', String(!titleDescription.hidden));
+        });
+        document.addEventListener('click', (event) => {
+            if (!titleDescriptionButton.contains(event.target)) closeTitleDescription();
+        }, true);
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape') closeTitleDescription();
+        });
+        touchDescriptions.addEventListener('change', updateDescriptionInput);
+        updateDescriptionInput();
+
         if (document.fonts && document.fonts.load) {
             document.documentElement.classList.add('title-font-loading');
             document.fonts.load('400 1em "Merienda"').then(() => {
