@@ -57,14 +57,17 @@
         }
 
         .title-description-button {
+            display: none;
             padding: 0;
             border: 0;
             background: none;
             color: inherit;
             font: inherit;
             text-shadow: inherit;
-            cursor: help;
+            cursor: pointer;
         }
+        .title-description-label { cursor: default; }
+        .title-description-label:focus-visible,
         .title-description-button:focus-visible {
             outline: 2px solid #fff;
             outline-offset: 4px;
@@ -76,13 +79,10 @@
             transform: translateX(-50%);
             z-index: 100000;
             width: max-content;
-            max-width: calc(100vw - 32px);
-            padding: 8px 12px;
-            border: 1px solid rgba(255, 255, 255, 0.55);
-            border-radius: 12px;
-            background: rgba(0, 0, 0, 0.9);
-            font: 16px/1.4 'Special Elite', monospace;
-            text-shadow: none;
+        }
+        @media (hover: none), (pointer: coarse) {
+            .title-description-label { display: none; }
+            .title-description-button { display: inline; }
         }
 
         .title-font-loading .page-title {
@@ -334,6 +334,8 @@
             #menu-btn { width: 175px; height: 175px; }
             #menu-container:not(.is-open) #menu-btn { width: 131.25px; height: 131.25px; }
             .page-title { font-size: 1.375rem; }
+            .shepherd-logo { margin-left: 16px; }
+            .shepherd-logo span { width: clamp(262.5px, 38.5vw, 525px); }
             .friends-link { right: 8px; bottom: 15px; width: 131.25px; min-width: 0; height: 131.25px; font-size: 1.375rem; }
             #menu-dropdown { width: min(88vw, 480px); height: min(76vh, 620px); min-height: 260px; }
             #menu-container.is-open #menu-btn { transform: translate(115px, -105px) scale(2.5) rotate(7deg) rotateY(-35deg); }
@@ -356,13 +358,14 @@
 </head>
 <body>
     <h1 class="page-title">
-        <button class="title-description-button" type="button" title="Universos con enclave en maniatopia.com" aria-expanded="false" aria-controls="geosoberanos-description">Universos GeoSoberanos</button>
-        <span class="title-description" id="geosoberanos-description" hidden>Universos con enclave en maniatopia.com</span>
+        <span class="title-description-label" tabindex="0" data-help="Universos con enclave en maniatopia.com">Universos GeoSoberanos</span>
+        <button class="title-description-button" type="button" aria-expanded="false" aria-controls="geosoberanos-description">Universos GeoSoberanos</button>
+        <span class="title-description maniatopia-help" id="geosoberanos-description" hidden>Universos con enclave en maniatopia.com</span>
     </h1>
     <a class="shepherd-logo" href="janspace.html" aria-label="Ir a Jan Space" data-help="Ir a Jan Space">
         <span role="img" aria-label="Jan"></span>
     </a>
-    <a class="friends-link" href="universos-amigos.html" aria-label="Ir a Universos Amigos" title="Universos con enclave externo a maniatopia.com">Universos<br>Amigos</a>
+    <a class="friends-link" href="universos-amigos.html" aria-label="Ir a Universos Amigos" data-help="Universos con enclave externo a maniatopia.com">Universos<br>Amigos</a>
 
     <!-- MENÚ DESPLEGABLE -->
     <div id="menu-container">
@@ -385,8 +388,7 @@
         const titleDescription = document.getElementById('geosoberanos-description');
         const friendsLink = document.querySelector('.friends-link');
         const touchDescriptions = window.matchMedia('(hover: none), (pointer: coarse)');
-        const titleDescriptionText = titleDescription.textContent;
-        const friendsDescriptionText = friendsLink.title;
+        const friendsDescriptionText = friendsLink.dataset.help;
 
         function closeTitleDescription() {
             titleDescription.hidden = true;
@@ -396,15 +398,14 @@
         function updateDescriptionInput() {
             closeTitleDescription();
             if (touchDescriptions.matches) {
-                titleDescriptionButton.removeAttribute('title');
-                friendsLink.removeAttribute('title');
+                friendsLink.removeAttribute('data-help');
             } else {
-                titleDescriptionButton.title = titleDescriptionText;
-                friendsLink.title = friendsDescriptionText;
+                friendsLink.dataset.help = friendsDescriptionText;
             }
         }
 
         titleDescriptionButton.addEventListener('click', () => {
+            if (!touchDescriptions.matches) return;
             titleDescription.hidden = !titleDescription.hidden;
             titleDescriptionButton.setAttribute('aria-expanded', String(!titleDescription.hidden));
         });

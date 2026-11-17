@@ -1,16 +1,22 @@
+.maniatopia-tooltip,
+.maniatopia-help {
+    box-sizing: border-box;
+    max-width: calc(100vw - 16px);
+    padding: 8px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.55);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.9);
+    color: #fff;
+    font: 400 16px/1.4 'Special Elite', monospace;
+    text-shadow: none;
+    overflow-wrap: anywhere;
+}
+
 .maniatopia-tooltip {
     position: fixed;
     top: 0;
     left: 0;
     z-index: 100000;
-    max-width: calc(100vw - 16px);
-    padding: 8px 12px;
-    border: 1px solid rgba(255, 255, 255, 0.55);
-    border-radius: 999px;
-    background: rgba(0, 0, 0, 0.82);
-    color: #fff;
-    font: 16px 'Special Elite', monospace;
-    text-shadow: none;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;

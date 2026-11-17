@@ -3,7 +3,7 @@
 
     let activeTarget = null;
     let tooltip = null;
-    let touchTarget = null;
+    const touchInput = window.matchMedia('(hover: none), (pointer: coarse)');
 
     function positionTooltip() {
         if (!activeTarget || !tooltip || !activeTarget.isConnected) return;
@@ -54,7 +54,7 @@
     }
 
     document.addEventListener('pointerover', (event) => {
-        if (event.pointerType !== 'mouse') return;
+        if (touchInput.matches || event.pointerType !== 'mouse') return;
         const target = targetFor(event.target);
         if (target) showTooltip(target);
     });
@@ -63,6 +63,7 @@
         if (event.pointerType === 'mouse' && target === activeTarget && target && !target.contains(event.relatedTarget)) hideTooltip();
     });
     document.addEventListener('focusin', (event) => {
+        if (touchInput.matches) return;
         const target = targetFor(event.target);
         if (target) showTooltip(target);
     });
@@ -70,25 +71,9 @@
         const target = targetFor(event.target);
         if (target && target === activeTarget && !target.contains(event.relatedTarget)) hideTooltip();
     });
-    document.addEventListener('pointerdown', (event) => {
-        const target = targetFor(event.target);
-        if (event.pointerType === 'touch' && target) {
-            if (touchTarget === target && activeTarget === target) {
-                hideTooltip();
-                touchTarget = null;
-            } else {
-                showTooltip(target);
-                touchTarget = target;
-            }
-        } else if (!target) {
-            hideTooltip();
-            touchTarget = null;
-        }
-    });
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
             hideTooltip();
-            touchTarget = null;
         }
     });
     document.addEventListener('close', (event) => {
@@ -97,13 +82,16 @@
     document.addEventListener('transitionend', (event) => {
         if (event.target === activeTarget) positionTooltip();
     });
-    window.addEventListener('resize', positionTooltip);
+    window.addEventListener('resize', () => {
+        if (touchInput.matches) hideTooltip();
+        else positionTooltip();
+    });
     window.addEventListener('scroll', positionTooltip, true);
+    touchInput.addEventListener('change', hideTooltip);
 
     new MutationObserver((mutations) => {
-        if (activeTarget && !activeTarget.isConnected) {
+        if (activeTarget && (!activeTarget.isConnected || !activeTarget.hasAttribute('data-help'))) {
             hideTooltip();
-            touchTarget = null;
         } else if (activeTarget && mutations.some((mutation) => mutation.target === activeTarget && mutation.attributeName === 'data-help')) {
             showTooltip(activeTarget);
         }

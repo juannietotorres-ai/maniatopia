@@ -481,6 +481,10 @@
             const tooltip = document.getElementById('visitor-counter-hint');
             let activeTarget = null;
             let lastTouchTarget = null;
+            const touchInput = window.matchMedia('(hover: none), (pointer: coarse)');
+            const isVisitorCounter = function (target) {
+                return target && target.classList.contains('maniatopia-counter-container');
+            };
             const positionTooltip = function (target) {
                 const bounds = target.getBoundingClientRect();
                 const gap = 12;
@@ -522,22 +526,22 @@
             };
             document.addEventListener('pointerdown', function (event) {
                 const target = getTarget(event.target);
-                if (event.pointerType === 'touch' && target) {
+                if (event.pointerType === 'touch' && isVisitorCounter(target)) {
                     const shouldHide = target === lastTouchTarget;
                     setTooltip(shouldHide ? null : target);
                     lastTouchTarget = shouldHide ? null : target;
-                } else if (!target) {
+                } else if (event.pointerType === 'touch' || !target) {
                     setTooltip(null);
                     lastTouchTarget = null;
                 }
             });
             document.addEventListener('pointerover', function (event) {
-                if (event.pointerType !== 'mouse') return;
+                if (touchInput.matches || event.pointerType !== 'mouse') return;
                 const target = getTarget(event.target);
                 if (target) setTooltip(target);
             });
             document.addEventListener('pointerout', function (event) {
-                if (event.pointerType !== 'mouse') return;
+                if (touchInput.matches || event.pointerType !== 'mouse') return;
                 const target = getTarget(event.target);
                 if (target && target === activeTarget && !target.contains(event.relatedTarget)) {
                     setTooltip(null);
@@ -546,7 +550,7 @@
             });
             document.addEventListener('focusin', function (event) {
                 const target = getTarget(event.target);
-                if (target) setTooltip(target);
+                if (target && (!touchInput.matches || isVisitorCounter(target))) setTooltip(target);
             });
             document.addEventListener('focusout', function (event) {
                 const target = getTarget(event.target);
@@ -560,6 +564,10 @@
                     setTooltip(null);
                     lastTouchTarget = null;
                 }
+            });
+            touchInput.addEventListener('change', function () {
+                setTooltip(null);
+                lastTouchTarget = null;
             });
             window.addEventListener('resize', function () {
                 if (activeTarget) positionTooltip(activeTarget);

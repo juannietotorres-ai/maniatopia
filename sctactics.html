@@ -56,6 +56,25 @@
         .sct-text a:hover,
         .sct-text a:focus-visible { color: #fff; }
         .sct-text a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+        @media (max-width: 768px) {
+            body {
+                display: flex;
+                flex-direction: column;
+                /* Amerigo es 16:9: el 90% del alto equivale al 160% de ancho. */
+                background-size: max(100vw, 160vh) auto;
+                background-size: max(100vw, 160dvh) auto;
+            }
+            .sct-text {
+                flex: 1 0 auto;
+                padding-bottom: 8px;
+            }
+            .back {
+                position: static;
+                flex-shrink: 0;
+                align-self: flex-start;
+                margin: 0 0 calc(20px + env(safe-area-inset-bottom, 0px)) calc(20px + env(safe-area-inset-left, 0px));
+            }
+        }
     </style>
 </head>
 <body>

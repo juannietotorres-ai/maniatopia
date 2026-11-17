@@ -290,18 +290,33 @@
             pointer-events: none;
         }
         .refuge-stage[hidden] { display: none; }
+        .refuge-shadows {
+            display: none;
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 20;
+            pointer-events: none;
+        }
         .refuge-phrase {
             position: absolute;
             max-width: min(calc(100vw - 16px), 13em);
             padding: 0.1em 0.35em;
-            border-radius: 0.3em;
-            background: rgba(0, 0, 0, 0.45);
             line-height: 1.2;
             text-align: center;
             text-shadow: 0 1px 3px #000;
             overflow-wrap: anywhere;
         }
+        .refuge-visual {
+            padding: 0.1em 0.35em;
+            border-radius: 0.3em;
+            -webkit-box-decoration-break: clone;
+            box-decoration-break: clone;
+        }
         .refuge-word { display: inline-block; white-space: nowrap; }
+        .refuge-fixed-lines { max-width: none; }
+        .refuge-fixed-lines .refuge-visual { white-space: pre; }
         .refuge-letter { display: inline-block; }
         .refuge-sr {
             position: absolute;
@@ -311,12 +326,19 @@
             clip-path: inset(50%);
             white-space: nowrap;
         }
+        .space-panel,
         .space-scroll { display: contents; }
         .space-contact[hidden] { display: none; }
         @media (max-width: 768px) {
-            .space-scroll {
+            .space-panel {
                 display: block;
                 position: absolute;
+                overflow: hidden;
+                border-radius: 0.6em;
+                background: rgba(0, 0, 0, 0.55);
+            }
+            .space-scroll {
+                display: block;
                 overflow-y: auto;
                 overscroll-behavior: contain;
                 pointer-events: auto;
@@ -324,47 +346,19 @@
                 scrollbar-width: thin;
                 scrollbar-color: rgba(243, 220, 184, 0.5) transparent;
             }
-            .space-scroll:focus-visible { outline: 2px solid #e0c090; outline-offset: 2px; }
-            .space-scroll .space-text { position: static; }
-            .space-scroll .space-text + .space-text { margin-top: 12px; }
+            .space-scroll:focus-visible { outline: 2px solid #e0c090; outline-offset: -2px; }
+            .space-panel .space-text {
+                position: static;
+                border-radius: 0;
+                background: none;
+            }
+            .space-scroll .space-text-left { padding-bottom: 0; }
+            .space-scroll .space-text-right { padding-top: 0; }
+            .space-scroll .space-text + .space-text { margin-top: 0.45em; }
         }
         body.block-active #menu-container,
         body.block-active .about-link,
-        body:not(.home-active) .letter-button,
-        body.block-active .blocks-help { visibility: hidden; }
-        .blocks-help {
-            position: fixed;
-            bottom: calc(12px + env(safe-area-inset-bottom, 0px));
-            left: 50%;
-            z-index: 20;
-            transform: translateX(-50%);
-            display: none;
-            border: 1px solid #e0c090;
-            border-radius: 50%;
-            width: 2rem;
-            height: 2rem;
-            background: #17120f;
-            color: #fff;
-            font: 1rem serif;
-            cursor: pointer;
-        }
-        .blocks-help-text {
-            position: fixed;
-            bottom: calc(52px + env(safe-area-inset-bottom, 0px));
-            left: 50%;
-            z-index: 20;
-            transform: translateX(-50%);
-            width: min(90vw, 360px);
-            padding: 0.6em;
-            border-radius: 0.4em;
-            background: #17120f;
-            color: #fff;
-            font: 1rem/1.35 sans-serif;
-            text-align: center;
-        }
-        @media (hover: none), (pointer: coarse) {
-            .blocks-help { display: block; }
-        }
+        body:not(.home-active) .letter-button { visibility: hidden; }
 
         .content.has-veil .text-veil {
             background: none;
@@ -709,7 +703,8 @@
             #menu-dropdown .nav-contact { left: 32px; font-size: clamp(1.2rem, 5vw, 1.65rem); }
             .home-icon { width: 58px; height: 58px; }
             body { background-size: auto 90%; background-position: 30% center; background-color: #03030a; }
-            .central-text { line-height: 1.65; }
+            /* Compensa media línea añadida para conservar la base del texto original. */
+            .central-text { line-height: 1.65; top: -0.825em; }
             .desktop-refuge { display: none; }
             .mobile-refuge { display: inline; }
             .forum-translation-description.is-larger { font-size: calc(0.714285714em + 2pt); }
@@ -774,16 +769,17 @@
             <span class="text-veil text-line" data-text-block="home">sed todos bienvenidos</span><br>
             <span class="text-veil text-line" data-text-block="forum">Foro de ideas</span><br>
             <span class="text-veil text-line" data-text-block="art">Cocina de arte</span><br>
+            <span class="text-veil text-line" data-text-block="refuge">Universo Peregrino</span><br>
             <span class="desktop-refuge text-veil" data-text-block="refuge"><span class="text-line">Refugio de universos nómadas</span> <span class="text-line">o confluentes</span></span>
             <span class="mobile-refuge" data-text-block="refuge"><span class="text-veil text-line">Refugio de universos</span><br><span class="text-veil text-line">nómadas o confluentes</span></span><br>
             <span class="text-veil text-line" data-text-block="space">Espacio colaborativo,</span><br>
             <span class="text-veil text-line" data-text-block="space">libre, abierto y transparente</span>
 
-            <button class="text-block-button" type="button" data-block="home" aria-label="Morada de locos, sed todos bienvenidos" aria-expanded="false" aria-controls="home-detail" title="Descubrir Morada de locos"></button>
-            <button class="text-block-button" type="button" data-block="forum" aria-label="Foro de ideas" aria-expanded="false" aria-controls="forum-detail forum-translation forum-frame" title="Descubrir Foro de ideas"></button>
-            <button class="text-block-button" type="button" data-block="art" aria-label="Cocina de arte" aria-expanded="false" aria-controls="art-stage" title="Descubrir Cocina de arte"></button>
-            <button class="text-block-button" type="button" data-block="refuge" aria-label="Refugio de universos nómadas o confluentes" aria-expanded="false" aria-controls="refuge-stage" title="Descubrir Refugio de universos"></button>
-            <button class="text-block-button" type="button" data-block="space" aria-label="Espacio colaborativo, libre, abierto y transparente" aria-expanded="false" aria-controls="space-stage" title="Descubrir Espacio colaborativo"></button>
+            <button class="text-block-button" type="button" data-block="home" aria-label="Morada de locos, sed todos bienvenidos" aria-expanded="false" aria-controls="home-detail" data-help="Descubrir Morada de locos"></button>
+            <button class="text-block-button" type="button" data-block="forum" aria-label="Foro de ideas" aria-expanded="false" aria-controls="forum-detail forum-translation forum-frame" data-help="Descubrir Foro de ideas"></button>
+            <button class="text-block-button" type="button" data-block="art" aria-label="Cocina de arte" aria-expanded="false" aria-controls="art-stage" data-help="Descubrir Cocina de arte"></button>
+            <button class="text-block-button" type="button" data-block="refuge" aria-label="Universo Peregrino. Refugio de universos nómadas o confluentes" aria-expanded="false" aria-controls="refuge-stage" data-help="Descubrir Refugio de universos"></button>
+            <button class="text-block-button" type="button" data-block="space" aria-label="Espacio colaborativo, libre, abierto y transparente" aria-expanded="false" aria-controls="space-stage" data-help="Descubrir Espacio colaborativo"></button>
 
             <div class="block-detail" id="home-detail" hidden>
                 <span class="text-veil text-line">Mi hogar cibernético,</span><br>
@@ -804,13 +800,14 @@
     <div class="forum-frame" id="forum-frame" hidden><img alt=""></div>
     <div class="forum-ouroboros" id="forum-ouroboros" aria-hidden="true" hidden><img alt="" data-src="assets/images/Ouroboros1.jpg"></div>
     <div class="art-stage" id="art-stage" hidden>
-        <button class="art-image-toggle" id="art-image-toggle" type="button" aria-label="Pase de imágenes" aria-pressed="false" title="Pausar pase de imágenes">
+        <button class="art-image-toggle" id="art-image-toggle" type="button" aria-label="Pase de imágenes" aria-pressed="false" data-help="Pausar pase de imágenes">
             <img class="art-image" alt="">
         </button>
         <div class="art-error" role="status" hidden></div>
     </div>
     <div class="space-stage" id="space-stage" hidden>
         <img class="space-poster" data-src="assets/images/Maniatopia%20Populate.webp" width="1024" height="1536" alt="Cartel de reclutamiento Maniatopia Populate">
+        <div class="space-panel">
         <div class="space-scroll" role="region" aria-label="Texto de Espacio colaborativo; desplázate para leer">
         <div class="space-text space-text-left">
             <div class="space-wrap" aria-hidden="true"></div>
@@ -827,14 +824,22 @@
             <div class="space-wrap" aria-hidden="true"></div>
             <ul class="space-collab-list"></ul>
             <p>Se buscan creadores, artistas, jugadores, curiosos, amigos, emprendedores, inconformistas, aburridos, soñadores, inquietos, visionarios, guerreros, poetas y todo tipo de gente que quiera aportar al proyecto o sienta curiosidad por él y quiera seguirlo de cerca.</p>
-            <p class="space-contact-text">Contacta vía:<br><a href="mailto:maniatopia@maniatopia.com" title="Escribir a maniatopia@maniatopia.com">maniatopia@maniatopia.com</a><br>o pásate por <a href="https://discord.gg/RnQvtGRNmj" target="_blank" rel="noopener noreferrer" title="Abrir Ágora Eleúthera en Discord">Ágora Eleúthera - Maniatopia - Discord</a></p>
+            <p class="space-contact-text">Contacta vía:<br><a href="mailto:maniatopia@maniatopia.com" data-help="Escribir a maniatopia@maniatopia.com">maniatopia@maniatopia.com</a><br>o pásate por <a href="https://discord.gg/RnQvtGRNmj" target="_blank" rel="noopener noreferrer" data-help="Abrir Ágora Eleúthera en Discord">Ágora Eleúthera - Maniatopia - Discord</a></p>
         </div>
                     </div>
                     <div class="space-text space-contact" hidden></div>
+        </div>
     </div>
+    <svg class="refuge-shadows" aria-hidden="true">
+        <defs>
+            <mask id="refuge-shadow-mask" maskUnits="userSpaceOnUse" x="0" y="0" width="100%" height="100%" style="mask-type: luminance">
+                <rect width="100%" height="100%" fill="#000"></rect>
+                <g id="refuge-shadow-shapes"></g>
+            </mask>
+        </defs>
+        <rect width="100%" height="100%" fill="#000" opacity="0.45" mask="url(#refuge-shadow-mask)"></rect>
+    </svg>
     <div class="refuge-stage" id="refuge-stage" role="region" aria-label="Refugio de universos nómadas o confluentes" hidden></div>
-    <button class="blocks-help" type="button" aria-label="Ayuda sobre los bloques de texto" aria-expanded="false" aria-controls="blocks-help-text" title="Ayuda sobre los bloques de texto">i</button>
-    <div class="blocks-help-text" id="blocks-help-text" hidden>Toca «Morada de locos», «Foro de ideas», «Cocina de arte», «Refugio de universos» o «Espacio colaborativo» para explorar. Después, toca fuera de la imagen para volver. En Morada de locos encontrarás la carta de Jan. En Cocina de arte, toca la obra para pausar o reanudar el pase, o toca «Cocina de arte» para volver a los bloques. Cada vez que la abres, las obras se mezclan sin repetirse hasta completar la vuelta. En Espacio colaborativo, desliza el texto para leerlo y toca fuera de él para volver.</div>
 
     <button class="letter-button" id="letter-button" type="button" aria-label="Abrir la carta de Jan" aria-haspopup="dialog" data-help="Abrir la carta de Jan"></button>
 
@@ -949,8 +954,8 @@
         const artImageToggle = document.getElementById('art-image-toggle');
         const artImage = artStage.querySelector('.art-image');
         const artError = artStage.querySelector('.art-error');
-        const blocksHelp = document.querySelector('.blocks-help');
         const spaceStage = document.getElementById('space-stage');
+        const spacePanel = spaceStage.querySelector('.space-panel');
         const spacePoster = spaceStage.querySelector('.space-poster');
         const spaceLeft = spaceStage.querySelector('.space-text-left');
         const spaceRight = spaceStage.querySelector('.space-text-right');
@@ -960,7 +965,6 @@
         const spaceScroll = spaceStage.querySelector('.space-scroll');
         const spaceContact = spaceStage.querySelector('.space-contact');
         const spaceContactText = spaceStage.querySelector('.space-contact-text');
-        const blocksHelpText = document.getElementById('blocks-help-text');
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
         const phrases = [
             'Universitas litterarum',
@@ -1197,25 +1201,22 @@
         }
 
         // Mobile: large text scrolls above block 5 while «Contacta vía» stays fixed below it.
-        function layoutMobileTexts(area, gap, viewportWidth) {
+        function layoutMobileTexts(area, viewportWidth) {
             const size = Math.min(22, Math.max(16, viewportWidth * 0.052));
             [spaceLeft, spaceRight].forEach((element) => {
                 ['left', 'top', 'width', 'height', 'overflowY', 'pointerEvents', 'clipPath'].forEach((property) => { element.style[property] = ''; });
                 element.style.fontSize = size + 'px';
             });
+            spacePanel.style.left = area.x + 'px';
+            spacePanel.style.width = area.w + 'px';
             spaceContact.style.fontSize = size + 'px';
-            spaceContact.style.left = area.x + 'px';
-            spaceContact.style.width = area.w + 'px';
             spaceContact.style.height = 'auto';
             const contactHeight = spaceContact.offsetHeight;
-            const scrollHeight = Math.max(0, area.h - contactHeight - gap);
-            spaceScroll.style.left = area.x + 'px';
-            spaceScroll.style.width = area.w + 'px';
+            const scrollHeight = Math.max(0, area.h - contactHeight);
             spaceScroll.style.height = 'auto';
             spaceScroll.style.height = Math.min(spaceScroll.scrollHeight, scrollHeight) + 'px';
             const top = area.y + Math.max(0, scrollHeight - spaceScroll.offsetHeight);
-            spaceScroll.style.top = top + 'px';
-            spaceContact.style.top = (top + spaceScroll.offsetHeight + gap) + 'px';
+            spacePanel.style.top = top + 'px';
         }
 
         function layoutSpace() {
@@ -1263,7 +1264,7 @@
                     w: posterWidth,
                     h: posterWidth / ratio
                 });
-                layoutMobileTexts({ x: margin, y: margin, w: viewportWidth - 2 * margin, h: block.top - gap - margin }, gap, viewportWidth);
+                layoutMobileTexts({ x: margin, y: margin, w: viewportWidth - 2 * margin, h: block.top - gap - margin }, viewportWidth);
                 return;
             }
 
@@ -1447,7 +1448,7 @@
             window.clearTimeout(artTimer);
             artLoadId++;
             artImageToggle.setAttribute('aria-pressed', String(playing));
-            artImageToggle.title = playing ? 'Pausar pase de imágenes' : 'Reanudar pase de imágenes';
+            artImageToggle.dataset.help = playing ? 'Pausar pase de imágenes' : 'Reanudar pase de imágenes';
             if (playing) artTimer = window.setTimeout(advanceArt, 1000);
         }
 
@@ -1516,10 +1517,12 @@
         }
 
         const refugeStage = document.getElementById('refuge-stage');
+        const refugeShadows = document.querySelector('.refuge-shadows');
+        const refugeShadowShapes = document.getElementById('refuge-shadow-shapes');
         const refugePhrases = [
             { text: 'Soporte digital de proyectos' },
             { text: 'Refugio para almas cansadas' },
-            { text: 'Recinto del esparcimiento' },
+            { text: 'Recinto de esparcimiento' },
             { text: 'Alma en tránsito' },
             { text: 'Huésped del viento, Peregrino de cobijo' },
             { text: 'Ventana de exposición' },
@@ -1530,11 +1533,25 @@
             { text: 'Tempus Fugit', italic: true, lang: 'la' },
             { text: 'Conocimiento: el único bien que crece al compartirse', italic: true },
             { text: 'Taller creativo artesano binario' },
+            { text: 'Taller de videojuegos' },
+            { text: '¡ROL!' },
             { text: 'Ars longa, vita brevis', italic: true, lang: 'la' },
             { text: 'Puerta estelar' },
             { text: 'Vitrina de proyectos' },
             { text: 'Nido de curiosos' },
-            { text: 'Punto de contacto web' }
+            { text: 'Punto de contacto web' },
+            { text: 'Dale descanso a tus proyectos aquí' },
+            { text: 'Guia o asesoramiento? pregunta' },
+            { text: 'Las gallinas que entran, por las que salen' },
+            { text: 'En la medida está la virtud' },
+            { text: 'Y escondido en el fondo de la mochila, en una caja chata de madera, un tesoro que iba mermando: un poco de sal.', lifetimeBonus: 0.5 },
+            { text: '"Era un niño que soñaba"', italic: true },
+            { text: '"Estás más cerca de casa de lo que crees. Pues el hogar es un reflejo del corazón, un reflejo que estás empezando a comprender."', italic: true },
+            { text: '"Fantasía no tiene fronteras —respondió el centauro—, no está en ningún lugar y está en todas partes."', italic: true },
+            { text: '"PREFIERO AU REVOIR"', italic: true },
+            { text: '"En un lugar de la Mancha, de cuyo nombre no quiero acordarme"', italic: true },
+            { text: '"Y en las noches de luna imaginaria\nsueña con la mujer imaginaria\nque le brindó su amor imaginario\nvuelve a sentir ese mismo dolor\nese mismo placer imaginario\ny vuelve a palpitar\nel corazón del hombre imaginario."', italic: true, fixedLines: true, splitAfterLine: 3, lifetimeBonus: 0.9 },
+            { text: '"However far away\nI will always love you"', italic: true, fixedLines: true, lang: 'en' }
         ];
         const refugeFonts = [
             { family: "'Fredericka the Great', cursive", weight: 400 },
@@ -1547,7 +1564,7 @@
             { family: "'Orbitron', sans-serif", weight: 700 },
             { family: "'Special Elite', monospace", weight: 400 }
         ];
-        const refugeLifetime = 3;
+        const refugeLifetime = 3.7;
         const refugeTrioBonus = 0.8;
         const refugeGapMin = 1.5;
         const refugeGapMax = 2.8;
@@ -1557,8 +1574,137 @@
         let refugeTimer = null;
         let refugeRun = 0;
         let refugeResizeTimer = null;
+        let refugeShadowFrame = null;
 
         const randomItem = (items) => items[Math.floor(Math.random() * items.length)];
+
+        // Trace the union before rounding, so inward and outward corners use the same circular arcs.
+        function refugeShadowOutline(rects, radius) {
+            const xs = [...new Set(rects.flatMap((rect) => [rect.left, rect.right]))].sort((a, b) => a - b);
+            const ys = [...new Set(rects.flatMap((rect) => [rect.top, rect.bottom]))].sort((a, b) => a - b);
+            const width = xs.length - 1;
+            const height = ys.length - 1;
+            const cells = new Uint8Array(width * height);
+            const xIndex = new Map(xs.map((x, index) => [x, index]));
+            const yIndex = new Map(ys.map((y, index) => [y, index]));
+            rects.forEach((rect) => {
+                for (let y = yIndex.get(rect.top); y < yIndex.get(rect.bottom); y++) {
+                    cells.fill(1, y * width + xIndex.get(rect.left), y * width + xIndex.get(rect.right));
+                }
+            });
+            const edges = [];
+            const outgoing = new Map();
+            const addEdge = (from, to, direction) => {
+                if (!outgoing.has(from)) outgoing.set(from, []);
+                outgoing.get(from).push(edges.length);
+                edges.push({ from, to, direction });
+            };
+            const stride = width + 1;
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    if (!cells[y * width + x]) continue;
+                    const node = y * stride + x;
+                    if (!y || !cells[(y - 1) * width + x]) addEdge(node, node + 1, 0);
+                    if (x === width - 1 || !cells[y * width + x + 1]) addEdge(node + 1, node + 1 + stride, 1);
+                    if (y === height - 1 || !cells[(y + 1) * width + x]) addEdge(node + 1 + stride, node + stride, 2);
+                    if (!x || !cells[y * width + x - 1]) addEdge(node + stride, node, 3);
+                }
+            }
+            const visited = new Set();
+            const paths = [];
+            edges.forEach((first, firstIndex) => {
+                if (visited.has(firstIndex)) return;
+                const points = [];
+                let index = firstIndex;
+                while (true) {
+                    const edge = edges[index];
+                    visited.add(index);
+                    points.push({ x: xs[edge.from % stride], y: ys[Math.floor(edge.from / stride)] });
+                    if (edge.to === first.from) break;
+                    // Keep diagonally touching contours separate by taking the rightmost turn.
+                    const priority = [1, 0, 3, 2];
+                    const next = outgoing.get(edge.to).filter((candidate) => !visited.has(candidate))
+                        .sort((a, b) => priority[(edges[a].direction - edge.direction + 4) % 4]
+                            - priority[(edges[b].direction - edge.direction + 4) % 4])[0];
+                    if (next === undefined) throw new Error('No se pudo cerrar el contorno de la sombra del Refugio.');
+                    index = next;
+                }
+                const corners = points.filter((point, i) => {
+                    const prev = points[(i + points.length - 1) % points.length];
+                    const next = points[(i + 1) % points.length];
+                    return (point.x - prev.x) * (next.y - point.y) !== (point.y - prev.y) * (next.x - point.x);
+                }).map((point, i, polygon) => {
+                    const prev = polygon[(i + polygon.length - 1) % polygon.length];
+                    const next = polygon[(i + 1) % polygon.length];
+                    const before = Math.hypot(point.x - prev.x, point.y - prev.y);
+                    const after = Math.hypot(next.x - point.x, next.y - point.y);
+                    const r = Math.min(radius, before / 2, after / 2);
+                    return {
+                        start: `${point.x + (prev.x - point.x) * r / before} ${point.y + (prev.y - point.y) * r / before}`,
+                        end: `${point.x + (next.x - point.x) * r / after} ${point.y + (next.y - point.y) * r / after}`,
+                        radius: r,
+                        sweep: (point.x - prev.x) * (next.y - point.y) - (point.y - prev.y) * (next.x - point.x) > 0 ? 1 : 0
+                    };
+                });
+                paths.push(corners.map((corner, i) => `${i ? 'L' : 'M'} ${corner.start} A ${corner.radius} ${corner.radius} 0 0 ${corner.sweep} ${corner.end}`).join(' ') + ' Z');
+            });
+            return paths.join(' ');
+        }
+
+        // Each luminance level is a union, so fading shadows also merge without adding opacity.
+        function updateRefugeShadows() {
+            window.cancelAnimationFrame(refugeShadowFrame);
+            const fragment = document.createDocumentFragment();
+            const shadows = [];
+            if (!refugeStage.hidden) {
+                refugeStage.querySelectorAll('.refuge-phrase').forEach((element) => {
+                    const visual = element.querySelector('.refuge-visual');
+                    const style = getComputedStyle(element);
+                    const letters = visual.querySelectorAll('.refuge-letter');
+                    const parts = letters.length ? letters : visual.querySelectorAll('.refuge-word');
+                    const partOpacity = parts.length ? Math.max(...Array.from(parts, (part) => parseFloat(getComputedStyle(part).opacity))) : 1;
+                    const luminance = Math.round(255 * parseFloat(style.opacity) * partOpacity);
+                    if (!luminance) return;
+                    const radius = parseFloat(getComputedStyle(visual).borderRadius);
+                    const box = element.getBoundingClientRect();
+                    const bounds = { left: box.left, right: box.right, top: box.top, bottom: box.bottom, width: box.width, height: box.height };
+                    const clip = style.clipPath.match(/^inset\(([^)]+)\)$/);
+                    if (clip) {
+                        const values = clip[1].split(/\s+/);
+                        const insets = [values[0], values[1] || values[0], values[2] || values[0], values[3] || values[1] || values[0]]
+                            .map((value, i) => parseFloat(value) * (value.endsWith('%') ? (i % 2 ? bounds.width : bounds.height) / 100 : 1));
+                        bounds.top += insets[0];
+                        bounds.right -= insets[1];
+                        bounds.bottom -= insets[2];
+                        bounds.left += insets[3];
+                    }
+                    const rects = Array.from(visual.getClientRects(), (rect) => ({
+                        left: Math.max(rect.left, bounds.left),
+                        right: Math.min(rect.right, bounds.right),
+                        top: Math.max(rect.top, bounds.top),
+                        bottom: Math.min(rect.bottom, bounds.bottom)
+                    })).filter((rect) => rect.right > rect.left && rect.bottom > rect.top);
+                    if (rects.length) shadows.push({ rects, radius, luminance, filter: style.filter });
+                });
+                [...new Set(shadows.map((shadow) => shadow.luminance))].sort((a, b) => a - b).forEach((luminance) => {
+                    const contributors = shadows.filter((shadow) => shadow.luminance >= luminance);
+                    const shape = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    shape.setAttribute('d', refugeShadowOutline(contributors.flatMap((shadow) => shadow.rects), Math.min(...contributors.map((shadow) => shadow.radius))));
+                    shape.setAttribute('fill', `rgb(${luminance}, ${luminance}, ${luminance})`);
+                    shape.setAttribute('fill-rule', 'evenodd');
+                    shape.style.mixBlendMode = 'lighten';
+                    if (contributors.every((shadow) => shadow.filter === contributors[0].filter)) {
+                        shape.style.filter = contributors[0].filter;
+                    }
+                    fragment.append(shape);
+                });
+            }
+            refugeShadowShapes.replaceChildren(fragment);
+            const visible = refugeShadowShapes.childElementCount > 0;
+            refugeShadows.style.display = visible ? 'block' : 'none';
+            refugeShadowFrame = !refugeStage.hidden && refugeStage.childElementCount && !reducedMotion.matches
+                ? window.requestAnimationFrame(updateRefugeShadows) : null;
+        }
 
         function shuffleRefuge() {
             refugeOrder = [...refugePhrases];
@@ -1570,16 +1716,27 @@
         }
 
         // Takes the next phrases of the shuffled loop, never showing the same phrase twice in a row or at once.
-        function takeRefugePhrases(count) {
+        function takeRefugePhrases() {
             const group = [];
-            while (group.length < count) {
+            let limit = 3;
+            while (group.length < limit) {
                 if (refugeCursor >= refugeOrder.length) shuffleRefuge();
                 const avoid = [...group, ...refugeLastGroup];
                 if (avoid.includes(refugeOrder[refugeCursor])) {
                     const swap = refugeOrder.findIndex((phrase, index) => index > refugeCursor && !avoid.includes(phrase));
                     if (swap !== -1) [refugeOrder[refugeCursor], refugeOrder[swap]] = [refugeOrder[swap], refugeOrder[refugeCursor]];
                 }
-                group.push(refugeOrder[refugeCursor++]);
+                if (!group.length) {
+                    const short = refugeOrder[refugeCursor].text.trim().split(/\s+/).length <= 5;
+                    const chance = Math.random();
+                    limit = chance < (short ? 0.15 : 0.65) ? 1 : chance < (short ? 0.5 : 0.9) ? 2 : 3;
+                }
+                const length = Array.from(refugeOrder[refugeCursor].text).length;
+                const maxGroupSize = length > 40 ? 1 : length === 40 ? 2 : 3;
+                if (group.length >= maxGroupSize) break;
+                const phrase = refugeOrder[refugeCursor++];
+                group.push(phrase);
+                limit = Math.min(limit, maxGroupSize);
             }
             refugeLastGroup = group;
             return group;
@@ -1603,10 +1760,12 @@
             const rects = Array.from(range.getClientRects()).filter((rect) => rect.width);
             const lineWidth = Math.max(...rects.map((rect) => rect.right)) - Math.min(...rects.map((rect) => rect.left));
             const style = getComputedStyle(element);
-            element.style.width = Math.ceil(lineWidth + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight) + 1) + 'px';
+            const visualStyle = getComputedStyle(element.querySelector('.refuge-visual'));
+            element.style.width = Math.ceil(lineWidth + parseFloat(style.paddingLeft) + parseFloat(style.paddingRight)
+                + parseFloat(visualStyle.paddingLeft) + parseFloat(visualStyle.paddingRight) + 1) + 'px';
         }
 
-        function placeRefugePhrase(element, hard, soft) {
+        function placeRefugePhrase(element, hard, soft, band = { top: 0, bottom: window.innerHeight }) {
             const margin = 8;
             const gap = 10;
             const overlaps = (box, others) => others.some((other) => box.left < other.right + gap && box.right + gap > other.left && box.top < other.bottom + gap && box.bottom + gap > other.top);
@@ -1615,12 +1774,12 @@
                 const width = element.offsetWidth;
                 const height = element.offsetHeight;
                 const freeWidth = window.innerWidth - 2 * margin - width;
-                const freeHeight = window.innerHeight - 2 * margin - height;
+                const freeHeight = band.bottom - band.top - 2 * margin - height;
                 if (freeWidth >= 0 && freeHeight >= 0) {
                     for (const others of [hard.concat(soft), hard]) {
                         for (let attempt = 0; attempt < 80; attempt++) {
                             const x = margin + Math.random() * freeWidth;
-                            const y = margin + Math.random() * freeHeight;
+                            const y = band.top + margin + Math.random() * freeHeight;
                             const box = { left: x, top: y, right: x + width, bottom: y + height };
                             if (overlaps(box, others)) continue;
                             element.style.left = x + 'px';
@@ -1629,7 +1788,10 @@
                         }
                     }
                 }
-                element.style.fontSize = (parseFloat(element.style.fontSize) * 0.85) + 'px';
+                const scale = element.classList.contains('refuge-fixed-lines')
+                    ? Math.min(0.85, (window.innerWidth - 2 * margin) / width * 0.98, (band.bottom - band.top - 2 * margin) / height * 0.98)
+                    : 0.85;
+                element.style.fontSize = (parseFloat(element.style.fontSize) * scale) + 'px';
             }
             return null;
         }
@@ -1640,11 +1802,15 @@
         // Splits the visible text into animatable words or letters, keeping words unbreakable.
         function splitRefugePhrase(element, mode) {
             const target = element.querySelector('.refuge-visual em') || element.querySelector('.refuge-visual');
-            const words = target.textContent.split(' ');
+            const words = target.textContent.split(/(\s+)/);
             const parts = [];
             target.textContent = '';
-            words.forEach((word, index) => {
-                if (index) target.append(' ');
+            words.forEach((word) => {
+                if (!word) return;
+                if (/^\s+$/.test(word)) {
+                    target.append(word);
+                    return;
+                }
                 const wordElement = document.createElement('span');
                 wordElement.className = 'refuge-word';
                 if (mode === 'words') {
@@ -1670,7 +1836,6 @@
         };
         const staggeredTransition = (element, parts, framesFor, order) => (duration, reverse) => {
             const options = { fill: 'both', direction: reverse ? 'reverse' : 'normal' };
-            element.animate([{ backgroundColor: 'rgba(0, 0, 0, 0)' }, { backgroundColor: 'rgba(0, 0, 0, 0.45)' }], { ...options, duration });
             const count = parts.length;
             const each = duration * 0.5;
             const step = count > 1 ? (duration - each) / (count - 1) : 0;
@@ -1747,6 +1912,17 @@
             }
         ];
 
+        function refugeExposureLifetime(phrase, groupSize) {
+            const length = Array.from(phrase.text).length;
+            return refugeLifetime + (phrase.lifetimeBonus || 0) + (groupSize === 3 ? refugeTrioBonus : 0)
+                + (length >= 20 ? 0.3 : 0)
+                + (length > 40 ? 0.6 : 0)
+                + (length > 60 ? 0.2 : 0)
+                + (length > 100 ? 0.8 : 0)
+                + (length > 150 ? 0.6 : 0)
+                + (length > 200 ? 0.6 : 0);
+        }
+
         function runRefugeLifecycle(element, transition, play, lifetime) {
             const enter = randomBetween(...transition.range);
             const exit = randomBetween(...transition.range);
@@ -1767,15 +1943,24 @@
         async function showRefugeExposure() {
             const run = ++refugeRun;
             window.clearTimeout(refugeTimer);
-            const chance = Math.random();
-            const group = takeRefugePhrases(chance < 0.65 ? 1 : chance < 0.9 ? 2 : 3);
+            const group = takeRefugePhrases();
             const baseSize = Math.min(window.innerWidth * 0.075, window.innerHeight * 0.065, 58);
-            const items = group.map((phrase) => ({
-                phrase,
-                font: randomItem(refugeFonts),
-                size: Math.max(16, baseSize * (0.7 + Math.random() * 0.5)),
-                color: `hsl(${Math.floor(Math.random() * 360)} ${70 + Math.floor(Math.random() * 25)}% ${66 + Math.floor(Math.random() * 12)}%)`
-            }));
+            const items = group.flatMap((phrase) => {
+                const item = {
+                    phrase,
+                    text: phrase.text,
+                    font: randomItem(refugeFonts),
+                    size: Math.max(16, baseSize * (0.7 + Math.random() * 0.5)),
+                    color: `hsl(${Math.floor(Math.random() * 360)} ${70 + Math.floor(Math.random() * 25)}% ${66 + Math.floor(Math.random() * 12)}%)`,
+                    transition: reducedMotion.matches ? null : randomItem(refugeTransitions)
+                };
+                if (!phrase.splitAfterLine || Math.random() >= 0.5) return [item];
+                const lines = phrase.text.split('\n');
+                return [
+                    { ...item, text: lines.slice(0, phrase.splitAfterLine).join('\n'), size: item.size * 1.3, band: 'above' },
+                    { ...item, text: lines.slice(phrase.splitAfterLine).join('\n'), size: item.size * 1.3, band: 'below' }
+                ];
+            });
             const fontLoads = items.map((item) => document.fonts.load(`${item.phrase.italic ? 'italic ' : ''}${item.font.weight} ${item.size}px ${item.font.family}`, item.phrase.text).catch(() => {}));
             await Promise.race([Promise.all(fontLoads), new Promise((resolve) => window.setTimeout(resolve, 800))]);
             if (run !== refugeRun || refugeStage.hidden) return;
@@ -1783,45 +1968,55 @@
             // Texts still on screen are avoided when possible, but may be overlapped as they leave.
             const soft = Array.from(refugeStage.children).map((element) => element.getBoundingClientRect());
             const hard = refugeObstacles();
+            const bands = {
+                above: { top: 0, bottom: Math.min(...hard.map((box) => box.top)) - 10 },
+                below: { top: Math.max(...hard.map((box) => box.bottom)) + 10, bottom: window.innerHeight }
+            };
             items.forEach((item) => {
                 const element = document.createElement('span');
                 element.className = 'refuge-phrase';
+                element.classList.toggle('refuge-fixed-lines', !!item.phrase.fixedLines);
                 const visual = document.createElement('span');
                 visual.className = 'refuge-visual';
                 visual.setAttribute('aria-hidden', 'true');
                 if (item.phrase.italic) {
                     const emphasis = document.createElement('em');
-                    emphasis.textContent = item.phrase.text;
+                    emphasis.textContent = item.text;
                     visual.append(emphasis);
                 } else {
-                    visual.textContent = item.phrase.text;
+                    visual.textContent = item.text;
                 }
                 const spoken = document.createElement('span');
                 spoken.className = 'refuge-sr';
-                spoken.textContent = item.phrase.text;
+                spoken.textContent = item.text;
                 element.append(visual, spoken);
                 if (item.phrase.lang) element.lang = item.phrase.lang;
                 element.style.fontFamily = item.font.family;
                 element.style.fontWeight = item.font.weight;
                 element.style.fontSize = item.size + 'px';
                 element.style.color = item.color;
-                const transition = reducedMotion.matches ? null : randomItem(refugeTransitions);
+                const transition = item.transition;
                 const play = transition && transition.prepare(element);
                 refugeStage.append(element);
-                const box = placeRefugePhrase(element, hard, soft);
+                const box = placeRefugePhrase(element, hard, soft, item.band ? bands[item.band] : undefined);
                 if (!box) {
                     element.remove();
                     return;
                 }
                 hard.push(box);
-                if (play) runRefugeLifecycle(element, transition, play, items.length === 3 ? refugeLifetime + refugeTrioBonus : refugeLifetime);
+                if (play) runRefugeLifecycle(element, transition, play, refugeExposureLifetime(item.phrase, group.length));
             });
+            updateRefugeShadows();
             scheduleRefuge();
         }
 
         function stopRefuge() {
             window.clearTimeout(refugeTimer);
             window.clearTimeout(refugeResizeTimer);
+            window.cancelAnimationFrame(refugeShadowFrame);
+            refugeShadowFrame = null;
+            refugeShadowShapes.replaceChildren();
+            refugeShadows.style.display = 'none';
             refugeTimer = null;
             refugeRun++;
             refugeLastGroup = [];
@@ -1836,9 +2031,9 @@
             blockButtons.forEach((button) => {
                 button.classList.remove('text-block-hidden');
                 if (button.hasAttribute('aria-expanded')) button.setAttribute('aria-expanded', 'false');
-                if (button.dataset.block === 'art') button.title = 'Descubrir Cocina de arte';
-                if (button.dataset.block === 'space') button.title = 'Descubrir Espacio colaborativo';
-                if (button.dataset.block === 'refuge') button.title = 'Descubrir Refugio de universos';
+                if (button.dataset.block === 'art') button.dataset.help = 'Descubrir Cocina de arte';
+                if (button.dataset.block === 'space') button.dataset.help = 'Descubrir Espacio colaborativo';
+                if (button.dataset.block === 'refuge') button.dataset.help = 'Descubrir Refugio de universos';
             });
             stopRefuge();
             refugeStage.hidden = true;
@@ -1861,8 +2056,6 @@
                 blockTexts.forEach((text) => text.classList.toggle('text-block-hidden', text.dataset.textBlock !== button.dataset.block));
                 blockButtons.forEach((other) => other.classList.toggle('text-block-hidden', other !== button));
                 button.setAttribute('aria-expanded', 'true');
-                blocksHelpText.hidden = true;
-                blocksHelp.setAttribute('aria-expanded', 'false');
                 if (button.dataset.block === 'home') {
                     homeDetail.hidden = false;
                     document.body.classList.add('home-active');
@@ -1878,7 +2071,7 @@
                     updateForumCycle();
                     document.fonts.ready.then(layoutBlocks);
                 } else if (button.dataset.block === 'art') {
-                    button.title = 'Cerrar Cocina de arte';
+                    button.dataset.help = 'Cerrar Cocina de arte';
                     document.body.classList.add('art-active');
                     artStage.hidden = false;
                     artError.hidden = true;
@@ -1886,14 +2079,14 @@
                     showArt(0);
                     setArtPlaying(!reducedMotion.matches);
                 } else if (button.dataset.block === 'refuge') {
-                    button.title = 'Cerrar Refugio de universos';
+                    button.dataset.help = 'Cerrar Refugio de universos';
                     refugeStage.hidden = false;
                     shuffleRefuge();
                     refugeLastGroup = [];
                     layoutBlocks();
                     showRefugeExposure();
                 } else if (button.dataset.block === 'space') {
-                    button.title = 'Cerrar Espacio colaborativo';
+                    button.dataset.help = 'Cerrar Espacio colaborativo';
                     if (!spacePoster.getAttribute('src')) spacePoster.src = spacePoster.dataset.src;
                     spaceStage.hidden = false;
                     spaceScroll.scrollTop = 0;
@@ -1920,9 +2113,6 @@
                 if (activeBlock.dataset.block === 'space' && spaceScroll.contains(event.target) && spaceScroll.scrollHeight > spaceScroll.clientHeight + 1) return;
                 event.preventDefault();
                 closeBlock();
-            } else if (!blocksHelp.contains(event.target) && !blocksHelpText.contains(event.target)) {
-                blocksHelpText.hidden = true;
-                blocksHelp.setAttribute('aria-expanded', 'false');
             }
         }, true);
         document.addEventListener('keydown', (event) => {
@@ -1931,10 +2121,6 @@
                 closeBlock();
                 button.focus();
             }
-        });
-        blocksHelp.addEventListener('click', () => {
-            blocksHelpText.hidden = !blocksHelpText.hidden;
-            blocksHelp.setAttribute('aria-expanded', String(!blocksHelpText.hidden));
         });
         artImageToggle.addEventListener('click', () => {
             if (!artError.hidden) showArt(artIndex);

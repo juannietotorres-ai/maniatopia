@@ -8,7 +8,9 @@
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@700&family=Cinzel:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Almendra:wght@700&family=Cinzel:wght@700&family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/tooltip.css">
+    <script defer src="assets/tooltip.js"></script>
     <style>
         * {
             margin: 0;
@@ -227,11 +229,11 @@
 
     <button class="game-logo" id="game-logo" type="button" aria-label="Shepherd - The Game: mostrar descargas" aria-expanded="false" aria-controls="papiro"></button>
 
-    <button class="board-game-btn" id="board-game-btn" type="button" aria-label="Shepherd - Board Game" title="Shepherd - Board Game"></button>
+    <button class="board-game-btn" id="board-game-btn" type="button" aria-label="Shepherd - Board Game" data-help="Shepherd - Board Game"></button>
 
     <div class="toast" id="toast" role="status" aria-live="polite">Trabajando en ello</div>
 
-    <a class="back-link" href="universos.html" aria-label="Volver" title="Volver"></a>
+    <a class="back-link" href="universos.html" aria-label="Volver" data-help="Volver"></a>
 
     <script>
         const logo = document.getElementById('game-logo');

@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>¿Qué es Maniatopia?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/tooltip.css">
+    <script defer src="assets/tooltip.js"></script>
     <link rel="preload" href="assets/Fonts-ttf/LiberationSerif-Regular.ttf" as="font" type="font/ttf" crossorigin>
     <style>
         @font-face {
@@ -159,7 +164,7 @@
 <p style="font-size:9pt">&nbsp;</p>
 <p>&#9;2.- <span style="font-weight:bold">Maniatopia</span>, adem&#225;s de todo lo anterior citado, <span style="font-weight:bold">tambi&#233;n es el nombre con que he bautizado al peque&#241;o universo de mi creaci&#243;n</span>, como pudieran hacer Ende, Tolkien o Pratchett con sus respectivos. Este universo emergente se compondr&#225; de seres natales del lugar, y seres extranjeros de otros universos amigos, pero como lugar de la locura, las pertenencias de estos a uno u otro lugar ser&#225;n dif&#237;ciles de precisar.</p>
 <p>&nbsp;</p>
-<p style="text-align:right"><button class="block-next" type="button" data-next-block="1" aria-label="Continuar al bloque 2" title="Ir al bloque 2">&#9;<span style="color:#0070c0">Quiero saber mas...</span></button></p>
+<p style="text-align:right"><button class="block-next" type="button" data-next-block="1" aria-label="Continuar al bloque 2" data-help="Ir al bloque 2">&#9;<span style="color:#0070c0">Quiero saber mas...</span></button></p>
 </section>
 <section class="pages" id="block-2" aria-label="Bloque 2 de 3" tabindex="-1" hidden>
 <p>&nbsp;</p>
@@ -196,7 +201,7 @@
 <p style="text-align:left">&#9;&#191;Has le&#237;do hasta aqu&#237;? &#161;Por todos los dioses! Te pido mis m&#225;s sinceras disculpas por el tost&#243;n. Pero ya que has llegado hasta aqu&#237;, ya no te ir&#225; de desperdiciar unos minutos m&#225;s de esa realidad que nos somete que se rige por relojes...</p>
 <p style="text-align:left">&nbsp;</p>
 <p style="text-align:left">&nbsp;</p>
-<p style="text-align:right"><button class="block-next" type="button" data-next-block="2" aria-label="Continuar al bloque 3" title="Ir al bloque 3"> <span style="color:#0070c0">&#191;porque maniatopia?</span></button></p>
+<p style="text-align:right"><button class="block-next" type="button" data-next-block="2" aria-label="Continuar al bloque 3" data-help="Ir al bloque 3"> <span style="color:#0070c0">&#191;porque maniatopia?</span></button></p>
 </section>
 <section class="pages" id="block-3" aria-label="Bloque 3 de 3" tabindex="-1" hidden>
 <p style="font-weight:bold">&nbsp;</p>
@@ -239,14 +244,14 @@
 </div>
     </main>
     <nav class="controls" aria-label="Navegación">
-        <a class="back" href="donde-estoy.html" aria-label="Volver a Dónde estoy" title="Volver a Dónde estoy">
+        <a class="back" href="donde-estoy.html" aria-label="Volver a Dónde estoy" data-help="Volver a Dónde estoy">
             <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M37 9v12c0 5-3 8-8 8H10m8-8-8 8 8 8"></path>
             </svg>
         </a>
         <div class="page-buttons" id="page-buttons">
-            <button class="page-button" id="previous" type="button" aria-label="Página anterior" title="Página anterior">‹</button>
-            <button class="page-button" id="next" type="button" aria-label="Página siguiente" title="Página siguiente">›</button>
+            <button class="page-button" id="previous" type="button" aria-label="Página anterior" data-help="Página anterior">‹</button>
+            <button class="page-button" id="next" type="button" aria-label="Página siguiente" data-help="Página siguiente">›</button>
         </div>
         <span class="page-status" id="page-status" role="status" aria-live="polite"></span>
     </nav>
