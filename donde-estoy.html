@@ -806,11 +806,11 @@
             <span class="text-veil text-line" data-text-block="space">Espacio colaborativo,</span><br>
             <span class="text-veil text-line" data-text-block="space">libre, abierto y transparente</span>
 
-            <button class="text-block-button" type="button" data-block="home" aria-label="Morada de locos, sed todos bienvenidos" aria-expanded="false" aria-controls="home-detail" data-help="Descubrir Morada de locos"></button>
-            <button class="text-block-button" type="button" data-block="forum" aria-label="Foro de ideas" aria-expanded="false" aria-controls="forum-detail forum-translation forum-frame" data-help="Descubrir Foro de ideas"></button>
-            <button class="text-block-button" type="button" data-block="art" aria-label="Cocina de arte" aria-expanded="false" aria-controls="art-stage" data-help="Descubrir Cocina de arte"></button>
-            <button class="text-block-button" type="button" data-block="refuge" aria-label="Universo Peregrino. Refugio de universos nómadas o confluentes" aria-expanded="false" aria-controls="refuge-stage" data-help="Descubrir Refugio de universos"></button>
-            <button class="text-block-button" type="button" data-block="space" aria-label="Espacio colaborativo, libre, abierto y transparente" aria-expanded="false" aria-controls="space-stage" data-help="Descubrir Espacio colaborativo"></button>
+            <button class="text-block-button" type="button" data-block="home" aria-label="Morada de locos, sed todos bienvenidos" aria-expanded="false" aria-controls="home-detail"></button>
+            <button class="text-block-button" type="button" data-block="forum" aria-label="Foro de ideas" aria-expanded="false" aria-controls="forum-detail forum-translation forum-frame"></button>
+            <button class="text-block-button" type="button" data-block="art" aria-label="Cocina de arte" aria-expanded="false" aria-controls="art-stage"></button>
+            <button class="text-block-button" type="button" data-block="refuge" aria-label="Universo Peregrino. Refugio de universos nómadas o confluentes" aria-expanded="false" aria-controls="refuge-stage"></button>
+            <button class="text-block-button" type="button" data-block="space" aria-label="Espacio colaborativo, libre, abierto y transparente" aria-expanded="false" aria-controls="space-stage"></button>
 
             <div class="block-detail" id="home-detail" hidden>
                 <span class="text-veil text-line">Mi hogar cibernético,</span><br>
@@ -2071,9 +2071,6 @@
             blockButtons.forEach((button) => {
                 button.classList.remove('text-block-hidden');
                 if (button.hasAttribute('aria-expanded')) button.setAttribute('aria-expanded', 'false');
-                if (button.dataset.block === 'art') button.dataset.help = 'Descubrir Cocina de arte';
-                if (button.dataset.block === 'space') button.dataset.help = 'Descubrir Espacio colaborativo';
-                if (button.dataset.block === 'refuge') button.dataset.help = 'Descubrir Refugio de universos';
             });
             stopRefuge();
             refugeStage.hidden = true;
@@ -2111,7 +2108,6 @@
                     updateForumCycle();
                     document.fonts.ready.then(layoutBlocks);
                 } else if (button.dataset.block === 'art') {
-                    button.dataset.help = 'Cerrar Cocina de arte';
                     document.body.classList.add('art-active');
                     artStage.hidden = false;
                     artError.hidden = true;
@@ -2128,14 +2124,12 @@
                         artInvitation.hidden = true;
                     };
                 } else if (button.dataset.block === 'refuge') {
-                    button.dataset.help = 'Cerrar Refugio de universos';
                     refugeStage.hidden = false;
                     shuffleRefuge();
                     refugeLastGroup = [];
                     layoutBlocks();
                     showRefugeExposure();
                 } else if (button.dataset.block === 'space') {
-                    button.dataset.help = 'Cerrar Espacio colaborativo';
                     if (!spacePoster.getAttribute('src')) spacePoster.src = spacePoster.dataset.src;
                     spaceStage.hidden = false;
                     spaceScroll.scrollTop = 0;
