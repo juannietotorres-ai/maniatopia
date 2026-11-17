@@ -58,6 +58,14 @@
             font-display: swap;
         }
 
+        @font-face {
+            font-family: 'Shadows Into Light';
+            src: url('assets/Fonts-ttf/Shadows_Into_Light/ShadowsIntoLight-Regular.ttf') format('truetype');
+            font-style: normal;
+            font-weight: 400;
+            font-display: swap;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -234,6 +242,26 @@
             background: #671b1b;
             font: 0.9rem sans-serif;
         }
+        .art-invitation {
+            position: fixed;
+            bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+            left: 16px;
+            z-index: 2;
+            width: calc(100% - 32px);
+            color: transparent;
+            font: 400 calc(clamp(1.25rem, 2.1vw, 1.8rem) + 6pt)/1.4 'Shadows Into Light', cursive;
+            text-align: center;
+            background: linear-gradient(110deg, #5bbcff, #b58aff, #f282c1, #ffc68a, #a5e5ad, #55d9cf, #5bbcff);
+            background-size: 250% 100%;
+            background-clip: text;
+            -webkit-background-clip: text;
+            filter: drop-shadow(0 1px 2px #000) drop-shadow(0 0 3px #000);
+            animation: cosmicFlow 3s ease-in-out infinite alternate;
+            pointer-events: none;
+        }
+        .art-invitation a { color: #38bdf8; text-underline-offset: 3px; pointer-events: auto; }
+        .art-invitation a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+        .art-invitation-mobile-break { display: none; }
         body.art-active .content { z-index: 2201; pointer-events: none; }
         body.art-active .text-block-button[data-block="art"] { pointer-events: auto; }
         body.art-active .text-veil[data-text-block="art"] {
@@ -716,6 +744,8 @@
                 height: min(330px, 43.5vh, calc((100vw - 155px) * 11 / 15));
             }
             .art-image { max-height: calc(100dvh - 16px); }
+            .art-invitation { font-size: min(calc(clamp(1rem, 4.5vw, 1.4rem) + 6pt), 6.4vw); }
+            .art-invitation-mobile-break { display: inline; }
             .letter-button { right: 8px; bottom: 47.8125px; width: 65.625px; height: 65.625px; }
             .letter-dialog {
                 width: 100vw;
@@ -736,6 +766,7 @@
             #menu-btn, #menu-dropdown, #menu-dropdown a, .home-icon { transition-duration: 0.01ms; }
             #menu-dropdown .nav-location, #menu-dropdown .nav-universes { animation: none; }
             .forum-ouroboros img { animation: none; }
+            .art-invitation { animation: none; }
         }
     </style>
     <link rel="stylesheet" href="assets/agora-menu.css?v=20261106-3">
@@ -804,6 +835,7 @@
             <img class="art-image" alt="">
         </button>
         <div class="art-error" role="status" hidden></div>
+        <p class="art-invitation" id="art-invitation" hidden>Eres artista?<br class="art-invitation-mobile-break"> Quieres colaborar o exponer tu obra?<br>Contacta: <a href="mailto:maniatopia@maniatopia.com">maniatopia@maniatopia.com</a></p>
     </div>
     <div class="space-stage" id="space-stage" hidden>
         <img class="space-poster" data-src="assets/images/Maniatopia%20Populate.webp" width="1024" height="1536" alt="Cartel de reclutamiento Maniatopia Populate">
@@ -954,6 +986,7 @@
         const artImageToggle = document.getElementById('art-image-toggle');
         const artImage = artStage.querySelector('.art-image');
         const artError = artStage.querySelector('.art-error');
+        const artInvitation = document.getElementById('art-invitation');
         const spaceStage = document.getElementById('space-stage');
         const spacePanel = spaceStage.querySelector('.space-panel');
         const spacePoster = spaceStage.querySelector('.space-poster');
@@ -1076,6 +1109,7 @@
         let artIndex = 0;
         let artPlaying = false;
         let artLoadId = 0;
+        let artInvitationAnimation = null;
 
         blockTexts.forEach((text) => text.setAttribute('aria-hidden', 'true'));
 
@@ -2027,6 +2061,12 @@
             window.clearTimeout(cycleTimer);
             cycleTimer = null;
             setArtPlaying(false);
+            if (artInvitationAnimation) {
+                artInvitationAnimation.onfinish = null;
+                artInvitationAnimation.cancel();
+                artInvitationAnimation = null;
+            }
+            artInvitation.hidden = true;
             blockTexts.forEach((text) => text.classList.remove('text-block-hidden'));
             blockButtons.forEach((button) => {
                 button.classList.remove('text-block-hidden');
@@ -2078,6 +2118,15 @@
                     shuffleArt();
                     showArt(0);
                     setArtPlaying(!reducedMotion.matches);
+                    artInvitation.hidden = false;
+                    artInvitationAnimation = artInvitation.animate([
+                        { opacity: 1, offset: 0 },
+                        { opacity: 1, offset: 0.75 },
+                        { opacity: 0, offset: 1 }
+                    ], { duration: 12000, fill: 'forwards' });
+                    artInvitationAnimation.onfinish = () => {
+                        artInvitation.hidden = true;
+                    };
                 } else if (button.dataset.block === 'refuge') {
                     button.dataset.help = 'Cerrar Refugio de universos';
                     refugeStage.hidden = false;
@@ -2102,7 +2151,7 @@
             if (activeBlock) {
                 // Jan's letter lives inside «Morada de locos»: opening or reading it keeps the block open.
                 if (letterButton.contains(event.target) || letterDialog.contains(event.target)) return;
-                if (activeBlock.dataset.block === 'art' && artImageToggle.contains(event.target)) return;
+                if (activeBlock.dataset.block === 'art' && (artImageToggle.contains(event.target) || event.target.closest('#art-invitation a'))) return;
                 event.stopPropagation();
                 if (activeBlock.dataset.block === 'space' && event.target.closest('#space-stage a')) {
                     // Let the link open, then return to the blocks.
