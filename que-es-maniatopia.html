@@ -80,7 +80,9 @@
             line-height: 1.5;
         }
         .pages p.page-next-row { break-inside: avoid-column; text-align: right; }
+        .pages p.signature-message, .pages p.signature-spacer, .pages p.signature-intro { break-after: avoid-column; }
         .pages p.section-title { margin-top: .55em; font-size: 21pt; }
+        .mobile-line-break { display: none; }
         .pages p.page-next-row button {
             appearance: none;
             border: 0;
@@ -129,11 +131,14 @@
         }
         @media (max-width: 600px) {
             body { line-height: 1.15; }
-            .reader { width: calc(100% - 36px); padding-top: max(18px, env(safe-area-inset-top)); }
+            .reader { width: calc(100% - 36px); padding-top: calc(max(18px, env(safe-area-inset-top)) + 15px); }
             .pages p.spacer { font-size: 10px; line-height: 1; }
+            .pages p.signature-spacer { font-size: inherit; line-height: inherit; }
             .pages .mobile-split { break-inside: auto; page-break-inside: auto; }
             .pages .mobile-page-break { display: block; break-before: column; }
             .pages .mobile-no-break { break-before: auto; }
+            .mobile-line-break { display: inline; }
+            .pages p.section-title.manual-page-break, .pages p.section-title.mobile-page-break { margin-top: 0; }
             .pages .mobile-keep-next, .pages .mobile-keep-next + p.spacer { break-after: avoid-column; }
             .controls { min-height: 70px; padding-left: 18px; padding-right: 18px; }
         }
@@ -175,7 +180,7 @@
 <p>&nbsp;</p>
 <p>Maniatopia es el nombre con que he bautizado al peque&#241;o cosmos de mi creaci&#243;n, como pudieran hacer Ende, Tolkien o Pratchett con sus respectivos. Este legendarium emergente se compondr&#225; de seres natales del lugar, y seres extranjeros de otros mundos amigos, pero como lugar de la locura, las pertenencias de estos a uno u otro lugar son dif&#237;ciles de precisar.</p>
 <p>&nbsp;</p>
-<p class="section-title"><strong>4.- "maniatopia.com"</strong></p>
+<p class="section-title mobile-page-break"><strong>4.- "maniatopia.com"</strong></p>
 <p>&nbsp;</p>
 <p>Este es mi espacio personal, <em>"Jan Torres; a su servicio"</em>. Aqu&#237; es donde desarrollo y plasmo mis proyectos e inquietudes, fruto de mi ardor creativo.</p>
 <p class="mobile-split">Pero es tambi&#233;n un espacio colaborativo de intercambio de ideas y conocimiento donde todo esto sume, compartir conocimiento nos hace crecer. <span class="mobile-page-break">(1+1=3) que por ende busca amigos con los que por el mero hecho de caminar juntos un tiempo ya estemos intercambiando, creando o forjando algo de valor.</span></p>
@@ -207,7 +212,7 @@
 <p>B&#225;sicamente mi ambici&#243;n econ&#243;mica se respalda en que mi producto guste y tenga mercado. Libre en este caso, defendiendo as&#237; una postura vital que quiere hacer ruido, ya sea para ser escuchada, o para molestar.</p>
 <p>&nbsp;</p>
 <p>&nbsp;</p>
-<p><em>"Si no crees en ello nunca lo lograr&#225;s" - Voltaire.</em></p>
+<p><em>"Si no crees en ello nunca lo lograr&#225;s"</em> - Voltaire.</p>
 <p class="page-next-row"><button class="page-next" type="button" aria-label="Continuar contando por qu&#233; Maniatopia" data-help="Pasar a la página siguiente">Pero... &#191;por qu&#233; Maniatopia?</button></p>
 <p class="manual-page-break" data-block="3">&#9;---Aunque ya ten&#237;a alguna noci&#243;n sobre godot, recientemente, hace apenas mes y medio, descubro mediante amigos, una metodolog&#237;a de trabajo mediante Godot, Copilot y VSCode. Uno de estos amigos, especialmente metido en el tema (a nivel profesional), me da directrices de trabajo que me permiten sostenibilidad y capacidad de desarrollo (yo en el pasado hab&#237;a intentado hacer el videojuego mediante ias que daban resultados correctos con poco esfuerzo, pero sin capacidad de control ni sostenibilidad). Con esa nueva informaci&#243;n que me pas&#243; ese buen amigo me puse a desarrollar una primera versi&#243;n de "Shepherd - the Game".<br><br><a href="https://drive.google.com/file/d/1tiCb6cT5QSwajiZgl6S2QtG0R_yy7G1Z/view?usp=sharing" target="_blank" rel="noopener noreferrer" style="color:inherit">link al la build descargable "Shepherd-Videogame.01"</a></p>
 <p>&nbsp;</p>
@@ -225,13 +230,13 @@
 <p>&nbsp;</p>
 <p>Andaba yo leyendo 1984 de Orwell, y se me ocurri&#243; preguntarle a Google por los significados de las palabras distop&#237;a y utop&#237;a; [dis-topos = mal lugar] y [u-topos = no lugar]. Tras lo que pregunt&#233;: si esos son lugares o percepciones alteradas de nuestra realidad, &#191;como llamamos a nuestro mundo actual? Google me muestra los conceptos eutopia, protopia y heterotop&#237;a. Ese tirar del hilo me hizo descubrir el interesante juego fon&#233;tico de palabras de Tom&#225;s Moro con "eutopia" (lugar de lo bueno) y "utopia" (lugar que no existe). Pero vayamos al grano: me sobrevino por confluencia y colapso de conceptos el "lugar de la locura". Pregunt&#233; pues a nuestro amigo Google c&#243;mo se dir&#237;a locura en griego antiguo, y este me respondi&#243;: <em>mania</em>.</p>
 <p>&nbsp;</p>
-<p><em>Maniatopia. Ya ten&#237;a nombre para mis reinos.</em></p>
+<p><em>Maniatopia.</em> Ya ten&#237;a nombre para mis reinos.</p>
 <p>&nbsp;</p>
 <p class="manual-page-break">Llevaba un mes trabajando en mi idea, volcando much&#237;sima informaci&#243;n e ideas en copilot para trabajar mi juego y universo personal, que iba a ser el alma de la aventura gr&#225;fica incluida en el Shepherd - el videojuego. Este universo personal a&#250;n no ten&#237;a nombre y alud&#237;a a &#233;l ante copilot como "los reinos" a falta de nombre mejor o por venir. Volqu&#233; todas mis ideas de lore y historia en copilot, que siempre me advert&#237;a de riesgos de infringir derechos de autor, pero ya contemplo esa idea, y como voy a evocar conceptos abstractos y mezclados de los diferentes universos, licencia que me puedo permitir en un universo llamado lugar de la locura. No habr&#225; manera legal de buscarme las cosquillas, por lo dificultoso de relacionar el gui&#241;o/homenaje a la obra que hace referencia, excepto en el caso de referencias directas como el caso de Molothamp, en cuyos casos tratar&#233; de forma diplom&#225;tica el asunto intentando acercar distancias desde el punto de vista de que soy pobre cual rata de alcantarilla.</p>
 <p>&nbsp;</p>
 <p>Tras haber acu&#241;ado el termino maniatopia (aproximadamente el 27 o 28 de octubre) baraj&#225;ndolo como posible nombre para los reinos, poco despu&#233;s coment&#233; la idea con un amigo v&#237;a discord y mientras, se me ocurri&#243; googlear el termino, para ver que menciones hab&#237;a. &#191;Cual fue mi sorpresa?</p>
 <p>&nbsp;</p>
-<p class="manual-page-break">Solo hab&#237;a dos menciones al t&#233;rmino: 1.- Un videojuego que est&#225;n haciendo unos desarrolladores. 2.- Una referencia ligera de una red social a lo que parece ser un negocio turbio de venta ilegal de cachorros.</p>
+<p class="manual-page-break">Solo hab&#237;a dos menciones al t&#233;rmino: <br class="mobile-line-break"><br class="mobile-line-break">1.- Un videojuego que est&#225;n haciendo unos desarrolladores. <br class="mobile-line-break"><br class="mobile-line-break">2.- Una referencia ligera de una red social a lo que parece ser un negocio turbio de venta ilegal de cachorros.</p>
 <p>&nbsp;</p>
 <p>El dato curioso: el videojuego que estaban desarrollando compart&#237;a ciertas similitudes con el proyecto que yo estoy desarrollando. Mundo inspirado en D&amp;D, y la promesa de un mundo infinito cambiante que modela la IA cada vez que se juega. Si bien esta &#250;ltima idea no entra dentro de mis planes, yo pensaba hacer una aventura gr&#225;fica al estilo de los viejos libros de "escoge tu propia aventura", donde tus elecciones te llevaban a un curso hist&#243;rico diferente, y encontr&#233; ciertas similitudes en la idea.</p>
 <p>&nbsp;</p>
@@ -243,9 +248,10 @@
 <p>&nbsp;</p>
 <p>As&#237;, el 30 de octubre el dominio Maniatopia.com se cuela en la red. Y si bien la causa primera de su creaci&#243;n es la paranoia ante el plagio; una vez creada la web y ya con la idea de haber sido plagiado descartada; decido utilizar este espacio para mostrar de manera p&#250;blica y transparente todos mis proyectos e ideas para poder as&#237; defenderlos. Por superstici&#243;n o por haber o&#237;do lo de no volcar ideas en la IA, ahora trabajo las ideas, lore y historia en Word y relego a la IA &#250;nicamente los aspectos t&#233;cnicos de programaci&#243;n.</p>
 <p>&nbsp;</p>
-<p>Si has le&#237;do todo esto te agradecer&#237;a me contactaras, ya sea para insultarme y proferir maleficios a mis vidas venideras, o para compartir tu opini&#243;n sobre el proyecto. Esto &#250;ltimo ser&#237;a un puntazo.</p>
-<p>Gracias y perd&#243;n, atentamente, su servidor,</p>
-<p style="text-align:right;font-family:'Merienda'">Jan Torres</p>
+<p class="signature-message">Si has le&#237;do todo esto te agradecer&#237;a me contactaras, ya sea para insultarme y proferir maleficios a mis vidas venideras, o para compartir tu opini&#243;n sobre el proyecto. Esto &#250;ltimo ser&#237;a un puntazo.</p>
+<p class="signature-spacer">&nbsp;</p>
+<p class="signature-intro">Gracias y perd&#243;n, atentamente, su servidor,</p>
+<p class="signature" style="text-align:right;font-family:'Merienda'">Jan Torres</p>
 <div class="centered-page manual-page-break" id="final-note">
 <p>Espero nadie se sienta ofendido por el contenido de esta p&#225;gina, y de ser as&#237;, agradecer&#237;a comunicaci&#243;n amistosa para resolver el asunto de manera amistosa.</p>
 </div>
@@ -271,6 +277,7 @@
             const next = document.getElementById('next');
             const status = document.getElementById('page-status');
             const finalNote = document.getElementById('final-note');
+            const signature = pages.querySelector('.signature');
             let current = 0;
             let total = 1;
             let countedTotal = 1;
@@ -301,19 +308,32 @@
                 pages.style.setProperty('--page-height', pages.clientHeight + 'px');
                 const rows = Array.from(pages.querySelectorAll('.page-next-row'));
                 rows.forEach(function (row) { row.style.paddingTop = ''; });
+                signature.style.transform = '';
                 Array.from(pages.querySelectorAll('p')).forEach(function (paragraph) {
                     paragraph.classList.toggle('spacer', !paragraph.textContent.trim());
                     const following = paragraph.nextElementSibling;
-                    if (!paragraph.textContent.trim() && following &&
-                        following.classList.contains('manual-page-break')) {
-                        paragraph.hidden = true;
+                    if (!paragraph.textContent.trim()) {
+                        paragraph.hidden = !!following && (
+                            following.classList.contains('manual-page-break') ||
+                            (window.matchMedia('(max-width: 600px)').matches &&
+                                following.classList.contains('mobile-page-break'))
+                        );
                     }
                 });
+                if (window.matchMedia('(max-width: 600px)').matches) {
+                    Array.from(pages.querySelectorAll('p.spacer:not([hidden])')).forEach(function (spacer) {
+                        if (Math.abs(spacer.getBoundingClientRect().top - pages.getBoundingClientRect().top) < 1) {
+                            spacer.hidden = true;
+                        }
+                    });
+                }
                 rows.forEach(function (row) {
                     const top = row.getBoundingClientRect().top - pages.getBoundingClientRect().top;
                     const remaining = pages.clientHeight - top - row.getBoundingClientRect().height;
                     row.style.paddingTop = Math.max(0, remaining - 1) + 'px';
                 });
+                const signatureSpace = pages.getBoundingClientRect().bottom - signature.getBoundingClientRect().bottom;
+                signature.style.transform = 'translateY(' + Math.max(0, signatureSpace - 4) + 'px)';
                 total = Math.max(1, Math.ceil(pages.scrollWidth / width));
                 countedTotal = Math.round((finalNote.getBoundingClientRect().left -
                     pages.getBoundingClientRect().left + pages.scrollLeft) / width);
