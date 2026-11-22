@@ -78,10 +78,44 @@
         .pages .equation {
             gap: clamp(.15em, 1.4vh, .6em);
             line-height: 1.5;
+            transform: translateY(-3em);
+        }
+        .pages .equation p {
+            font-size: 22pt;
+        }
+        .pages .equation .equation-result {
+            font-size: 26pt;
+        }
+        .pages .equation .equation-place {
+            font-size: 24pt;
         }
         .pages p.page-next-row { break-inside: avoid-column; text-align: right; }
         .pages p.signature-message, .pages p.signature-spacer, .pages p.signature-intro { break-after: avoid-column; }
         .pages p.section-title { margin-top: .55em; font-size: 21pt; }
+        .pages .intro-page {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            height: var(--page-height);
+            padding-top: 1.6em;
+            line-height: 1.6;
+            break-inside: avoid-column;
+        }
+        .pages .intro-page h1,
+        .pages .intro-page p {
+            font-size: 26.5pt;
+            font-weight: normal;
+        }
+        .pages .intro-page h1 {
+            margin-bottom: 1.6em;
+            font-weight: bold;
+            width: 100%;
+            text-align: center;
+        }
+        .pages .intro-page p + p {
+            margin-top: 1.6em;
+        }
         .mobile-line-break { display: none; }
         .pages p.page-next-row button {
             appearance: none;
@@ -120,8 +154,6 @@
         .page-button { color: #0070c0; font: 36px/1 'Liberation Serif', Georgia, serif; }
         .page-button:disabled { visibility: hidden; }
         .page-status {
-            grid-column: 3;
-            justify-self: end;
             white-space: nowrap;
             font-size: 1rem;
         }
@@ -141,6 +173,8 @@
             .pages p.section-title.manual-page-break, .pages p.section-title.mobile-page-break { margin-top: 0; }
             .pages .mobile-keep-next, .pages .mobile-keep-next + p.spacer { break-after: avoid-column; }
             .controls { min-height: 70px; padding-left: 18px; padding-right: 18px; }
+            .page-buttons { align-items: center; gap: 6px; }
+            .page-status { font-size: .7rem; }
         }
     </style>
 </head>
@@ -148,9 +182,14 @@
     <main class="reader" id="reader" aria-label="Texto sobre Maniatopia">
         <div id="page-content">
 <section class="pages" id="pages" aria-label="Texto sobre Maniatopia" tabindex="-1">
-<h1 data-block="1" style="font-weight:bold;font-size:22.5pt">&#191;Qu&#233; es Maniatopia?</h1>
-<p>&nbsp;</p>
-<p class="section-title"><strong>1.- Un juego de palabras.</strong></p>
+<div class="intro-page">
+<h1 data-block="1">&#191;Qu&#233; es Maniatopia?</h1>
+<p>1.- Un juego de palabras.</p>
+<p>2.- Una idea.</p>
+<p>3.- Universo en ciernes.</p>
+<p>4.- "maniatopia.com"</p>
+</div>
+<p class="manual-page-break section-title"><strong>1.- Un juego de palabras.</strong></p>
 <p>&nbsp;</p>
 <p>Venido de las ra&#237;ces del griego antiguo:</p>
 <p>&nbsp;</p>
@@ -166,9 +205,9 @@
 <p>+</p>
 <p><em>-τοπία</em> (-topía): &#171;cualidad o condición de un lugar&#187;, &#171;espacio con una característica determinada&#187;</p>
 <p>=</p>
-<p><strong>maniatopia</strong></p>
+<p class="equation-result"><strong>maniatopia</strong></p>
 <p>=</p>
-<p>Lugar de la locura</p>
+<p class="equation-place">Lugar de la locura</p>
 </div>
 <p class="manual-page-break section-title"><strong>2.- Una idea.</strong></p>
 <p>&nbsp;</p>
@@ -185,7 +224,7 @@
 <p>Este es mi espacio personal, <em>"Jan Torres; a su servicio"</em>. Aqu&#237; es donde desarrollo y plasmo mis proyectos e inquietudes, fruto de mi ardor creativo.</p>
 <p class="mobile-split">Pero es tambi&#233;n un espacio colaborativo de intercambio de ideas y conocimiento donde todo esto sume, compartir conocimiento nos hace crecer. <span class="mobile-page-break">(1+1=3) que por ende busca amigos con los que por el mero hecho de caminar juntos un tiempo ya estemos intercambiando, creando o forjando algo de valor.</span></p>
 <p>Este es un espacio libre donde desarrollar y darle visualizaci&#243;n a cualquier proyecto que requiera de soporte web. Esto es: tambi&#233;n vuestro espacio.</p>
-<p class="page-next-row"><button class="page-next" type="button" aria-label="Continuar a ¿Por qué Maniatopia?" data-help="Pasar a la página siguiente">¿Porqué Maniatopia? (desde la idea primigenia)</button></p>
+<p class="page-next-row"><button class="page-next" type="button" aria-label="Continuar a ¿Por qué Maniatopia?">¿Porqué Maniatopia? (desde la idea primigenia)</button></p>
 <p class="manual-page-break section-title" data-block="2"><strong>&#191;Porque maniatopia?</strong></p>
 <p>&nbsp;</p>
 <p>Narrar todo el proceso hasta llegar al nacimiento de Maniatopia puede ser largo de explicar, y requiere de matizar el camino, pero tratar&#233; de hacerlo en cuatro pinceladas:</p>
@@ -213,7 +252,7 @@
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p><em>"Si no crees en ello nunca lo lograr&#225;s"</em> - Voltaire.</p>
-<p class="page-next-row"><button class="page-next" type="button" aria-label="Continuar contando por qu&#233; Maniatopia" data-help="Pasar a la página siguiente">Pero... &#191;por qu&#233; Maniatopia?</button></p>
+<p class="page-next-row"><button class="page-next" type="button" aria-label="Continuar contando por qu&#233; Maniatopia">Pero... &#191;por qu&#233; Maniatopia?</button></p>
 <p class="manual-page-break" data-block="3">&#9;---Aunque ya ten&#237;a alguna noci&#243;n sobre godot, recientemente, hace apenas mes y medio, descubro mediante amigos, una metodolog&#237;a de trabajo mediante Godot, Copilot y VSCode. Uno de estos amigos, especialmente metido en el tema (a nivel profesional), me da directrices de trabajo que me permiten sostenibilidad y capacidad de desarrollo (yo en el pasado hab&#237;a intentado hacer el videojuego mediante ias que daban resultados correctos con poco esfuerzo, pero sin capacidad de control ni sostenibilidad). Con esa nueva informaci&#243;n que me pas&#243; ese buen amigo me puse a desarrollar una primera versi&#243;n de "Shepherd - the Game".<br><br><a href="https://drive.google.com/file/d/1tiCb6cT5QSwajiZgl6S2QtG0R_yy7G1Z/view?usp=sharing" target="_blank" rel="noopener noreferrer" style="color:inherit">link al la build descargable "Shepherd-Videogame.01"</a></p>
 <p>&nbsp;</p>
 <p>Viendo las posibilidades que me ofrece trabajar en godot mediante vscode y copilot, me ilusiono y decido llevar el tema m&#225;s lejos; se me ocurre una idea: crear una especie de aventura gr&#225;fica, textual e interactiva, al viejo estilo de las aventuras gr&#225;ficas retro, e introducirla en el propio videojuego del Shepherd. En vez del juego que contiene el minujuego, al rev&#233;s; el minijuego que contiene el juego.</p>
@@ -225,7 +264,7 @@
 <p>Para todo esto he de centrarme primero en acabar los modos principales del Shepherd, publicarlo, e ir trabajando a posteriori en el plato fuerte.</p>
 <p>&nbsp;</p>
 <p>&#191;Has le&#237;do hasta aqu&#237;? &#161;Por todos los dioses! Te pido mis m&#225;s sinceras disculpas por el tost&#243;n. Pero ya que has llegado hasta aqu&#237;, ya no te ir&#225; de desperdiciar unos minutos m&#225;s de esa realidad que nos somete que se rige por relojes...</p>
-<p class="page-next-row"><button class="page-next" type="button" aria-label="Continuar con la historia" data-help="Pasar a la página siguiente">Acaba de contarme...</button></p>
+<p class="page-next-row" data-block="4"><button class="page-next" type="button" aria-label="Continuar con la historia">Acaba de contarme...</button></p>
 <p class="manual-page-break">Llevo un mes y medio aprox desarrollando el Shepherd (desde septiembre de 2026) mediante Godot y vcstudio, en ese tiempo aun no hab&#237;a llegado a m&#237; el nombre maniatopaia. Este lleg&#243; mediante mi habitual curiosidad y consecuente indagaci&#243;n para resolverla.</p>
 <p>&nbsp;</p>
 <p>Andaba yo leyendo 1984 de Orwell, y se me ocurri&#243; preguntarle a Google por los significados de las palabras distop&#237;a y utop&#237;a; [dis-topos = mal lugar] y [u-topos = no lugar]. Tras lo que pregunt&#233;: si esos son lugares o percepciones alteradas de nuestra realidad, &#191;como llamamos a nuestro mundo actual? Google me muestra los conceptos eutopia, protopia y heterotop&#237;a. Ese tirar del hilo me hizo descubrir el interesante juego fon&#233;tico de palabras de Tom&#225;s Moro con "eutopia" (lugar de lo bueno) y "utopia" (lugar que no existe). Pero vayamos al grano: me sobrevino por confluencia y colapso de conceptos el "lugar de la locura". Pregunt&#233; pues a nuestro amigo Google c&#243;mo se dir&#237;a locura en griego antiguo, y este me respondi&#243;: <em>mania</em>.</p>
@@ -259,16 +298,16 @@
         </div>
     </main>
     <nav class="controls" aria-label="Navegaci&#243;n">
-        <a class="back" href="donde-estoy.html" aria-label="Volver a D&#243;nde estoy" data-help="Volver a D&#243;nde estoy">
+        <a class="back" href="donde-estoy.html" aria-label="Volver a D&#243;nde estoy">
             <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M37 9v12c0 5-3 8-8 8H10m8-8-8 8 8 8"></path>
             </svg>
         </a>
         <div class="page-buttons" id="page-buttons">
             <button class="page-button" id="previous" type="button" aria-label="P&#225;gina anterior">&#8249;</button>
+            <span class="page-status" id="page-status" role="status" aria-live="polite"></span>
             <button class="page-button" id="next" type="button" aria-label="P&#225;gina siguiente">&#8250;</button>
         </div>
-        <span class="page-status" id="page-status" role="status" aria-live="polite"></span>
     </nav>
     <script>
         (function () {
@@ -282,10 +321,11 @@
             let total = 1;
             let countedTotal = 1;
             let blockStarts = [];
+            let forcedNextPages = new Set();
 
             function render() {
                 previous.disabled = current === 0;
-                next.disabled = current >= total - 1;
+                next.disabled = current >= total - 1 || forcedNextPages.has(current);
                 status.hidden = current >= countedTotal;
                 if (status.hidden) {
                     status.textContent = '';
@@ -332,6 +372,11 @@
                     const remaining = pages.clientHeight - top - row.getBoundingClientRect().height;
                     row.style.paddingTop = Math.max(0, remaining - 1) + 'px';
                 });
+                forcedNextPages = new Set(rows.map(function (row) {
+                    const left = row.getBoundingClientRect().left -
+                        pages.getBoundingClientRect().left + pages.scrollLeft;
+                    return Math.round(left / width);
+                }));
                 const signatureSpace = pages.getBoundingClientRect().bottom - signature.getBoundingClientRect().bottom;
                 signature.style.transform = 'translateY(' + Math.max(0, signatureSpace - 4) + 'px)';
                 total = Math.max(1, Math.ceil(pages.scrollWidth / width));
@@ -359,6 +404,26 @@
             next.addEventListener('click', function () {
                 goToPage(current + 1);
             });
+            let touchStartX = null;
+            let touchStartY = null;
+            pages.addEventListener('touchstart', function (event) {
+                if (event.touches.length !== 1) return;
+                touchStartX = event.touches[0].clientX;
+                touchStartY = event.touches[0].clientY;
+            }, { passive: true });
+            pages.addEventListener('touchend', function (event) {
+                if (touchStartX === null || touchStartY === null || !event.changedTouches.length) return;
+                const deltaX = event.changedTouches[0].clientX - touchStartX;
+                const deltaY = event.changedTouches[0].clientY - touchStartY;
+                touchStartX = null;
+                touchStartY = null;
+                if (Math.abs(deltaX) < 50 || Math.abs(deltaX) <= Math.abs(deltaY)) return;
+                if (deltaX < 0) {
+                    if (!forcedNextPages.has(current) && current < total - 1) goToPage(current + 1);
+                } else if (current > 0) {
+                    goToPage(current - 1);
+                }
+            }, { passive: true });
             document.addEventListener('click', function (event) {
                 if (!(event.target instanceof Element)) return;
                 const button = event.target.closest('.page-next');

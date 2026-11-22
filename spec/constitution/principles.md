@@ -18,6 +18,13 @@ Estos principios orientan los cambios de la web y sus versiones de prueba.
 - Si un elemento ejecuta otra acción al tocarlo, diseñar un acceso táctil a la explicación que no impida esa acción.
 - Aplicar a todos los emergentes explicativos la [ley del estilo de texto explicativo emergente maniatopia.com](../features/explanatory-tooltips.md), sin duplicar la ayuda de PC con paneles por clic.
 
+## Ley previa sobre emergentes
+
+- No crear, inventar ni añadir un emergente explicativo por iniciativa propia.
+- Antes de implementar cualquier emergente nuevo, preguntar al usuario qué elemento debe explicarse y qué texto debe mostrar.
+- Solo crear emergentes cuando el usuario los solicite expresamente o haya aprobado ese elemento concreto.
+- No aplicar emergentes a textos o botones existentes como resultado automático de una navegación o cambio de diseño.
+
 ## Mantener los cambios claros
 
 - Usar rutas relativas para los recursos locales de la web.
